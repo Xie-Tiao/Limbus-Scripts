@@ -6,9 +6,10 @@
 - 脚本命名更为**Limbug Clicker**，目前版本为2.2.1
 - 前端GUI编码使用了**Flet**，打包后的.exe有*427MB*
 - 重新分类整理了代码、图片资源
-1. 直接在`.py`脚本文件所在位置打开cmd
-2. 输入`python main.py`
-3. **注意：** 保证`assets`文件夹与`.py`文件在同一路径下
+1. 根据`requirements.txt`配置环境
+2. 建议直接在`.py`脚本文件所在路径打开cmd
+3. 在配置环境对应版本python中输入`python main.py`即可运行脚本
+- **注意：** 保证`assets`文件夹与`.py`文件在同一路径下
 ### 预计下次更新
 - [ ] 重新用Js编写后端
 - [ ] 重新用Electron配合Js搭建前端UI
