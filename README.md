@@ -14,10 +14,14 @@
 - [ ] 重新用Js编写脚本
 - [ ] 重新用Electron配合Js搭建前端UI
 - [ ] 真正实现轻量级
-> - *2023.5.22-记录*
->   - *方案1：继续装opencv，用vs2022开发*
->   - *方案2：研究其他语言py结合方法*
-
+<details>
+<summary><b># 记录<b></summary>
+<b><i>2023.5.22<i><b>
+<ul>
+<li>方案 1：继续装opencv，用vs2022开发
+<li>方案 2：研究其他语言py结合方法
+</ul>
+</details>
 
 ![放个封面图](https://github.com/Xie-Tiao/My-Imgurl/blob/main/Limbug_Clicker_example_1.jpg "示例")
 ---
