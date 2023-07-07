@@ -12,7 +12,8 @@
 ### 2023.7.5更新
 - 目前版本为2.3.3
 - 没做大改动，适配了一下新的镜牢
-
+#### 推荐阵容
+![推荐阵容](https://github.com/Xie-Tiao/My-Imgurl/blob/main/recommend.png "推荐阵容")
 ### 预计下次更新
 - [ ] 重新用Js编写脚本
 - [ ] 重新用Electron配合Js搭建前端UI
