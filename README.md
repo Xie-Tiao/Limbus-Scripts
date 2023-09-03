@@ -1,12 +1,13 @@
 # Limbug Clicker
 > Limbus Company挂机脚本
+### 脚本发布🍺3.1.2
+- 百度网盘→[点击跳转](https://pan.baidu.com/s/1FZFoO3Iuwp6MxNd1XUszCw)，提取码`96lr`
+- 夸克网盘→[点击跳转](https://pan.quark.cn/s/d67cc165bb6a)，提取码`6UGs`
 ### 使用说明⭐
 - 默认分辨率为``1920*1080``，其他分辨率应该也能用
 - 语言必须是**日语**，否则不生效
 - 📺[bilibili视频教程]()
-### 脚本发布🍺3.1.2
-- 百度网盘→[点击跳转](https://pan.baidu.com/s/1FZFoO3Iuwp6MxNd1XUszCw)，提取码`96lr`
-- 夸克网盘→[点击跳转](https://pan.quark.cn/s/d67cc165bb6a)，提取码`6UGs`
+---
 ### 2023.9.3更新
 - 目前版本为3.1.2
 - 使用门槛降低了，只要会摁鼠标就能用
