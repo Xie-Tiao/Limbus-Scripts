@@ -1,4 +1,5 @@
-# Limbug Clicker
+<h1 align="center">Limbug Clicker</h1></br>
+
 > Limbus Company挂机脚本
 ### 脚本发布🍺3.1.2
 - 百度网盘→[点击跳转](https://pan.baidu.com/s/1FZFoO3Iuwp6MxNd1XUszCw)，提取码`96lr`
