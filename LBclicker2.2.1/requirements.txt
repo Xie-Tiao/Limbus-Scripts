@@ -1,4 +1,0 @@
-flet==0.7.4
-pandas==1.4.4
-pandas==1.5.3
-PyAutoGUI==0.9.50
