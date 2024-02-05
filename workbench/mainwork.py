@@ -5,9 +5,8 @@ import workbench.datas as datas
 pyautogui.FAILSAFE = False
 
 
-# TODO: @Xie-Tiao - Remove unused argument 'n'
 # 定义鼠标事件
-def mouse_click(click_times, left_or_right, img, img_list, n):
+def mouse_click(click_times, left_or_right, img, img_list):
     for j in range(len(img_list)):
         try:
             location = pyautogui.locateCenterOnScreen("./assets/" + img, confidence=0.9)
