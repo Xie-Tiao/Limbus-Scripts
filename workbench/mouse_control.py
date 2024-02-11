@@ -1,3 +1,4 @@
+import time
 from ctypes import windll, Structure, c_ulong, byref
 
 
@@ -24,6 +25,31 @@ def click_mouse():
 def click_mouse_after_moveto(x, y):
     move_mouse(x, y)
     click_mouse()
+
+
+def click_rect_center(rect):
+    x, y = get_center(rect)
+    click_mouse_after_moveto(x, y)
+    # move_mouse(0, 0)
+    time.sleep(1)
+
+
+def click_skip_button(rect):
+    x, y = get_center(rect)
+    move_mouse(x, y)
+
+    for _ in range(4):
+        click_mouse()
+        time.sleep(0.1)
+    move_mouse(0, 0)
+    # time.sleep(1)
+
+
+def get_center(rect):
+    x, y, w, h = rect
+    center_x = int(x + w / 2 + 0.5)
+    center_y = int(y + h / 2 + 0.5)
+    return center_x, center_y
 
 
 if __name__ == "__main__":

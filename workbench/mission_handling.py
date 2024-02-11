@@ -1,19 +1,62 @@
-import os
+import configparser
+import time
 
 import cv2
 import numpy as np
 from PIL import ImageGrab
 
+from workbench import file_path_utils
+from workbench import mouse_control
+
+config = configparser.ConfigParser()
+
 # from workbench import keyboard_control
+hsl = 'hsl'
+mask_param = 'mask_param'
+offset_param = 'offset_param'
+template_dict = {
+    'skip_button.png': {
+        'hsl': (
+            (12, 25),
+            (150, 210),
+            (20, 200)
+        )
+    },
+    'back_button.png': {
+        'hsl': (
+            (9, 21),
+            (10, 110),
+            (40, 230)
+        ),
+        'mask_param': (
+            2 / 3,
+            3 / 4,
+        )
 
-# 获取assets的相对路径
-current_path = os.path.abspath(__file__)
-current_dir = os.path.dirname(current_path)
-assets_relpath = os.path.join(current_dir, '../assets')
-
-
-def get_local_image(image_name):
-    return os.path.join(assets_relpath, image_name)
+    },
+    'yes_button_Japanese.png': {
+        'hsl': (
+            (12, 18),
+            (100, 185),
+            (30, 125)
+        )
+    },
+    'very_high_Japanese.png': {
+        'hsl': (
+            (18, 30),
+            (40, 170),
+            (20, 255)
+        ),
+        'offset_param': (0, -0.61, 1, 0.55),
+    },
+    'high_Japanese.png': {
+        'hsl': (
+            (0, 30),
+            (0, 255),
+            (0, 255)
+        )
+    },
+}
 
 
 def get_screenshot():
@@ -51,8 +94,8 @@ def find_bounding_boxes(image, threshold):
 
 def calculate_similarity(image, template: cv2.typing.MatLike):
     # 调整图片大小
-    target_size = (template.shape[1], template.shape[0])
-    image = cv2.resize(image, target_size)
+    # target_size = (template.shape[1], template.shape[0])
+    # image = cv2.resize(image, target_size)
     mask = cv2.inRange(image, np.array([0, 0, 0]), np.array([255, 255, 255]))
     # 创建ORB特征提取器
     orb = cv2.ORB.create(edgeThreshold=0)
@@ -77,74 +120,54 @@ def calculate_similarity(image, template: cv2.typing.MatLike):
     return len(good_matches)
 
 
-def get_confidence_rect(image, template_name):
-    hsl_dict = {
-        'gear.png': [
-            [15, 40],
-            [30, 180],
-            [40, 190]
-        ],
-        'skip_button.png': [
-            [12, 25],
-            [150, 210],
-            [20, 200]
-        ]
-    }
-    # Load and pre-process the image
-    image_filtered = apply_hsl_filter(
-        image,
-        h_range=hsl_dict[template_name][0],
-        s_range=hsl_dict[template_name][1],
-        l_range=hsl_dict[template_name][2]
-    )
-    _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 128, 255, cv2.THRESH_BINARY)
+def check_and_click(image, target, current_language=None, thresh=30):
+    if current_language is None:
+        confidence, rect = get_confidence_rect(image, f'{target}.png')
+    else:
+        confidence, rect = get_confidence_rect(image, f'{target}_{current_language}.png')
+    print(f'confidence: {confidence}')
+    if confidence > thresh:
+        mouse_control.click_rect_center(rect)
 
-    # Detect rectangles and draw them on the image
-    rectangles = find_bounding_boxes(image_binary, 12)
 
-    # Load the skip button template
-    template = cv2.imread(get_local_image(template_name))
-    # template = cv2.imread(get_local_image('skip_button.png'))
+def test():
+    image = get_screenshot()
+    image_name = 'very_high_Japanese.png'
 
-    # Initialize maximum similarity and corresponding rectangle
-    max_similarity = 0
-    max_similarity_rect = None
-
-    # Calculate similarity for each rectangle
-    for rect in rectangles:
-        x, y, w, h = rect
-        roi = image[y:y + h, x:x + w]
-        similarity = calculate_similarity(roi, template)
-
-        # Update max similarity and max similarity rectangle if necessary
-        if similarity > max_similarity:
-            max_similarity = similarity
-            max_similarity_rect = rect
-
-        # cv2.imshow("12", roi)
-        # print(f"Similarity for rectangle at ({x}, {y}) is {similarity:.4f}")
-        # cv2.waitKey(0)
-
-    # Return max similarity and it's corresponding rectangle
-    return max_similarity, max_similarity_rect
+    confidence, rect = get_confidence_rect(image, image_name)
+    print(f'confidence: {confidence}')
 
 
 def main():
+    config.read(file_path_utils.settings_path)
+    current_language = config['Language']['current']
     image = get_screenshot()
     # 先判断状态
-    battle_confidence, battle_rect = get_confidence_rect(image, 'gear.png')
-    encounters_confidence, mission2_rect = get_confidence_rect(image, 'skip_button.png')
-    print(f'battle_confidence: {battle_confidence}')
-    print(f'encounters_confidence_confidence: {encounters_confidence}')
-    if battle_confidence > 10 * encounters_confidence:
+    battle_confidence = 0
+    # battle_confidence, battle_rect = get_confidence_rect(image, 'gear.png')
+    encounters_confidence, skip_rect = get_confidence_rect(image, 'skip_button.png')
+
+    # logging_utils.logger.info(f'battle_confidence: {battle_confidence}')
+    # print(f'battle_confidence: {battle_confidence}')
+    # print(f'encounters_confidence: {encounters_confidence}')
+
+    if battle_confidence > 20 and encounters_confidence < 10:
         # keyboard_control.keyboard.press_keys()
         pass
-    elif battle_confidence * 10 < encounters_confidence:
-        pass
+    elif battle_confidence < 10 and encounters_confidence > 20:
+        # 找back_button
+        back_button_confidence, back_button_rect = get_confidence_rect(image, 'back_button.png')
+        print(f'back_button_confidence: {back_button_confidence}')
+        if back_button_confidence > 30:
+            mouse_control.click_rect_center(back_button_rect)
+            time.sleep(1)
+            check_and_click(image, 'yes_button', current_language)
+        check_and_click(image, 'very_high', current_language)
+        # click skip button
+        # mouse_control.click_skip_button(skip_rect)
 
     # cv2.imshow("1", image)
     # cv2.waitKey(0)
 
-
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

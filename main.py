@@ -1,5 +1,6 @@
 import configparser
 import json
+import logging
 import time
 from threading import Event
 
@@ -36,11 +37,12 @@ def main(page: ft.Page):
     def switch_page(e):
         pause_main_work()
         route = e.control.data
+        workbench.keyboard_control.keyboard.press_keys('shift')
         page.go(route)
 
     def on_keyboard(e: ft.KeyboardEvent):
-
-        for i in range(2):
+        # print(e.key)
+        for i in range(len(button_list)):
             button = button_list[i]
             if button.data:
                 data = json.loads(e.data)  # 转换 string 到 dictionary
@@ -76,12 +78,15 @@ def main(page: ft.Page):
     language_dropdown = ft.Dropdown(
         options=[
             ft.dropdown.Option("English"),
-            ft.dropdown.Option("Japanese")
+            ft.dropdown.Option("Japanese"),
+            ft.dropdown.Option("Korean"),
         ],
         value=config['Language']['current'],
         label="Game Language",
         on_change=lambda e: config.set('Language', 'Current', e.control.value)
     )
+
+    log_button = ft.Switch(label='Debug Logging', value=False, on_change=workbench.logging_utils.toggle_logging)
 
     def shortcut_record(e):
         button = e.control
@@ -109,6 +114,7 @@ def main(page: ft.Page):
             leading=ft.IconButton(icon=ft.icons.ARROW_BACK, on_click=switch_page, data="/home")),
         controls=[
             language_dropdown,
+            log_button,
             ft.Row(controls=[
                 ft.Container(width=10),
                 ft.Text("Shortcut 1: "),
@@ -136,6 +142,7 @@ def main(page: ft.Page):
             print("[Pausing]")
 
     # 输出GUI
+    # noinspection SpellCheckingInspection
     view_home.controls.append(
         ft.Row(
             [
@@ -183,12 +190,18 @@ def main(page: ft.Page):
 
     while True:
         if not pause_event.is_set():
-            workbench.mission_handling.main()
+            # workbench.mission_handling.main()
+            workbench.mission_handling.test()
 
         else:
             pass
-        time.sleep(0.1)
+        time.sleep(0.2)
 
 
 if __name__ == '__main__':
-    ft.app(target=main)
+    # noinspection PyBroadException
+    try:
+        ft.app(target=main)
+
+    except Exception:
+        logging.exception("An error occurred: ")
