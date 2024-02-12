@@ -95,9 +95,11 @@ class ImageDetector:
 
         # _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 128, 255, cv2.THRESH_BINARY)
         _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_OTSU)
+        # cv2.imwrite('1.png', image_binary)
         # cv2.imshow('1', image_binary)
-        # cv2.waitKey(0)
-        contours, _ = cv2.findContours(image_binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # cv2.waitKey(10)
+        # cv2.destroyAllWindows()
+        contours, _ = cv2.findContours(image_binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         bounding_rects = [cv2.boundingRect(c) for c in contours]
         sizes = [rect[2] * rect[3] for rect in bounding_rects]
         sizes = sorted(sizes, reverse=True)
@@ -124,14 +126,16 @@ class ImageDetector:
                                  min(image_width, round(w * width_scale_factor)),  # 确保宽度不超过图像宽度
                                  min(image_height, round(h * height_scale_factor)))  # 确保高度不超过图像高度
                                 for x, y, w, h in self.rectangles_list]
-
+        # i = 1000
         # for rect in self.rectangles_list:
         #     x, y, w, h = rect
         #     # print(rect)
         #     roi = self.image[y:y + h, x:x + w]
         #
-        #     cv2.imshow('1', roi)
-        #     cv2.waitKey(100)
+        #     # cv2.imshow('1', roi)
+        #     # cv2.waitKey(100)
+        #     cv2.imwrite(f'{i}.png', roi)
+        #     i += 1
 
     def get_confidence_rect(self):
 
