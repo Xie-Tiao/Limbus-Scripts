@@ -30,12 +30,14 @@ def convert_b64(image_cv2):
 
 def main(page: ft.Page):
     page.window_width = 1700
-    image_path = "origin/3500.png"  # Replace with the actual path to your image
+    page.window_height = 900
+    image_path = "origin/4-2.png"  # Replace with the actual path to your image
+    # image_path = "2-3.png"  # Replace with the actual path to your image
     original_image = cv2.imread(image_path)
 
     def update_image(_):
         def str_to_int(value):
-            return int(float(value) + 0.5)
+            return round(float(value))
 
         h_range = [str_to_int(h_slider.start_value), str_to_int(h_slider.end_value)]
         s_range = [str_to_int(s_slider.start_value), str_to_int(s_slider.end_value)]
@@ -74,11 +76,13 @@ def main(page: ft.Page):
 
     def rectangles_offset(rectangles, x_offset_factor=0, y_offset_factor=0, width_scale_factor=1,
                           height_scale_factor=1):
-        rectangles_list = []
-        for rect in rectangles:
-            x, y, w, h = rect
-            rectangles_list.append((round(x + w * x_offset_factor), round(y + h * y_offset_factor),
-                                    round(w * width_scale_factor), round(h * height_scale_factor)))
+        image_width, image_height = 1920, 1080
+
+        rectangles_list = [(max(0, round(x + w * x_offset_factor)),  # 确保x坐标不小于0
+                            max(0, round(y + h * y_offset_factor)),  # 确保y坐标不小于0
+                            min(image_width, round(w * width_scale_factor)),  # 确保宽度不超过图像宽度
+                            min(image_height, round(h * height_scale_factor)))  # 确保高度不超过图像高度
+                           for x, y, w, h in rectangles]
 
         return rectangles_list
 

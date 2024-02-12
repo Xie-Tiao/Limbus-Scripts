@@ -30,8 +30,8 @@ def click_mouse_after_moveto(x, y):
 def click_rect_center(rect):
     x, y = get_center(rect)
     click_mouse_after_moveto(x, y)
-    # move_mouse(0, 0)
-    time.sleep(1)
+    move_mouse(0, 0)
+    # time.sleep(2)
 
 
 def click_skip_button(rect):
@@ -40,16 +40,31 @@ def click_skip_button(rect):
 
     for _ in range(4):
         click_mouse()
-        time.sleep(0.1)
+        time.sleep(0.2)
     move_mouse(0, 0)
     # time.sleep(1)
 
 
 def get_center(rect):
     x, y, w, h = rect
-    center_x = int(x + w / 2 + 0.5)
-    center_y = int(y + h / 2 + 0.5)
+    center_x = round(x + w / 2)
+    center_y = round(y + h / 2)
     return center_x, center_y
+
+
+def click_intensity(text_rect_list, target_texts):
+    # if current_language == 'Japanese':
+    #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
+    # elif current_language == 'Korean':
+    #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
+    # else:
+    #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
+
+    for target_text in target_texts:
+        for text, rect in text_rect_list:
+            if target_text in text:
+                click_rect_center(rect)
+                return
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import os
 
 class PathManager:
     """
-    PathManager class manages the essential file paths and language list for the application.
+    To manage the essential file paths and language list for the application.
 
     Attributes:
         CURRENT_PATH (str): The absolute path to the current script file.
@@ -22,6 +22,8 @@ class PathManager:
     CURRENT_DIR = os.path.dirname(CURRENT_PATH)
     ROOT_RELPATH = os.path.join(CURRENT_DIR, '../')
     ASSETS_RELPATH = os.path.join(CURRENT_DIR, '../assets')
+    LOG_RELPATH = os.path.join(CURRENT_DIR, '../log', )
+    MODEL_RELPATH = os.path.join(CURRENT_DIR, '../models', )
     LANGUAGE_LIST = ["English", "Japanese", "Korean"]
 
     @classmethod

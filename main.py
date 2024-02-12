@@ -1,4 +1,3 @@
-import configparser
 import json
 import logging
 import time
@@ -16,8 +15,9 @@ def main(page: ft.Page):
     page.window_always_on_top = True
     page.theme = ft.theme.Theme(color_scheme_seed='red')
     page.spacing = 30
-    config = configparser.ConfigParser()
-    config.read('settings.ini')
+
+    # logger = workbench.LoggingManager.logger
+    # logger.info('123')
 
     def handle_route_change(_):
         if page.route == "/settings":
@@ -26,8 +26,8 @@ def main(page: ft.Page):
             page.views.append(views["/settings"])
 
         elif page.route == "/home":
-            with open('settings.ini', 'w') as f:
-                config.write(f)
+            # save settings.ini when return home
+            workbench.SettingsReader.write_config()
             page.window_width, page.window_height = workbench.ui_config.HOME_PAGE_SIZE
             page.views.clear()
             page.views.append(views["/home"])
@@ -49,7 +49,7 @@ def main(page: ft.Page):
                 keys_pressed = [k for k, v in data.items() if v and k != 'key']
 
                 button.content.value = ' + '.join(keys_pressed + [data['key']])
-                config.set('Shortcut', f'shortcut{i + 1}', button.content.value)
+                workbench.SettingsReader.set_option('Shortcut', f'shortcut{i + 1}', button.content.value)
                 button.data = False
 
                 button.update()
@@ -81,12 +81,15 @@ def main(page: ft.Page):
             ft.dropdown.Option("Japanese"),
             ft.dropdown.Option("Korean"),
         ],
-        value=config['Language']['current'],
+        value=workbench.SettingsReader.read_option('Language', 'current'),
         label="Game Language",
-        on_change=lambda e: config.set('Language', 'Current', e.control.value)
+        on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.value)
     )
 
-    log_button = ft.Switch(label='Debug Logging', value=False, on_change=workbench.logging_utils.toggle_logging)
+    def log_button_changed(e):
+        workbench.LoggingManager.toggle_logging(e.control.value)
+
+    log_button = ft.Switch(label='Debug Logging', value=False, on_change=log_button_changed)
 
     def shortcut_record(e):
         button = e.control
@@ -98,13 +101,23 @@ def main(page: ft.Page):
 
     # 创建两个按钮，用于设置快捷键
     shortcut_button1 = ft.ElevatedButton(
-        content=ft.Text(config['Shortcut']['shortcut1'], color=workbench.ui_config.RECORD_TEXT_COLOR), width=200,
+        content=ft.Text(
+            workbench.SettingsReader.read_option('Shortcut', 'shortcut1'),
+            color=workbench.ui_config.RECORD_TEXT_COLOR
+        ),
+        width=200,
         data=False, on_click=shortcut_record,
-        bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR)
+        bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
+    )
     shortcut_button2 = ft.ElevatedButton(
-        content=ft.Text(config['Shortcut']['shortcut2'], color=workbench.ui_config.RECORD_TEXT_COLOR), width=200,
+        content=ft.Text(
+            workbench.SettingsReader.read_option('Shortcut', 'shortcut2'),
+            color=workbench.ui_config.RECORD_TEXT_COLOR
+        ),
+        width=200,
         data=False, on_click=shortcut_record,
-        bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR)
+        bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
+    )
     button_list = [shortcut_button1, shortcut_button2]
     view_settings = ft.View(
         route="/settings",
@@ -185,13 +198,15 @@ def main(page: ft.Page):
     )
 
     page.views.append(views["/home"])
-    workbench.mission_handling.main()
     page.update()
 
     while True:
         if not pause_event.is_set():
             # workbench.mission_handling.main()
-            workbench.mission_handling.test()
+            # workbench.mission_handling.test()
+            # workbench.mission_handling.test_ocr()
+            workbench.mission_handling.test_choices()
+            # logger.info('321')
 
         else:
             pass
