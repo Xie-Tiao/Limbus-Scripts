@@ -7,11 +7,12 @@ from workbench.mainwork import main_work
 
 
 def main(page: ft.Page):
+    page.window_width = 260
+    page.window_height = 340
     page.window_title_bar_hidden = True
     page.window_frameless = True
-    page.window_width = 310
-    page.window_height = 380
     page.window_always_on_top = True
+    # page.padding=0
 
     page.bgcolor = "#240e13"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -28,20 +29,54 @@ def main(page: ft.Page):
             # Pause the process
             pause_event.set()
             print("[Pausing]")
+            
+    is_paused = False
+
+    def toggle_icon(e):
+        nonlocal is_paused
+        is_paused = not is_paused
+        if is_paused:
+            e.control.icon = ft.icons.REPLAY
+            e.control.tooltip = 'play'
+        else:
+            e.control.icon = ft.icons.ADS_CLICK
+            e.control.tooltip = 'stop' 
+        e.control.update()
+        pause_main_work()
 
     # 输出GUI
     page.add(
         ft.Row(
             [
-                ft.Container(padding=2),  # ————调左边间距的
-                ft.IconButton(ft.icons.ADS_CLICK, icon_color="#ffffff", on_click=lambda _: pause_main_work(),
-                              tooltip='stop'),
-                ft.WindowDragArea(ft.Container(ft.Text("Limbug Clicker", color="#ffffff", size=23), padding=10),
-                                  expand=True),
-                ft.IconButton(ft.icons.CLOSE, on_click=lambda _: page.window_close(), icon_color="#ffffff",
-                              tooltip='close')
-            ],
-
+                ft.IconButton(
+                    icon=ft.icons.ADS_CLICK, 
+                    icon_color="#ffffff", 
+                    icon_size=20,
+                    on_click=toggle_icon, 
+                    tooltip='stop',
+                ),
+                ft.WindowDragArea(
+                    ft.Container(
+                        ft.Text(
+                            "Limbug Clicker",
+                            color="#ffffff", 
+                            size=20,
+                            # weight=ft.FontWeight.W_500,
+                            no_wrap=False,
+                            overflow="ellipsis",
+                        ), 
+                        padding=5,
+                    ),
+                    expand=True,
+                    ),
+                ft.IconButton(
+                    icon=ft.icons.CLOSE, 
+                    on_click=lambda _: page.window_close(), 
+                    icon_color="#ffffff",
+                    icon_size=20,
+                    tooltip='close',
+                )
+           ],
         ),
     )
     page.add(workbench.datas.img_Laetitia)

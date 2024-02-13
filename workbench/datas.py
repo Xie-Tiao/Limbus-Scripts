@@ -34,5 +34,5 @@ cmd.loc[7, 0] = '5'
 cmd.loc[7, 1] = ''
 cmd.loc[7, 2] = wait_time
 
-img_Laetitia = Image(src="./assets/Wich.webp", height=260, fit=ImageFit.FIT_HEIGHT, tooltip="程序已在运行...")
+img_Laetitia = Image(src="./assets/Wich.webp", height=230, fit=ImageFit.FIT_HEIGHT, tooltip="程序已在运行...")
 img_Monster = Image(src="./assets/LaetitiaMinionCrop.webp", width=800, fit=ImageFit.FIT_WIDTH)
