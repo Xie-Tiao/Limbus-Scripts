@@ -7,12 +7,13 @@ from workbench.mainwork import main_work
 
 
 def main(page: ft.Page):
-    page.window_width = 260
-    page.window_height = 340
+    page.window_width = 200
+    page.window_height = 300
     page.window_title_bar_hidden = True
     page.window_frameless = True
     page.window_always_on_top = True
     # page.padding=0
+    # page.margin=0
 
     page.bgcolor = "#240e13"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -46,40 +47,51 @@ def main(page: ft.Page):
 
     # 输出GUI
     page.add(
-        ft.Row(
-            [
-                ft.IconButton(
-                    icon=ft.icons.ADS_CLICK, 
-                    icon_color="#ffffff", 
-                    icon_size=20,
-                    on_click=toggle_icon, 
-                    tooltip='stop',
-                ),
-                ft.WindowDragArea(
-                    ft.Container(
-                        ft.Text(
-                            "Limbug Clicker",
-                            color="#ffffff", 
-                            size=20,
-                            # weight=ft.FontWeight.W_500,
-                            no_wrap=False,
-                            overflow="ellipsis",
-                        ), 
-                        padding=5,
+        ft.Container(
+            # padding=ft.padding.symmetric(horizontal=5),
+            content=ft.Row(
+                [
+                    ft.IconButton(
+                        icon=ft.icons.ADS_CLICK, 
+                        icon_color="#ffffff", 
+                        icon_size=20,
+                        on_click=toggle_icon, 
+                        tooltip='stop',
                     ),
-                    expand=True,
-                    ),
-                ft.IconButton(
-                    icon=ft.icons.CLOSE, 
-                    on_click=lambda _: page.window_close(), 
-                    icon_color="#ffffff",
-                    icon_size=20,
-                    tooltip='close',
-                )
-           ],
-        ),
+                    ft.WindowDragArea(
+                        ft.Container(
+                            ft.Text(
+                                "Limbug Clicker",
+                                color="#ffffff", 
+                                size=20,
+                                # weight=ft.FontWeight.W_500,
+                                no_wrap=False,
+                                overflow="ellipsis",
+                            ), 
+                        ),
+                        expand=True,
+                        ),
+                    ft.IconButton(
+                        icon=ft.icons.CLOSE, 
+                        on_click=lambda _: page.window_close(), 
+                        icon_color="#ffffff",
+                        icon_size=20,
+                        tooltip='close',
+                    )
+            ],
+            ),
+        )
     )
-    page.add(workbench.datas.img_Laetitia)
+    page.add(
+        ft.Container(
+            content=ft.Image(
+                src="./assets/Wich.webp", 
+                height=230, 
+                fit=ft.ImageFit.FIT_HEIGHT, 
+                tooltip="程序正在运行...",
+            )
+        )
+    )
     page.add(
         ft.Row(
             [
