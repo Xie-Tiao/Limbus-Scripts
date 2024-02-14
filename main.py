@@ -7,8 +7,8 @@ from workbench.mainwork import main_work
 
 
 def main(page: ft.Page):
-    page.window_width = 200
-    page.window_height = 300
+    page.window_width = 260
+    page.window_height = 340
     page.window_title_bar_hidden = True
     page.window_frameless = True
     page.window_always_on_top = True
@@ -37,13 +37,15 @@ def main(page: ft.Page):
         nonlocal is_paused
         is_paused = not is_paused
         if is_paused:
-            e.control.icon = ft.icons.REPLAY
-            e.control.tooltip = 'play'
+            # e.control.icon = ft.icons.REPLAY
+            e.control.tooltip = '⚠已暂停'
         else:
-            e.control.icon = ft.icons.ADS_CLICK
-            e.control.tooltip = 'stop' 
+            # e.control.icon = ft.icons.ADS_CLICK
+            e.control.tooltip = '程序正在运行...' 
         e.control.update()
         pause_main_work()
+
+    
 
     # 输出GUI
     page.add(
@@ -52,11 +54,10 @@ def main(page: ft.Page):
             content=ft.Row(
                 [
                     ft.IconButton(
-                        icon=ft.icons.ADS_CLICK, 
+                        icon=ft.icons.SETTINGS_ROUNDED, 
                         icon_color="#ffffff", 
                         icon_size=20,
-                        on_click=toggle_icon, 
-                        tooltip='stop',
+                        tooltip='设置',
                     ),
                     ft.WindowDragArea(
                         ft.Container(
@@ -84,12 +85,18 @@ def main(page: ft.Page):
     )
     page.add(
         ft.Container(
-            content=ft.Image(
-                src="./assets/Wich.webp", 
-                height=230, 
-                fit=ft.ImageFit.FIT_HEIGHT, 
-                tooltip="程序正在运行...",
-            )
+            image_src="./assets/Wich.webp",
+            alignment=ft.alignment.center,
+            width=230,
+            height=230,
+            on_click=toggle_icon, 
+            ink=True,
+            # content=ft.Image(
+            #     src="./assets/Wich.webp", 
+            #     height=230, 
+            #     fit=ft.ImageFit.FIT_HEIGHT, 
+            #     tooltip="程序正在运行...",
+            # )
         )
     )
     page.add(

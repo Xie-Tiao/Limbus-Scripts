@@ -6,7 +6,7 @@ pyautogui.FAILSAFE = False
 
 
 # 定义鼠标事件
-def mouse_click(click_times, left_or_right, img, img_list):
+def mouse_click(click_times, left_or_right, img, img_list,n):
     for j in range(len(img_list)):
         try:
             location = pyautogui.locateCenterOnScreen("./assets/" + img, confidence=0.9)
