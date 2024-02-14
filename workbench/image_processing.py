@@ -161,8 +161,8 @@ class ImageDetector:
             # print(rect)
             roi = self.image[y:y + h, x:x + w]
 
-            cv2.imshow('1', roi)
-            cv2.waitKey(0)
+            # cv2.imshow('1', roi)
+            # cv2.waitKey(0)
         # cv2.imwrite(f'{i}.png', roi)
         # i += 1
 

@@ -117,7 +117,6 @@ def test_choices():
     print(f'match,{match} rect,{rect} score{score}')
     # mouse_control.click_rect_center(rect)
 
-
 def main():
     image = get_screenshot()
     current_language = SettingsReader.read_option('Language', 'current')
@@ -125,7 +124,7 @@ def main():
     setting_button_detector = ImageDetector(image, 'setting_button.png', 36)
     setting_button_rectangles_list = setting_button_detector.find_bounding_boxes()
     _, _, battle_confidence = english_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MAX')
-
+    
     skip_button_detector = ImageDetector(image, 'skip_button.png')
     encounters_confidence, skip_rect = skip_button_detector.get_confidence_rect()
 
@@ -142,6 +141,7 @@ def main():
         gear_confidence, _ = gear_detector.get_confidence_rect()
         gear_active_detector = ImageDetector(image, 'gear_active.png', 12)
         gear_active_confidence, _ = gear_active_detector.get_confidence_rect()
+        print(gear_confidence,'---',gear_active_confidence)
         if death_confidence > 18:
             _, setting_rect = setting_button_detector.get_confidence_rect()
             mouse_control.click_rect_center(setting_rect)
@@ -149,9 +149,9 @@ def main():
             click_flag = check_and_click_text(image, 'setting_menu', 'Cステージリトライ')
             if click_flag is False:
                 check_and_click_text(image, 'setting_menu', 'メステージをギブアップ')
-        elif gear_confidence > 50:
+        elif gear_confidence > 160:
             keyboard_control.keyboard.press_keys('P')
-        elif gear_active_confidence > 50:
+        elif gear_active_confidence > 0:
             keyboard_control.keyboard.press_keys('enter')
 
     elif battle_confidence < 10 and encounters_confidence > 20:
@@ -168,6 +168,8 @@ def main():
         check_and_click_choices(image)
         # click skip button
         mouse_control.click_skip_button(skip_rect)
+
+    
 
 # if __name__ == '__main__':
 #     image = get_screenshot()
