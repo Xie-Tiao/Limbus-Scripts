@@ -4,20 +4,21 @@ import flet as ft
 
 import workbench.datas
 from workbench.mainwork import main_work
-
+from PIL import Image, ImageTk
+import os
 
 def main(page: ft.Page):
-    page.window_width = 260
-    page.window_height = 340
+    page.window_width = 200
+    page.window_height = 300
     page.window_title_bar_hidden = True
     page.window_frameless = True
     page.window_always_on_top = True
     # page.padding=0
-    # page.margin=0
+    page.margin=0
+    page.spacing=0
 
     page.bgcolor = "#240e13"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.spacing = 30
 
     pause_event = Event()
 
@@ -48,13 +49,12 @@ def main(page: ft.Page):
     
 
     # 输出GUI
-    page.add(
-        ft.Container(
-            # padding=ft.padding.symmetric(horizontal=5),
+    AppBar = ft.Container(
+            padding=0,
             content=ft.Row(
                 [
                     ft.IconButton(
-                        icon=ft.icons.SETTINGS_ROUNDED, 
+                        icon=ft.icons.ADS_CLICK, 
                         icon_color="#ffffff", 
                         icon_size=20,
                         tooltip='设置',
@@ -79,28 +79,45 @@ def main(page: ft.Page):
                         icon_size=20,
                         tooltip='close',
                     )
-            ],
+                ],
             ),
         )
-    )
-    page.add(
-        ft.Container(
-            image_src="./assets/Wich.webp",
-            alignment=ft.alignment.center,
-            width=230,
-            height=230,
-            on_click=toggle_icon, 
-            ink=True,
-            # content=ft.Image(
-            #     src="./assets/Wich.webp", 
-            #     height=230, 
-            #     fit=ft.ImageFit.FIT_HEIGHT, 
-            #     tooltip="程序正在运行...",
-            # )
+    
+    Laetitia = ft.Row(expand=1, wrap=True, scroll="always")
+    for i in range(24):
+        Laetitia.controls.append(
+            ft.Container(
+                alignment=ft.alignment.center,
+                width=230,
+                height=230,
+                # margin=ft.margin.only(bottom=10),
+                on_click=toggle_icon, 
+                ink=True,
+                content=ft.Image(
+                    src=f"assets/Wich/Wich_{i:05d}.png",
+                    height=220,
+                    fit=ft.ImageFit.FIT_HEIGHT,
+                )
+            )
         )
-    )
-    page.add(
-        ft.Row(
+
+    # Laetitia = ft.WindowDragArea(
+    #         ft.Container(
+    #             alignment=ft.alignment.center,
+    #             width=230,
+    #             height=230,
+    #             # margin=ft.margin.only(bottom=10),
+    #             on_click=toggle_icon, 
+    #             ink=True,
+    #             content=ft.Image(
+    #                 src="./assets/Wich.webp", 
+    #                 height=220, 
+    #                 fit=ft.ImageFit.FIT_HEIGHT, 
+    #             )
+    #         )
+    #     )
+    
+    Monster = ft.Row(
             [
                 ft.Container(ft.Text("所", color="#c8c01a", size=60), padding=0, height=300,
                              alignment=ft.alignment.Alignment(-1, -1)),
@@ -121,7 +138,8 @@ def main(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             vertical_alignment=ft.CrossAxisAlignment.CENTER,
         )
-    )
+    
+    page.add(AppBar,Laetitia, Monster)
 
     while True:
         if not pause_event.is_set():
