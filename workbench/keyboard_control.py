@@ -52,4 +52,4 @@ if __name__ == '__main__':
     # 测试函数
     # keyboard.press_keys("shift + ctrl + alt + D")
     # keyboard.press_keys("alt + C")
-    keyboard.press_keys("D")
+    keyboard.press_keys('enter')
