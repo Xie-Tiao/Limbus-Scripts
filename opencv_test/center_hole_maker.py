@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 
 # Define the scaling factor as constants
-SCALING_FACTOR_HEIGHT = 2 / 3
+SCALING_FACTOR_HEIGHT = 3 / 4
 SCALING_FACTOR_WIDTH = 3 / 4
-IMAGE_NAME = 'back_button.png'
+IMAGE_NAME = 'max_button.png'
 
 
 def create_masked_image(image_path, height_factor, width_factor, preserve_center=False):
@@ -40,7 +40,7 @@ def create_masked_image(image_path, height_factor, width_factor, preserve_center
 def main():
     image_path = IMAGE_NAME  # Replace with your image path
     create_masked_image(image_path, height_factor=SCALING_FACTOR_HEIGHT, width_factor=SCALING_FACTOR_WIDTH,
-                        preserve_center=False)
+                        preserve_center=True)
 
 
 if __name__ == "__main__":

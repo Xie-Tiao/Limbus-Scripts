@@ -4,6 +4,7 @@ import time
 
 import cv2
 import flet as ft
+import numpy as np
 
 '''
 gear: H:[15, 40]S:[30, 180]:L[40, 190]
@@ -20,6 +21,8 @@ high very high: H:[18, 30]S:[40, 170]L:[20, 255]
 
 
 '''
+image_path = "origin/2400.png"  # Replace with the actual path to your image
+thresh = 12
 
 
 def convert_b64(image_cv2):
@@ -31,7 +34,6 @@ def convert_b64(image_cv2):
 def main(page: ft.Page):
     page.window_width = 1700
     page.window_height = 900
-    image_path = "origin/4-2.png"  # Replace with the actual path to your image
     # image_path = "2-3.png"  # Replace with the actual path to your image
     original_image = cv2.imread(image_path)
 
@@ -51,7 +53,7 @@ def main(page: ft.Page):
         _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_OTSU)
 
         # Detect rectangles and draw them on the image
-        rectangles = find_bounding_boxes(image_binary, 20)
+        rectangles = find_bounding_boxes(image_binary, thresh)
         rectangles_offset_list = rectangles_offset(
             rectangles,
             factor_x_slider.value,
@@ -59,10 +61,11 @@ def main(page: ft.Page):
             factor_w_slider.value,
             factor_h_slider.value,
         )
+        # draw_rectangles_rotated(image, image_binary)
         draw_rectangles(image, rectangles_offset_list, image_binary)
 
     def find_bounding_boxes(image, threshold):
-        contours, _ = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         bounding_rects = [cv2.boundingRect(c) for c in contours]
         sizes = [rect[2] * rect[3] for rect in bounding_rects]
         sizes = sorted(sizes, reverse=True)
@@ -93,8 +96,11 @@ def main(page: ft.Page):
         l_mask = cv2.inRange(l_channel, l_range[0], l_range[1])
         mask = cv2.bitwise_and(h_mask, cv2.bitwise_and(s_mask, l_mask))
         filtered_image = cv2.bitwise_and(image, image, mask=mask)
-        print(f'H:{h_range}S:{s_range}L:{l_range}')
-        print(f'h_range={h_range}, s_range={s_range}, l_range={l_range}')
+        print(
+            f'{tuple(h_range)},\n{tuple(s_range)},\n{tuple(l_range)}'
+        )
+        # print(f'H:{h_range}S:{s_range}L:{l_range}')
+        # print(f'h_range={h_range}, s_range={s_range}, l_range={l_range}')
         try:
             print(
                 f'({round(factor_x_slider.value, 2)}, {round(factor_y_slider.value, 2)}, {round(factor_w_slider.value, 2)}, {round(factor_h_slider.value, 2)})'
@@ -121,6 +127,26 @@ def main(page: ft.Page):
             i += 1
         for rect in rects:
             cv2.rectangle(image, rect[:2], (rect[0] + rect[2], rect[1] + rect[3]), color, thickness)
+        image_output.src_base64 = convert_b64(image)
+        image_output.update()
+
+    def draw_rectangles_rotated(image, image_binary):
+        # 寻找轮廓
+        contours, _ = cv2.findContours(image_binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        # 绘制所有轮廓的最小外接矩形
+        for contour in contours:
+            rect = cv2.minAreaRect(contour)
+            box = cv2.boxPoints(rect)
+            box = np.intp(box)
+
+            # 绘制旋转矩形
+
+            if 63 < rect[-1] < 66:
+                print(rect)
+                # extract_and_save_rotated_rect(image, rect)
+                cv2.drawContours(image, [box], 0, (0, 255, 0), 2)
+
         image_output.src_base64 = convert_b64(image)
         image_output.update()
 

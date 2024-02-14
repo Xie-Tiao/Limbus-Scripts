@@ -29,6 +29,44 @@ class ImageDetector:
     MASK_PARAM = 'mask_param'
     OFFSET_PARAM = 'offset_param'
     TEMPLATE_DICT = {
+        'setting_button.png': {
+            'hls': (
+                (0, 60),
+                (0, 110),
+                (0, 60)
+            ),
+        },
+        'setting_menu': {
+            'hls': (
+                (0, 20),
+                (0, 255),
+                (0, 255)
+            ),
+        },
+        'death_Japanese.png': {
+            'hls': (
+                (0, 180),
+                (60, 130),
+                (0, 30)
+            ),
+            'offset_param': (0, 0, 1.0, 2.0),
+        },
+        'gear.png': {
+            'hls': (
+                (14, 20),
+                (70, 200),
+                (90, 200)
+            ),
+            'offset_param': (0.18, 0.2, 0.71, 0.71),
+        },
+        'gear_active.png': {
+            'hls': (
+                (0, 19),
+                (100, 160),
+                (200, 255)
+            ),
+            'offset_param': (0.18, 0.15, 0.78, 0.71),
+        },
         'skip_button.png': {
             'hls': (
                 (12, 25),
@@ -79,28 +117,35 @@ class ImageDetector:
         self.rectangles_list = []
         self.threshold = threshold
 
-    def apply_hls_filter(self) -> np.ndarray:
+    def apply_hls_filter(self, image):
         h_range, l_range, s_range = self.current_dict[self.HLS]
-        hls_channels = cv2.split(cv2.cvtColor(self.image, cv2.COLOR_BGR2HLS))
-        mask = cv2.bitwise_and(
-            cv2.inRange(hls_channels[0], *h_range),
-            cv2.inRange(hls_channels[1], *l_range),
-            cv2.inRange(hls_channels[2], *s_range)
-        )
-        return cv2.bitwise_and(self.image, self.image, mask=mask)
+        h_channel, l_channel, s_channel = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HLS))
+        h_mask = cv2.inRange(h_channel, h_range[0], h_range[1])
+        l_mask = cv2.inRange(l_channel, l_range[0], l_range[1])
+        s_mask = cv2.inRange(s_channel, s_range[0], s_range[1])
+
+        mask = cv2.bitwise_and(h_mask, cv2.bitwise_and(s_mask, l_mask))
+        # mask = cv2.bitwise_and(
+        #     cv2.inRange(hls_channels[0], *h_range),
+        #     cv2.inRange(hls_channels[1], *l_range),
+        #     cv2.inRange(hls_channels[2], *s_range)
+        # )
+        return cv2.bitwise_and(image, image, mask=mask)
 
     def find_bounding_boxes(self):
         self.rectangles_list.clear()
-        image_filtered = self.apply_hls_filter()
+        image_filtered = self.apply_hls_filter(self.image)
 
         # _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 128, 255, cv2.THRESH_BINARY)
         _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_OTSU)
         # cv2.imwrite('1.png', image_binary)
-        # cv2.imshow('1', image_binary)
-        # cv2.waitKey(10)
+        # cv2.imshow('1', image_filtered)
+        # cv2.waitKey(0)
         # cv2.destroyAllWindows()
         contours, _ = cv2.findContours(image_binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         bounding_rects = [cv2.boundingRect(c) for c in contours]
+        # apply offset
+        bounding_rects = self.rectangles_offset(bounding_rects)
         sizes = [rect[2] * rect[3] for rect in bounding_rects]
         sizes = sorted(sizes, reverse=True)
 
@@ -109,33 +154,34 @@ class ImageDetector:
             rect for rect in bounding_rects
             if rect[2] * rect[3] >= threshold_size and 0.1 <= rect[2] / rect[3] <= 10
         )
-        # apply offset
-        self.rectangles_offset()
+
+        # i = 1000
+        for rect in self.rectangles_list:
+            x, y, w, h = rect
+            # print(rect)
+            roi = self.image[y:y + h, x:x + w]
+
+            cv2.imshow('1', roi)
+            cv2.waitKey(0)
+        # cv2.imwrite(f'{i}.png', roi)
+        # i += 1
 
         return self.rectangles_list
 
-    def rectangles_offset(self):
+    def rectangles_offset(self, rectangles_list):
         offset_factors = self.current_dict.get(self.OFFSET_PARAM, [0, 0, 1, 1])
-        print(f'offsets:{offset_factors}')
+        # print(f'offsets:{offset_factors}')
         x_offset_factor, y_offset_factor, width_scale_factor, height_scale_factor = offset_factors
 
         image_width, image_height = self.image.shape[1], self.image.shape[0]
 
-        self.rectangles_list = [(max(0, round(x + w * x_offset_factor)),  # 确保x坐标不小于0
-                                 max(0, round(y + h * y_offset_factor)),  # 确保y坐标不小于0
-                                 min(image_width, round(w * width_scale_factor)),  # 确保宽度不超过图像宽度
-                                 min(image_height, round(h * height_scale_factor)))  # 确保高度不超过图像高度
-                                for x, y, w, h in self.rectangles_list]
-        # i = 1000
-        # for rect in self.rectangles_list:
-        #     x, y, w, h = rect
-        #     # print(rect)
-        #     roi = self.image[y:y + h, x:x + w]
-        #
-        #     # cv2.imshow('1', roi)
-        #     # cv2.waitKey(100)
-        #     cv2.imwrite(f'{i}.png', roi)
-        #     i += 1
+        rectangles_offset_list = [(max(0, round(x + w * x_offset_factor)),  # 确保x坐标不小于0
+                                   max(0, round(y + h * y_offset_factor)),  # 确保y坐标不小于0
+                                   max(1, min(image_width, round(w * width_scale_factor))),  # 确保宽度不超过图像宽度
+                                   max(1, min(image_height, round(h * height_scale_factor))))  # 确保高度不超过图像高度
+                                  for x, y, w, h in rectangles_list]
+
+        return rectangles_offset_list
 
     def get_confidence_rect(self):
 
@@ -144,6 +190,7 @@ class ImageDetector:
 
         # Load the skip button template
         template = cv2.imread(PathManager.get_local_image(self.template_name))
+        # template = self.apply_hls_filter(template)
         # cv2.imshow('1', template)
         # cv2.waitKey(0)
         # template = cv2.imread(get_local_image('skip_button.png'))
@@ -159,6 +206,7 @@ class ImageDetector:
             x, y, w, h = rect
             # print(rect)
             roi = self.image[y:y + h, x:x + w]
+            # roi = self.apply_hls_filter(roi)
             roi_masked = self.create_masked_image(roi, *mask_param_list)
             # cv2.imshow('1', roi)
             # cv2.waitKey(0)
@@ -208,14 +256,21 @@ class ImageDetector:
     @staticmethod
     def calculate_similarity(image, template: cv2.typing.MatLike):
         # 调整图片大小
-        # target_size = (template.shape[1], template.shape[0])
-        # image = cv2.resize(image, target_size)
+        target_size = (template.shape[1], template.shape[0])
+        image = cv2.resize(image, target_size)
         mask = cv2.inRange(image, np.array([0, 0, 0]), np.array([255, 255, 255]))
         # 创建ORB特征提取器
         orb = cv2.ORB.create(edgeThreshold=0)
 
         # 从两幅图像中查找关键点和描述符
-        kp1, des1 = orb.detectAndCompute(image, mask)
+        # cv2.imshow('1', image)
+        # cv2.waitKey(0)
+        try:
+            kp1, des1 = orb.detectAndCompute(image, mask)
+        except cv2.error:
+            # cv2.imshow('1', image)
+            # cv2.waitKey(0)
+            return 0
         kp2, des2 = orb.detectAndCompute(template, mask)
 
         # 创建Brute Force Matcher

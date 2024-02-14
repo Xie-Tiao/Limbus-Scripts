@@ -1,6 +1,6 @@
 import cv2
 
-cap = cv2.VideoCapture('2-1.mkv')
+cap = cv2.VideoCapture('1-1.mkv')
 
 # Read the first frame
 ret, frame1 = cap.read()

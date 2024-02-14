@@ -202,8 +202,8 @@ def main(page: ft.Page):
 
     while True:
         if not pause_event.is_set():
-            workbench.mission_handling.main()
-            # workbench.mission_handling.test()
+            # workbench.mission_handling.main()
+            workbench.mission_handling.test()
             # workbench.mission_handling.test_ocr()
             # workbench.mission_handling.test_choices()
             # logger.info('321')
