@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import time
 from threading import Event
 
@@ -172,7 +173,12 @@ def main(page: ft.Page):
 
         ),
     )
-    view_home.controls.append(workbench.ui_config.img_Laetitia)
+    assets_path = workbench.PathManager.ASSETS_RELPATH
+    wich_image_path = os.path.join(assets_path, 'Wich', 'Wich_00000.png')
+
+    img_Laetitia = ft.Image(src=wich_image_path, height=260, fit=ft.ImageFit.FIT_HEIGHT,
+                            tooltip="程序已在运行...", gapless_playback=True)
+    view_home.controls.append(img_Laetitia)
     view_home.controls.append(
         ft.Row(
             [
@@ -199,11 +205,19 @@ def main(page: ft.Page):
 
     page.views.append(views["/home"])
     page.update()
-
+    idx = 0
     while True:
         if not pause_event.is_set():
             
             workbench.mission_handling.main()
+            idx += 1
+            idx = idx % 24
+            # print(idx)
+            wich_image_path = os.path.join(assets_path, 'Wich', f'Wich_{idx:05}.png')
+            img_Laetitia.src = wich_image_path
+            img_Laetitia.update()
+
+            # workbench.mission_handling.main()
             # workbench.mission_handling.test()
             # workbench.mission_handling.test_ocr()
             # workbench.mission_handling.test_choices()
@@ -211,7 +225,7 @@ def main(page: ft.Page):
 
         else:
             pass
-        time.sleep(0.2)
+        time.sleep(0.1)
 
 
 if __name__ == '__main__':

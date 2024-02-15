@@ -129,10 +129,10 @@ def main():
     encounters_confidence, skip_rect = skip_button_detector.get_confidence_rect()
 
     # logging_utils.logger.info(f'battle_confidence: {battle_confidence}')
-    # print(f'battle_confidence: {battle_confidence}')
-    # print(f'encounters_confidence: {encounters_confidence}')
+    print(f'battle_confidence: {battle_confidence}')
+    print(f'encounters_confidence: {encounters_confidence}')
 
-    if battle_confidence > 80 and encounters_confidence < 10:
+    if battle_confidence > 40 and encounters_confidence < 10:
         time.sleep(0.2)
         keyboard_control.keyboard.press_keys('P')
         death_detector = ImageDetector(image, 'death_Japanese.png', 36)
