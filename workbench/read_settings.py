@@ -13,6 +13,17 @@ class SettingsReader:
     def read_option(cls, section, option):
         cls.config.read(cls.config_path, encoding=cls.encoding)
         return cls.config.get(section, option)
+    
+    
+    @classmethod
+    def read_option_language(cls, section, option):
+        lang =  cls.read_option(section, option)
+        lang_data={
+            'en':"English",
+            'jp':"日本語",
+            'kr':"한국어",
+        }
+        return lang_data[lang]
 
     @classmethod
     def set_option(cls, section, option, value):

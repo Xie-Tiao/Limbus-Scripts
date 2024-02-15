@@ -218,26 +218,26 @@ Resident of Metropolaris
 lines = input_data.strip().split("\n")
 
 # Initialize an empty list to store the Japanese phrases
-japanese_phrases = []
-english_phrases = []
-korean_phrases = []
+jp_phrases = []
+en_phrases = []
+kr_phrases = []
 
 # Iterate over each line
 for line in lines:
     # Split the line by "/" to extract the Japanese phrase
     parts = line.split("/")
     if len(parts) >= 3:
-        japanese_phrase = parts[-1].strip()
-        english_phrase = parts[-3].strip()
-        korean_phrase = parts[-2].strip()
-        english_phrases.append(english_phrase)
-        japanese_phrases.append(japanese_phrase)
-        korean_phrases.append(korean_phrase)
+        jp_phrase = parts[-1].strip()
+        en_phrase = parts[-3].strip()
+        kr_phrase = parts[-2].strip()
+        en_phrases.append(en_phrase)
+        jp_phrases.append(jp_phrase)
+        kr_phrases.append(kr_phrase)
 
 choices_dict = {
-    'English': english_phrases,
-    'Japanese': japanese_phrases,
-    'Korean': korean_phrases
+    'en': en_phrases,
+    'jp': jp_phrases,
+    'kr': kr_phrases
 }
 
 import json

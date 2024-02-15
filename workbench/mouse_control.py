@@ -30,7 +30,7 @@ def click_mouse_after_moveto(x, y):
 def click_rect_center(rect):
     x, y = get_center(rect)
     click_mouse_after_moveto(x, y)
-    move_mouse(0, 0)
+    # move_mouse(0, 0)
     # time.sleep(2)
 
 
@@ -53,9 +53,9 @@ def get_center(rect):
 
 
 def click_intensity(text_rect_list, target_texts):
-    # if current_language == 'Japanese':
+    # if current_language == 'jp':
     #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
-    # elif current_language == 'Korean':
+    # elif current_language == 'kr':
     #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
     # else:
     #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']

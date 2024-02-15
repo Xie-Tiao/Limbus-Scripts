@@ -10,7 +10,7 @@ from workbench.image_processing import ImageDetector
 from workbench.ocr_utils import Ocr
 from workbench.read_settings import SettingsReader
 
-english_ocr_engine = Ocr('English')
+en_ocr_engine = Ocr('en')
 
 
 def get_screenshot():
@@ -59,7 +59,8 @@ def check_and_click_choices(image):
         mouse_control.click_rect_center(rect)
 
 
-def check_and_click_text(image, dict_key, text, rect_thresh=12, score_thresh=75):
+def check_and_click_text(dict_key, text, rect_thresh=36, score_thresh=75):
+    image = get_screenshot()
     image_detector = ImageDetector(image, dict_key, rect_thresh)
     rectangles_list = image_detector.find_bounding_boxes()
 
@@ -74,10 +75,10 @@ def check_and_click_text(image, dict_key, text, rect_thresh=12, score_thresh=75)
 
 def test():
     image = get_screenshot()
-    image_name = 'setting_button.png'
-    image_detector = ImageDetector(image, image_name, 36)
-    confidence, rect = image_detector.get_confidence_rect()
-    print(f'confidence: {confidence}')
+    death_detector = ImageDetector(image, 'death_jp.png', 36)
+    death_confidence, _ = death_detector.get_confidence_rect()
+    # confidence, rect = image_detector.get_confidence_rect()
+    print(f'confidence: {death_confidence}')
 
 
 def test_ocr():
@@ -94,7 +95,7 @@ def test_ocr_2():
     image = get_screenshot()
     image_detector = ImageDetector(image, 'setting_button.png', 36)
     rectangles_list = image_detector.find_bounding_boxes()
-    _, _, score = english_ocr_engine.check_text_in_rectangles(image, rectangles_list, 'MAX')
+    _, _, score = en_ocr_engine.check_text_in_rectangles(image, rectangles_list, 'MAX')
     print(score)
 
 
@@ -102,7 +103,7 @@ def test_ocr_3():
     image = get_screenshot()
     image_detector = ImageDetector(image, 'setting_menu', 36)
     rectangles_list = image_detector.find_bounding_boxes()
-    _, _, score = Ocr.check_text_in_rectangles_cls(image, rectangles_list, 'MAX')
+    _, _, score = Ocr.check_text_in_rectangles_cls(image, rectangles_list, 'ステージをギブアップ')
     print(score)
 
 
@@ -123,7 +124,7 @@ def main():
     # 先判断状态
     setting_button_detector = ImageDetector(image, 'setting_button.png', 36)
     setting_button_rectangles_list = setting_button_detector.find_bounding_boxes()
-    _, _, battle_confidence = english_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MAX')
+    _, _, battle_confidence = en_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MAX')
     
     skip_button_detector = ImageDetector(image, 'skip_button.png')
     encounters_confidence, skip_rect = skip_button_detector.get_confidence_rect()
@@ -135,7 +136,7 @@ def main():
     if battle_confidence > 80 and encounters_confidence < 10:
         time.sleep(0.2)
         keyboard_control.keyboard.press_keys('P')
-        death_detector = ImageDetector(image, 'death_Japanese.png', 36)
+        death_detector = ImageDetector(image, 'death_jp.png', 36)
         death_confidence, _ = death_detector.get_confidence_rect()
         gear_detector = ImageDetector(image, 'gear.png', 12)
         gear_confidence, _ = gear_detector.get_confidence_rect()
@@ -145,16 +146,20 @@ def main():
         if death_confidence > 18:
             _, setting_rect = setting_button_detector.get_confidence_rect()
             mouse_control.click_rect_center(setting_rect)
+            print(setting_rect)
             time.sleep(0.6)
-            click_flag = check_and_click_text(image, 'setting_menu', 'Cステージリトライ')
+            click_flag = check_and_click_text('setting_menu', 'Cステージリトライ')
             if click_flag is False:
-                check_and_click_text(image, 'setting_menu', 'メステージをギブアップ')
+                print('123')
+                check_and_click_text('setting_menu', 'メステージをギブアップ')
+                print('321')
+                # test_ocr_3()
         elif gear_confidence > 160:
             keyboard_control.keyboard.press_keys('P')
         elif gear_active_confidence > 0:
             keyboard_control.keyboard.press_keys('enter')
 
-    elif battle_confidence < 10 and encounters_confidence > 20:
+    elif battle_confidence < 60 and encounters_confidence > 70:
         # 找back_button
         back_button_detector = ImageDetector(image, 'back_button.png')
         back_button_confidence, back_button_rect = back_button_detector.get_confidence_rect()
@@ -171,8 +176,5 @@ def main():
 
     
 
-# if __name__ == '__main__':
-#     image = get_screenshot()
-#     image_detector = ImageDetector(image, 'gear.png', 12)
-#     gear_confidence, _ = image_detector.get_confidence_rect()
-#     print(gear_confidence)
+if __name__ == '__main__':
+    test()

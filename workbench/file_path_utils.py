@@ -10,7 +10,7 @@ class PathManager:
         CURRENT_DIR (str): The directory containing the current script file.
         ROOT_RELPATH (str): The relative path to the root.
         ASSETS_RELPATH (str): The relative path to the assets.
-        LANGUAGE_LIST (List[str]): A list of supported languages, including "English", "Japanese", and "Korean".
+        LANGUAGE_LIST (List[str]): A list of supported languages, including "English", "Japanese", and "kr".
 
     Methods:
         get_local_image(image_name: str) -> str or None:
@@ -24,7 +24,7 @@ class PathManager:
     ASSETS_RELPATH = os.path.join(CURRENT_DIR, '../assets')
     LOG_RELPATH = os.path.join(CURRENT_DIR, '../log', )
     MODEL_RELPATH = os.path.join(CURRENT_DIR, '../models', )
-    LANGUAGE_LIST = ["English", "Japanese", "Korean"]
+    LANGUAGE_LIST = ["en", "jp", "kr"]
 
     @classmethod
     def get_local_image(cls, image_name: str) -> str or None:

@@ -1,5 +1,5 @@
 {
-    "English": [
+    "en": [
         "Reach out.",
         "Avert your eyes.",
         "Walk into the mist.",
@@ -76,7 +76,7 @@
         "Ask to shake hands.",
         "Try to shake its hands anyway."
     ],
-    "Japanese": [
+    "jp": [
         "手を伸ばす。",
         "目を背ける。",
         "霧の中に入っていく。",
@@ -153,7 +153,7 @@
         "握手を求める。",
         "だが、握手を求める"
     ],
-    "Korean": [
+    "kr": [
         "손을 뻗는다.",
         "눈을 돌린다.",
         "안개 속으로 걸어 들어간다.",

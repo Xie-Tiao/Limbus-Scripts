@@ -29,8 +29,8 @@ class Ocr:
     OCR engine instance, initializing if necessary due to a language change. recognize_text(cls, image,
     use_det=False, use_cls=False, use_rec=True): Recognizes text in an image and returns the result.
     """
-    _model_path_japanese = os.path.join(PathManager.MODEL_RELPATH, 'japan_PP-OCRv3_rec_infer.onnx')
-    _model_path_korean = os.path.join(PathManager.MODEL_RELPATH, 'korean_PP-OCRv3_rec_infer.onnx')
+    _model_path_jp = os.path.join(PathManager.MODEL_RELPATH, 'japan_PP-OCRv3_rec_infer.onnx')
+    _model_path_kr = os.path.join(PathManager.MODEL_RELPATH, 'korean_PP-OCRv3_rec_infer.onnx')
     _choices_path = os.path.join(PathManager.ASSETS_RELPATH, 'choices_dict.json')
     _current_language = None
     # 调用init_orc_engine
@@ -40,13 +40,13 @@ class Ocr:
         _choices_dict = json.load(f)
 
     def __init__(self, language):
-        if language == 'Japanese':
+        if language == 'jp':
             self.ocr_engine = RapidOCR(
-                rec_model_path=self._model_path_japanese,
+                rec_model_path=self._model_path_jp,
             )
-        elif language == 'Korean':
+        elif language == 'kr':
             self.ocr_engine = RapidOCR(
-                rec_model_path=self._model_path_korean,
+                rec_model_path=self._model_path_kr,
             )
         else:
             self.ocr_engine = RapidOCR()
@@ -102,13 +102,13 @@ class Ocr:
 
     @classmethod
     def init_orc_engine(cls):
-        if cls._current_language == 'Japanese':
+        if cls._current_language == 'jp':
             ocr_engine = RapidOCR(
-                rec_model_path=cls._model_path_japanese,
+                rec_model_path=cls._model_path_jp,
             )
-        elif cls._current_language == 'Korean':
+        elif cls._current_language == 'kr':
             ocr_engine = RapidOCR(
-                rec_model_path=cls._model_path_korean,
+                rec_model_path=cls._model_path_kr,
             )
         else:
             ocr_engine = RapidOCR()

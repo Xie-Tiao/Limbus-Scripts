@@ -21,8 +21,8 @@ high very high: H:[18, 30]S:[40, 170]L:[20, 255]
 
 
 '''
-image_path = "origin/2400.png"  # Replace with the actual path to your image
-thresh = 12
+image_path = "1-2.png"  # Replace with the actual path to your image
+thresh = 36
 
 
 def convert_b64(image_cv2):

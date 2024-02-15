@@ -43,13 +43,13 @@ class ImageDetector:
                 (0, 255)
             ),
         },
-        'death_Japanese.png': {
+        'death_jp.png': {
             'hls': (
-                (0, 180),
-                (60, 130),
-                (0, 30)
+                (0, 4),     
+                (40, 70),
+                (250, 255)
             ),
-            'offset_param': (0, 0, 1.0, 2.0),
+            'offset_param': (0.26, -1.31, 1.77, 1.65),
         },
         'gear.png': {
             'hls': (
@@ -86,7 +86,7 @@ class ImageDetector:
             )
 
         },
-        'yes_button_Japanese.png': {
+        'yes_button_jp.png': {
             'hls': (
                 (12, 18),
                 (100, 185),
@@ -256,7 +256,10 @@ class ImageDetector:
     @staticmethod
     def calculate_similarity(image, template: cv2.typing.MatLike):
         # 调整图片大小
-        target_size = (template.shape[1], template.shape[0])
+        try:
+            target_size = (template.shape[1], template.shape[0])
+        except AttributeError:
+            return 0
         image = cv2.resize(image, target_size)
         mask = cv2.inRange(image, np.array([0, 0, 0]), np.array([255, 255, 255]))
         # 创建ORB特征提取器

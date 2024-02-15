@@ -88,12 +88,17 @@ def main(page: ft.Page):
     language_dropdown = ft.Dropdown(
         options=[
             ft.dropdown.Option("English"),
-            ft.dropdown.Option("Japanese"),
-            ft.dropdown.Option("Korean"),
+            ft.dropdown.Option("日本語"),
+            ft.dropdown.Option("한국어"),
         ],
-        value=workbench.SettingsReader.read_option('Language', 'current'),
+        value=workbench.SettingsReader.read_option_language('Language', 'current'),
         label="Game Language",
-        on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.value)
+        data={
+            "English":'en',
+            "日本語":'jp',
+            "한국어":'kr',
+        },
+        on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.data[e.control.value])
     )
 
     def log_button_changed(e):
@@ -129,6 +134,8 @@ def main(page: ft.Page):
         bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
     )
     button_list = [shortcut_button1, shortcut_button2]
+    
+    # 设置GUI
     view_settings = ft.View(
         route="/settings",
         bgcolor=ft.colors.GREY_200,
@@ -139,8 +146,7 @@ def main(page: ft.Page):
             language_dropdown,
             log_button,
             ft.Row(controls=[
-                ft.Container(width=10),
-                ft.Text("Shortcut 1: "),
+                ft.Container(ft.Text("Shortcut 1: ")),
                 shortcut_button1
             ]),
             ft.Row(controls=[
@@ -174,7 +180,7 @@ def main(page: ft.Page):
         e.control.update()
         pause_main_work()
 
-    # 输出GUI
+    # 首页GUI
     # noinspection SpellCheckingInspection
     app_bar = ft.Container(
         padding=0,
