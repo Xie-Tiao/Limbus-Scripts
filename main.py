@@ -1,5 +1,5 @@
-from threading import Event
-
+import threading
+import time
 import flet as ft
 
 import workbench.datas
@@ -20,7 +20,7 @@ def main(page: ft.Page):
     page.bgcolor = "#240e13"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-    pause_event = Event()
+    pause_event = threading.Event()
 
     def pause_main_work():
         if pause_event.is_set():
@@ -142,16 +142,19 @@ def main(page: ft.Page):
         )
     
     page.add(AppBar,Laetitia, Monster)
-    idx = 0
 
+    def Laetitia_Animation(i):
+        print(i)
+        wich_image_path = os.path.join('assets', 'Wich', f'Wich_{i:05}.png')
+        img_Laetitia.src = wich_image_path
+        Laetitia.update()
+
+    idx = 0
     while True:
         if not pause_event.is_set():
+            Laetitia_Animation(idx)
             idx += 1
             idx = idx % 24
-            print(idx)
-            wich_image_path = os.path.join('assets', 'Wich', f'Wich_{idx:05}.png')
-            img_Laetitia.src = wich_image_path
-            Laetitia.update()
 
             main_work()
         else:
