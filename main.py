@@ -21,7 +21,7 @@ def main(page: ft.Page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     pause_event = threading.Event()
-
+    
     def pause_main_work():
         if pause_event.is_set():
             # Already paused, resume the process
@@ -148,18 +148,36 @@ def main(page: ft.Page):
         wich_image_path = os.path.join('assets', 'Wich', f'Wich_{i:05}.png')
         img_Laetitia.src = wich_image_path
         Laetitia.update()
+        time.sleep(0.1)
 
-    idx = 0
-    while True:
-        if not pause_event.is_set():
-            Laetitia_Animation(idx)
-            idx += 1
-            idx = idx % 24
+    def animation_thread(pause_event):
+        idx = 0
+        while True:
+            if not pause_event.is_set():
+                Laetitia_Animation(idx)
+                idx += 1
+                idx = idx % 24
+            else:
+                pass
 
-            main_work()
-        else:
-            pass
+    def main_thread(pause_event):
+            while True:
+                if not pause_event.is_set():
+                    main_work()
+                else:
+                    pass
 
+    # 创建两个线程
+    animation_t = threading.Thread(target=animation_thread, args=(pause_event,))
+    main_t = threading.Thread(target=main_thread, args=(pause_event,))
+
+    # 启动线程
+    animation_t.start()
+    main_t.start()
+
+    # 等待线程结束
+    animation_t.join()
+    main_t.join()
 
 if __name__ == '__main__':
     ft.app(target=main)
