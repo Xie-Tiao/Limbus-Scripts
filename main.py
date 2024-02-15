@@ -83,23 +83,25 @@ def main(page: ft.Page):
             ),
         )
     
-    Laetitia = ft.Row(expand=1, wrap=True, scroll="always")
-    for i in range(24):
-        Laetitia.controls.append(
-            ft.Container(
+    wich_image_path = os.path.join('assets', 'Wich', 'Wich_00000.png')
+
+    img_Laetitia=ft.Image(
+                    src=wich_image_path,
+                    height=220,
+                    fit=ft.ImageFit.FIT_HEIGHT,
+                    gapless_playback=True
+                )
+    
+    Laetitia=ft.WindowDragArea(
+        ft.Container(
                 alignment=ft.alignment.center,
                 width=230,
                 height=230,
                 # margin=ft.margin.only(bottom=10),
                 on_click=toggle_icon, 
                 ink=True,
-                content=ft.Image(
-                    src=f"assets/Wich/Wich_{i:05d}.png",
-                    height=220,
-                    fit=ft.ImageFit.FIT_HEIGHT,
-                )
-            )
-        )
+                content=img_Laetitia
+    ))
 
     # Laetitia = ft.WindowDragArea(
     #         ft.Container(
@@ -140,9 +142,16 @@ def main(page: ft.Page):
         )
     
     page.add(AppBar,Laetitia, Monster)
+    idx = 0
 
     while True:
         if not pause_event.is_set():
+            idx += 1
+            idx = idx % 24
+            print(idx)
+            wich_image_path = os.path.join('assets', 'Wich', f'Wich_{idx:05}.png')
+            img_Laetitia.src = wich_image_path
+            Laetitia.update()
 
             main_work()
         else:
