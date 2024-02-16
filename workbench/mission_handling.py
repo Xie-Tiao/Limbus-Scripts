@@ -155,9 +155,9 @@ def main():
                 print('321')
                 # test_ocr_3()
         elif gear_confidence > 160:
-            keyboard_control.keyboard.press_keys('P')
+            keyboard_control.keyboard.press_keys(SettingsReader.read_option('Shortcut', 'shortcut1'))
         elif gear_active_confidence > 0:
-            keyboard_control.keyboard.press_keys('enter')
+            keyboard_control.keyboard.press_keys(SettingsReader.read_option('Shortcut', 'shortcut2'))
 
     elif battle_confidence < 60 and encounters_confidence > 70:
         # 找back_button

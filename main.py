@@ -111,7 +111,7 @@ def main(page: ft.Page):
         page.window_always_on_top = workbench.ui_config.ALWAYSE_ON_TOP
         return workbench.ui_config.ALWAYSE_ON_TOP
     
-    window_always_on_top_button = ft.Switch(label='是否置顶', value=True, on_change=lambda _: toggle_always_on_top())
+    window_always_on_top_button = ft.Switch(label='置顶窗口', value=True, on_change=lambda _: toggle_always_on_top())
 
     def shortcut_record(e):
         button = e.control
@@ -154,18 +154,18 @@ def main(page: ft.Page):
             ),
             language_dropdown,
             window_always_on_top_button,
-            ft.Row(
-                alignment=ft.MainAxisAlignment.START,
-                controls=[
-                ft.Container(ft.Text("快捷键 1: ")),
-                shortcut_button1
-            ]),
-            ft.Row(
-                alignment=ft.MainAxisAlignment.START,
-                controls=[
-                ft.Container(ft.Text("快捷键 2: ")),
-                shortcut_button2
-            ]),
+            # ft.Row(
+            #     alignment=ft.MainAxisAlignment.START,
+            #     controls=[
+            #     ft.Container(ft.Text("P键: ", weight=ft.FontWeight.W_600)),
+            #     shortcut_button1
+            # ]),
+            # ft.Row(
+            #     alignment=ft.MainAxisAlignment.START,
+            #     controls=[
+            #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
+            #     shortcut_button2
+            # ]),
             log_button,
             ft.Container(
                 # 底部占位
