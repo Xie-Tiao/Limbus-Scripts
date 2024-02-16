@@ -24,7 +24,7 @@ class SettingsReader:
             'kr':"한국어",
         }
         return lang_data[lang]
-
+    
     @classmethod
     def set_option(cls, section, option, value):
         cls.config.read(cls.config_path, encoding=cls.encoding)

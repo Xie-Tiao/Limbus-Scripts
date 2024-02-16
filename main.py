@@ -13,9 +13,8 @@ import workbench
 def main(page: ft.Page):
     page.window_title_bar_hidden = True
     page.window_frameless = True
+    page.window_always_on_top = workbench.ui_config.ALWAYSE_ON_TOP
     page.window_width, page.window_height = workbench.ui_config.HOME_PAGE_SIZE
-    page.window_always_on_top = True
-    page.margin=0
     page.spacing=0
     page.theme = ft.theme.Theme(color_scheme_seed='red')
 
@@ -98,13 +97,21 @@ def main(page: ft.Page):
             "日本語":'jp',
             "한국어":'kr',
         },
-        on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.data[e.control.value])
+        on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.data[e.control.value]),
+        content_padding=ft.padding.symmetric(horizontal=15),
     )
 
     def log_button_changed(e):
         workbench.LoggingManager.toggle_logging(e.control.value)
 
     log_button = ft.Switch(label='Debug Logging', value=False, on_change=log_button_changed)
+
+    def toggle_always_on_top():
+        workbench.ui_config.ALWAYSE_ON_TOP = not workbench.ui_config.ALWAYSE_ON_TOP
+        page.window_always_on_top = workbench.ui_config.ALWAYSE_ON_TOP
+        return workbench.ui_config.ALWAYSE_ON_TOP
+    
+    window_always_on_top_button = ft.Switch(label='是否置顶', value=True, on_change=lambda _: toggle_always_on_top())
 
     def shortcut_record(e):
         button = e.control
@@ -120,7 +127,6 @@ def main(page: ft.Page):
             workbench.SettingsReader.read_option('Shortcut', 'shortcut1'),
             color=workbench.ui_config.RECORD_TEXT_COLOR
         ),
-        width=200,
         data=False, on_click=shortcut_record,
         bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
     )
@@ -129,7 +135,6 @@ def main(page: ft.Page):
             workbench.SettingsReader.read_option('Shortcut', 'shortcut2'),
             color=workbench.ui_config.RECORD_TEXT_COLOR
         ),
-        width=200,
         data=False, on_click=shortcut_record,
         bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
     )
@@ -141,20 +146,33 @@ def main(page: ft.Page):
         bgcolor=ft.colors.GREY_200,
         appbar=ft.AppBar(
             title=ft.Text("Settings"),
-            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, on_click=switch_page, data="/home")),
+            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, on_click=switch_page, data="/home",style=ft.ButtonStyle(shape={ft.MaterialState.HOVERED: ft.RoundedRectangleBorder(radius=50)}))),
         controls=[
+            ft.Container(
+                # 顶部占位
+                padding=1
+            ),
             language_dropdown,
-            log_button,
-            ft.Row(controls=[
-                ft.Container(ft.Text("Shortcut 1: ")),
+            window_always_on_top_button,
+            ft.Row(
+                alignment=ft.MainAxisAlignment.START,
+                controls=[
+                ft.Container(ft.Text("快捷键 1: ")),
                 shortcut_button1
             ]),
-            ft.Row(controls=[
-                ft.Container(width=10),
-                ft.Text("Shortcut 2: "),
+            ft.Row(
+                alignment=ft.MainAxisAlignment.START,
+                controls=[
+                ft.Container(ft.Text("快捷键 2: ")),
                 shortcut_button2
             ]),
-        ]
+            log_button,
+            ft.Container(
+                # 底部占位
+                padding=1
+            )
+        ],
+        scroll=ft.ScrollMode.ADAPTIVE,
     )
     views["/settings"] = view_settings
 
