@@ -290,7 +290,7 @@ def main(page: ft.Page):
         try:
             Laetitia.update()
         except AssertionError:
-            view_home.controls.append(Laetitia)
+            pass
         time.sleep(0.1)
 
     def animation_thread(pause_event):

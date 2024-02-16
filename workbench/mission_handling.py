@@ -47,7 +47,8 @@ def check_and_click_intensity(image):
     mouse_control.click_intensity(text_rect_list, ['常に高', '高い', '通', '低い', '常に低'])
 
 
-def check_and_click_choices(image):
+def check_and_click_choices():
+    image = get_screenshot()
     dict_key = 'choices'
     image_detector = ImageDetector(image, dict_key, 12)
     rectangles_list = image_detector.find_bounding_boxes()
@@ -123,8 +124,9 @@ def main():
     current_language = SettingsReader.read_option('Language', 'current')
     # 先判断状态
     setting_button_detector = ImageDetector(image, 'setting_button.png', 36)
-    setting_button_rectangles_list = setting_button_detector.find_bounding_boxes()
-    _, _, battle_confidence = en_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MAX')
+    battle_detector = ImageDetector(image, 'battle_rate_jp.png', 36)
+    battle_confidence, _ = battle_detector.get_confidence_rect()
+    # _, _, battle_confidence = en_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MA')
     
     skip_button_detector = ImageDetector(image, 'skip_button.png')
     encounters_confidence, skip_rect = skip_button_detector.get_confidence_rect()
@@ -132,8 +134,8 @@ def main():
     # logging_utils.logger.info(f'battle_confidence: {battle_confidence}')
     print(f'battle_confidence: {battle_confidence}')
     print(f'encounters_confidence: {encounters_confidence}')
-
-    if battle_confidence > 40 and encounters_confidence < 10:
+    check_and_click_image(image, 'yes_button')
+    if battle_confidence > 30 and encounters_confidence < 10:
         time.sleep(0.2)
         keyboard_control.keyboard.press_keys('P')
         death_detector = ImageDetector(image, 'death_jp.png', 36)
@@ -143,6 +145,7 @@ def main():
         gear_active_detector = ImageDetector(image, 'gear_active.png', 12)
         gear_active_confidence, _ = gear_active_detector.get_confidence_rect()
         print(gear_confidence,'---',gear_active_confidence)
+        
         if death_confidence > 18:
             _, setting_rect = setting_button_detector.get_confidence_rect()
             mouse_control.click_rect_center(setting_rect)
@@ -166,11 +169,11 @@ def main():
         print(f'back_button_confidence: {back_button_confidence}')
         if back_button_confidence > 30:
             mouse_control.click_rect_center(back_button_rect)
-            time.sleep(1)
-            check_and_click_image(image, 'yes_button', current_language)
-            check_and_click_intensity(image)
+            time.sleep(1.5)
+        # check_and_click_image(image, 'yes_button')
+        check_and_click_intensity(image)
         # 找选项
-        check_and_click_choices(image)
+        check_and_click_choices()
         # click skip button
         mouse_control.click_skip_button(skip_rect)
 

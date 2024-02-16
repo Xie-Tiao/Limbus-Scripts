@@ -29,6 +29,13 @@ class ImageDetector:
     MASK_PARAM = 'mask_param'
     OFFSET_PARAM = 'offset_param'
     TEMPLATE_DICT = {
+        'battle_rate_jp.png':{
+            'hls': (
+                (14, 30),
+                (98, 255),
+                (200, 255),
+            )
+        },
         'setting_button.png': {
             'hls': (
                 (0, 60),
@@ -86,7 +93,7 @@ class ImageDetector:
             )
 
         },
-        'yes_button_jp.png': {
+        'yes_button.png': {
             'hls': (
                 (12, 18),
                 (100, 185),
@@ -105,7 +112,7 @@ class ImageDetector:
             'hls': (
                 (0, 180),
                 (0, 38),
-                (90, 163)
+                (0, 160)
             )
         },
     }
@@ -148,7 +155,7 @@ class ImageDetector:
         bounding_rects = self.rectangles_offset(bounding_rects)
         sizes = [rect[2] * rect[3] for rect in bounding_rects]
         sizes = sorted(sizes, reverse=True)
-
+        # print(sizes)
         threshold_size = sizes[min(self.threshold - 1, len(sizes) - 1)]
         self.rectangles_list.extend(
             rect for rect in bounding_rects
@@ -162,7 +169,7 @@ class ImageDetector:
             roi = self.image[y:y + h, x:x + w]
 
             # cv2.imshow('1', roi)
-            # cv2.waitKey(0)
+            # cv2.waitKey(100)
         # cv2.imwrite(f'{i}.png', roi)
         # i += 1
 
