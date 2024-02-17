@@ -21,7 +21,7 @@ high very high: H:[18, 30]S:[40, 170]L:[20, 255]
 
 
 '''
-image_path = "1-5-1.png"  # Replace with the actual path to your image
+image_path = "1-7.png"  # Replace with the actual path to your image
 thresh = 36
 
 
