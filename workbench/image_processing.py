@@ -29,6 +29,13 @@ class ImageDetector:
     MASK_PARAM = 'mask_param'
     OFFSET_PARAM = 'offset_param'
     TEMPLATE_DICT = {
+        'battle.png':{
+            'hls': (
+                (0, 30),
+                (149, 255),
+                (46, 195)
+            )
+        },
         'battle_rate_jp.png':{
             'hls': (
                 (14, 30),

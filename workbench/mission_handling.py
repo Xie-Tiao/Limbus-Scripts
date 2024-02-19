@@ -56,7 +56,7 @@ def check_and_click_choices():
     text_rect_list = Ocr.recognize_rectangles(image, rectangles_list)
     match, rect, score = Ocr.get_best_choice(text_rect_list)
     print(f'match,{match} rect,{rect} score{score}')
-    if score > 80:
+    if score > 74:
         mouse_control.click_rect_center(rect)
 
 
@@ -124,8 +124,11 @@ def main():
     current_language = SettingsReader.read_option('Language', 'current')
     # 先判断状态
     setting_button_detector = ImageDetector(image, 'setting_button.png', 36)
-    battle_detector = ImageDetector(image, 'battle_rate_jp.png', 36)
-    battle_confidence, _ = battle_detector.get_confidence_rect()
+    battle_detectors = [
+        ImageDetector(image, 'battle_rate_jp.png', 36),
+        ImageDetector(image, 'battle.png', 36),
+    ]
+    battle_confidence = max(detector.get_confidence_rect()[0] for detector in battle_detectors)
     # _, _, battle_confidence = en_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MA')
     
     skip_button_detector = ImageDetector(image, 'skip_button.png')
@@ -166,7 +169,7 @@ def main():
         # 找back_button
         back_button_detector = ImageDetector(image, 'back_button.png')
         back_button_confidence, back_button_rect = back_button_detector.get_confidence_rect()
-        print(f'back_button_confidence: {back_button_confidence}')
+        print(f'back_button_confidence: {back_button_confidence, back_button_rect}')
         if back_button_confidence > 30:
             mouse_control.click_rect_center(back_button_rect)
             time.sleep(1.5)
