@@ -4,6 +4,7 @@ import time
 
 import cv2
 import flet as ft
+import numpy as np
 
 # 初始值
 H_INIT = [0, 180]
@@ -12,15 +13,15 @@ S_INIT = [0, 255]
 THRESH = 36
 
 image_list = [
-    '1-2.png',
-    '1-3.png',
-    '1-6.png',
+    '1-1.png',
+    # '1-3.png',
+    # '1-6.png',
 ]
 
 
 def main(page: ft.Page):
     page.window_width = 1700
-    page.window_height = 900
+    page.window_height = 1000
 
     def update_images(_):
         for image_update in image_filter_list:
@@ -41,28 +42,11 @@ def main(page: ft.Page):
     factor_y_slider = ft.Slider(min=-3, max=3, value=0, label="{value} y", on_change=update_images)
     factor_w_slider = ft.Slider(min=-3, max=3, value=1, label="{value} w", on_change=update_images)
     factor_h_slider = ft.Slider(min=-3, max=3, value=1, label="{value} h", on_change=update_images)
+    kernel_size_slider = ft.Slider(min=1, max=31, value=1, divisions=31, label="kernel_size", on_change=update_images)
     hls_column = ft.Column(width=1700, height=900, scroll=ft.ScrollMode.AUTO)
 
-    def apply_hsl_filter(image, h_range, s_range, l_range):
-        h_channel, s_channel, l_channel = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HLS))
-        h_mask = cv2.inRange(h_channel, h_range[0], h_range[1])
-        s_mask = cv2.inRange(s_channel, s_range[0], s_range[1])
-        l_mask = cv2.inRange(l_channel, l_range[0], l_range[1])
-        mask = cv2.bitwise_and(h_mask, cv2.bitwise_and(s_mask, l_mask))
-        filtered_image = cv2.bitwise_and(image, image, mask=mask)
-        print(
-            f'{tuple(h_range)},\n{tuple(s_range)},\n{tuple(l_range)}'
-        )
-        # print(f'H:{h_range}S:{s_range}L:{l_range}')
-        # print(f'h_range={h_range}, s_range={s_range}, l_range={l_range}')
-        try:
-            print(
-                f'({round(factor_x_slider.value, 2)}, {round(factor_y_slider.value, 2)}, {round(factor_w_slider.value, 2)}, {round(factor_h_slider.value, 2)})'
-            )
-        except NameError:
-            pass
-
-        return filtered_image
+    def str_to_int(value):
+        return round(float(value))
 
     def find_bounding_boxes(image, threshold):
         contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -102,7 +86,37 @@ def main(page: ft.Page):
             self.original_image = cv2.imread(image_path)
             self.image_show = ft.Image(src_base64=convert_b64(self.original_image), width=800)
             self.image_output = ft.Image(src_base64=convert_b64(self.original_image), width=800)
+            self.mask = np.zeros_like(self.original_image)
             hls_column.controls.append(ft.Row(controls=[self.image_show, self.image_output]))
+
+        def apply_hsl_filter(self, image, h_range, s_range, l_range):
+            h_channel, s_channel, l_channel = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HLS))
+            h_mask = cv2.inRange(h_channel, h_range[0], h_range[1])
+            s_mask = cv2.inRange(s_channel, s_range[0], s_range[1])
+            l_mask = cv2.inRange(l_channel, l_range[0], l_range[1])
+            self.mask = cv2.bitwise_and(h_mask, cv2.bitwise_and(s_mask, l_mask))
+
+            # 对mask进行闭运算
+            kernel_size = str_to_int(kernel_size_slider.value)
+            kernel = np.ones((kernel_size, kernel_size), np.uint8)
+            self.mask = cv2.morphologyEx(self.mask, cv2.MORPH_CLOSE, kernel)
+            # 然后使用闭运算后的掩模来过滤图像
+            filtered_image = cv2.bitwise_and(image, image, mask=self.mask)
+            print(
+                f'{tuple(h_range)},\n{tuple(s_range)},\n{tuple(l_range)}'
+            )
+            # print(f'H:{h_range}S:{s_range}L:{l_range}')
+            # print(f'h_range={h_range}, s_range={s_range}, l_range={l_range}')
+            try:
+                print(
+                    f'({round(factor_x_slider.value, 2)}, {round(factor_y_slider.value, 2)}, {round(factor_w_slider.value, 2)}, {round(factor_h_slider.value, 2)})'
+                )
+            except NameError:
+                pass
+
+            print(f'\'kernel_size\': {str_to_int(kernel_size_slider.value)},')
+
+            return filtered_image
 
         def save_rectangles(self, image, rect, i):
             # 保存对应的图像区域到 /output 目录中
@@ -111,7 +125,7 @@ def main(page: ft.Page):
             output_path = os.path.join('output', f'{self.image_path}rect_{i}.png')
             cv2.imwrite(output_path, roi)
 
-        def draw_rectangles(self, image, rects, image_binary, color=(255, 255, 0), thickness=2):
+        def draw_rectangles(self, image, rects, color=(255, 255, 0), thickness=2):
             # pass
 
             # image = image_binary
@@ -124,21 +138,19 @@ def main(page: ft.Page):
             self.image_output.src_base64 = convert_b64(image)
 
         def update_image(self):
-            def str_to_int(value):
-                return round(float(value))
 
             h_range = [str_to_int(h_slider.start_value), str_to_int(h_slider.end_value)]
             s_range = [str_to_int(s_slider.start_value), str_to_int(s_slider.end_value)]
             l_range = [str_to_int(l_slider.start_value), str_to_int(l_slider.end_value)]
-            filtered_image = apply_hsl_filter(self.original_image, h_range, s_range, l_range)
+            filtered_image = self.apply_hsl_filter(self.original_image, h_range, s_range, l_range)
             self.image_show.src_base64 = convert_b64(filtered_image)
 
             image = self.original_image.copy()
-            image_filtered = apply_hsl_filter(image, h_range=h_range, s_range=s_range, l_range=l_range)
-            _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_OTSU)
+            # image_filtered = apply_hsl_filter(image, h_range=h_range, s_range=s_range, l_range=l_range)
+            # _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_OTSU)
 
             # Detect rectangles and draw them on the image
-            rectangles = find_bounding_boxes(image_binary, THRESH)
+            rectangles = find_bounding_boxes(self.mask, THRESH)
             rectangles_offset_list = rectangles_offset(
                 rectangles,
                 image,
@@ -148,7 +160,7 @@ def main(page: ft.Page):
                 factor_h_slider.value,
             )
             # draw_rectangles_rotated(image, image_binary)
-            self.draw_rectangles(image, rectangles_offset_list, image_binary)
+            self.draw_rectangles(image, rectangles_offset_list)
 
     # images_processor = ImageProcessor(page, ["path/to/image1.png", "path/to/image2.png"], [0, 180], [0, 255],
     #                                   [0, 255])
@@ -166,6 +178,7 @@ def main(page: ft.Page):
         factor_y_slider,
         factor_w_slider,
         factor_h_slider,
+        kernel_size_slider,
     ])
 
     page.add(hls_column)

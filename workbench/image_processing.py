@@ -28,13 +28,15 @@ class ImageDetector:
     HLS = 'hls'
     MASK_PARAM = 'mask_param'
     OFFSET_PARAM = 'offset_param'
+    KERNEL_SIZE = 'kernel_size'
     TEMPLATE_DICT = {
-        'battle_rate_jp.png':{
+        'battle_rate_jp.png': {
             'hls': (
                 (14, 30),
                 (98, 255),
                 (200, 255),
-            )
+            ),
+            'kernel_size': 1,
         },
         'setting_button.png': {
             'hls': (
@@ -52,7 +54,7 @@ class ImageDetector:
         },
         'death_jp.png': {
             'hls': (
-                (0, 4),     
+                (0, 4),
                 (40, 70),
                 (250, 255)
             ),
@@ -123,6 +125,7 @@ class ImageDetector:
         self.current_dict = self.TEMPLATE_DICT[self.template_name]
         self.rectangles_list = []
         self.threshold = threshold
+        self.mask = np.zeros_like(image_input)
 
     def apply_hls_filter(self, image):
         h_range, l_range, s_range = self.current_dict[self.HLS]
@@ -132,24 +135,21 @@ class ImageDetector:
         s_mask = cv2.inRange(s_channel, s_range[0], s_range[1])
 
         mask = cv2.bitwise_and(h_mask, cv2.bitwise_and(s_mask, l_mask))
+        kernel_size = self.current_dict.get(self.KERNEL_SIZE, 1)
+        kernel = np.ones((kernel_size, kernel_size), np.uint8)
+        self.mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
         # mask = cv2.bitwise_and(
         #     cv2.inRange(hls_channels[0], *h_range),
         #     cv2.inRange(hls_channels[1], *l_range),
         #     cv2.inRange(hls_channels[2], *s_range)
         # )
-        return cv2.bitwise_and(image, image, mask=mask)
+        return cv2.bitwise_and(image, image, mask=self.mask)
 
     def find_bounding_boxes(self):
         self.rectangles_list.clear()
-        image_filtered = self.apply_hls_filter(self.image)
+        # image_filtered = self.apply_hls_filter(self.image)
 
-        # _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 128, 255, cv2.THRESH_BINARY)
-        _, image_binary = cv2.threshold(cv2.cvtColor(image_filtered, cv2.COLOR_BGR2GRAY), 0, 255, cv2.THRESH_OTSU)
-        # cv2.imwrite('1.png', image_binary)
-        # cv2.imshow('1', image_filtered)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        contours, _ = cv2.findContours(image_binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(self.mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         bounding_rects = [cv2.boundingRect(c) for c in contours]
         # apply offset
         bounding_rects = self.rectangles_offset(bounding_rects)
@@ -163,13 +163,13 @@ class ImageDetector:
         )
 
         # i = 1000
-        for rect in self.rectangles_list:
-            x, y, w, h = rect
-            # print(rect)
-            roi = self.image[y:y + h, x:x + w]
-
-            # cv2.imshow('1', roi)
-            # cv2.waitKey(100)
+        # for rect in self.rectangles_list:
+        #     x, y, w, h = rect
+        #     # print(rect)
+        #     roi = self.image[y:y + h, x:x + w]
+        #
+        #     cv2.imshow('1', roi)
+        #     cv2.waitKey(100)
         # cv2.imwrite(f'{i}.png', roi)
         # i += 1
 

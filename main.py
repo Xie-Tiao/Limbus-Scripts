@@ -1,13 +1,12 @@
 import json
 import logging
 import os
-import time
 import threading
+import time
 
 import flet as ft
 
 import workbench
-
 
 
 def main(page: ft.Page):
@@ -15,7 +14,7 @@ def main(page: ft.Page):
     page.window_frameless = True
     page.window_always_on_top = workbench.ui_config.ALWAYSE_ON_TOP
     page.window_width, page.window_height = workbench.ui_config.HOME_PAGE_SIZE
-    page.spacing=0
+    page.spacing = 0
     page.theme = ft.theme.Theme(color_scheme_seed='red')
 
     # logger = workbench.LoggingManager.logger
@@ -35,8 +34,6 @@ def main(page: ft.Page):
             page.views.append(views["/home"])
 
     page.on_route_change = handle_route_change
-
-    
 
     def switch_page(e):
         # pause_main_work()
@@ -93,9 +90,9 @@ def main(page: ft.Page):
         value=workbench.SettingsReader.read_option_language('Language', 'current'),
         label="Game Language",
         data={
-            "English":'en',
-            "日本語":'jp',
-            "한국어":'kr',
+            "English": 'en',
+            "日本語": 'jp',
+            "한국어": 'kr',
         },
         on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.data[e.control.value]),
         content_padding=ft.padding.symmetric(horizontal=15),
@@ -110,7 +107,7 @@ def main(page: ft.Page):
         workbench.ui_config.ALWAYSE_ON_TOP = not workbench.ui_config.ALWAYSE_ON_TOP
         page.window_always_on_top = workbench.ui_config.ALWAYSE_ON_TOP
         return workbench.ui_config.ALWAYSE_ON_TOP
-    
+
     window_always_on_top_button = ft.Switch(label='置顶窗口', value=True, on_change=lambda _: toggle_always_on_top())
 
     def shortcut_record(e):
@@ -139,14 +136,15 @@ def main(page: ft.Page):
         bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
     )
     button_list = [shortcut_button1, shortcut_button2]
-    
+
     # 设置GUI
     view_settings = ft.View(
         route="/settings",
         bgcolor=ft.colors.GREY_200,
         appbar=ft.AppBar(
             title=ft.Text("Settings"),
-            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, on_click=switch_page, data="/home",style=ft.ButtonStyle(shape={ft.MaterialState.HOVERED: ft.RoundedRectangleBorder(radius=50)}))),
+            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, on_click=switch_page, data="/home", style=ft.ButtonStyle(
+                shape={ft.MaterialState.HOVERED: ft.RoundedRectangleBorder(radius=50)}))),
         controls=[
             ft.Container(
                 # 顶部占位
@@ -194,7 +192,7 @@ def main(page: ft.Page):
             e.control.tooltip = '⚠已暂停'
         else:
             # e.control.icon = ft.icons.ADS_CLICK
-            e.control.tooltip = '程序正在运行...' 
+            e.control.tooltip = '程序正在运行...'
         e.control.update()
         pause_main_work()
 
@@ -205,8 +203,8 @@ def main(page: ft.Page):
         content=ft.Row(
             [
                 ft.IconButton(
-                    icon=ft.icons.ADS_CLICK, 
-                    icon_color="#ffffff", 
+                    icon=ft.icons.ADS_CLICK,
+                    icon_color="#ffffff",
                     on_click=switch_page,
                     data="/settings",
                     icon_size=20,
@@ -216,18 +214,18 @@ def main(page: ft.Page):
                     ft.Container(
                         ft.Text(
                             "Limbug Clicker",
-                            color="#ffffff", 
+                            color="#ffffff",
                             size=20,
                             # weight=ft.FontWeight.W_500,
                             no_wrap=False,
                             overflow="ellipsis",
-                        ), 
+                        ),
                     ),
                     expand=True,
-                    ),
+                ),
                 ft.IconButton(
-                    icon=ft.icons.CLOSE, 
-                    on_click=lambda _: page.window_close(), 
+                    icon=ft.icons.CLOSE,
+                    on_click=lambda _: page.window_close(),
                     icon_color="#ffffff",
                     icon_size=20,
                     tooltip='close',
@@ -238,44 +236,44 @@ def main(page: ft.Page):
 
     assets_path = workbench.PathManager.ASSETS_RELPATH
     wich_image_path = os.path.join(assets_path, 'Wich', 'Wich_00000.png')
-    img_Laetitia=ft.Image(
-                    src=wich_image_path,
-                    height=220,
-                    fit=ft.ImageFit.FIT_HEIGHT,
-                    gapless_playback=True
-                )
-    Laetitia=ft.WindowDragArea(
+    img_Laetitia = ft.Image(
+        src=wich_image_path,
+        height=220,
+        fit=ft.ImageFit.FIT_HEIGHT,
+        gapless_playback=True
+    )
+    Laetitia = ft.WindowDragArea(
         ft.Container(
-                alignment=ft.alignment.center,
-                width=230,
-                height=230,
-                on_click=toggle_icon, 
-                ink=True,
-                content=img_Laetitia
-    ))
+            alignment=ft.alignment.center,
+            width=230,
+            height=230,
+            on_click=toggle_icon,
+            ink=True,
+            content=img_Laetitia
+        ))
 
     Monster = ft.Row(
-            [
-                ft.Container(ft.Text("所", color="#c8c01a", size=60), padding=0, height=300,
-                             alignment=ft.alignment.Alignment(-1, -1)),
-                ft.Container(ft.Text("以,", color="#c8c01a", size=60), padding=0, height=300,
-                             alignment=ft.alignment.Alignment(1, -0.7)),
-                ft.Container(ft.Text("她 ", color="#e13317", size=90), padding=0, height=300,
-                             alignment=ft.alignment.center),
-                ft.Container(ft.Text("想出了这个绝妙的主意！！", color="#482d66", size=30), padding=0, height=300,
-                             width=100,
-                             alignment=ft.alignment.Alignment(-0.5, -0.5)),
-                workbench.ui_config.img_Monster,
-                ft.Container(ft.Text("惊喜！！", color="#2f8c02", size=40), padding=10, height=300, width=100,
-                             alignment=ft.alignment.Alignment(-10, -10)),
-                ft.Container(ft.Text("礼物！！", color="#e13317", size=50), padding=10, height=300, width=100,
-                             alignment=ft.alignment.Alignment(-10, -10)),
-                ft.Container(bgcolor="#ffffff", height=10, width=1000, alignment=ft.alignment.Alignment(100, 100))
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        )
-        
+        [
+            ft.Container(ft.Text("所", color="#c8c01a", size=60), padding=0, height=300,
+                         alignment=ft.alignment.Alignment(-1, -1)),
+            ft.Container(ft.Text("以,", color="#c8c01a", size=60), padding=0, height=300,
+                         alignment=ft.alignment.Alignment(1, -0.7)),
+            ft.Container(ft.Text("她 ", color="#e13317", size=90), padding=0, height=300,
+                         alignment=ft.alignment.center),
+            ft.Container(ft.Text("想出了这个绝妙的主意！！", color="#482d66", size=30), padding=0, height=300,
+                         width=100,
+                         alignment=ft.alignment.Alignment(-0.5, -0.5)),
+            workbench.ui_config.img_Monster,
+            ft.Container(ft.Text("惊喜！！", color="#2f8c02", size=40), padding=10, height=300, width=100,
+                         alignment=ft.alignment.Alignment(-10, -10)),
+            ft.Container(ft.Text("礼物！！", color="#e13317", size=50), padding=10, height=300, width=100,
+                         alignment=ft.alignment.Alignment(-10, -10)),
+            ft.Container(bgcolor="#ffffff", height=10, width=1000, alignment=ft.alignment.Alignment(100, 100))
+        ],
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+    )
+
     view_home.controls.append(app_bar)
     view_home.controls.append(Laetitia)
     view_home.controls.append(Monster)
@@ -304,12 +302,12 @@ def main(page: ft.Page):
                 pass
 
     def main_thread(pause_event):
-            while True:
-                if not pause_event.is_set():
-                    workbench.mission_handling.main()
-                else:
-                    pass
-                time.sleep(0.1)
+        while True:
+            if not pause_event.is_set():
+                workbench.mission_handling.main()
+            else:
+                pass
+            time.sleep(0.1)
 
     # 创建两个线程
     animation_t = threading.Thread(target=animation_thread, args=(pause_event,))
