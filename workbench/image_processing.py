@@ -147,7 +147,7 @@ class ImageDetector:
 
     def find_bounding_boxes(self):
         self.rectangles_list.clear()
-        # image_filtered = self.apply_hls_filter(self.image)
+        _ = self.apply_hls_filter(self.image)
 
         contours, _ = cv2.findContours(self.mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         bounding_rects = [cv2.boundingRect(c) for c in contours]
