@@ -1,5 +1,4 @@
 import time
-from workbench.read_settings import SettingsReader
 from ctypes import windll, Structure, c_ulong, byref
 
 windll.shcore.SetProcessDpiAwareness(1)
@@ -16,9 +15,6 @@ def get_mouse_position():
 
 
 def move_mouse(x, y):
-    current_DPI = SettingsReader.read_option('DPI', 'current')
-    x = round(x / (current_DPI * 0.01))
-    y = round(y / (current_DPI * 0.01))
     windll.user32.SetCursorPos(x, y)
 
 
@@ -80,7 +76,7 @@ if __name__ == "__main__":
     # # 获取当前鼠标位置
     current_x, current_y = get_mouse_position()
     print(f"当前鼠标位置：({current_x}, {current_y})")
-   
+
     # # 移动鼠标到指定位置
     # target_x, target_y = 900, 300
     # move_mouse(target_x, target_y)
