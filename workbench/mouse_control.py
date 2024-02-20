@@ -1,6 +1,8 @@
 import time
 from ctypes import windll, Structure, c_ulong, byref
 
+windll.shcore.SetProcessDpiAwareness(1)
+
 
 class PointAPI(Structure):
     _fields_ = [("x", c_ulong), ("y", c_ulong)]
