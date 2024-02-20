@@ -13,9 +13,7 @@ S_INIT = [0, 255]
 THRESH = 36
 
 image_list = [
-    '1-1.png',
-    # '1-3.png',
-    # '1-6.png',
+    # '2-1.png',
 ]
 
 

@@ -30,7 +30,14 @@ class ImageDetector:
     OFFSET_PARAM = 'offset_param'
     KERNEL_SIZE = 'kernel_size'
     TEMPLATE_DICT = {
-        'battle_rate_jp.png': {
+        'battle.png':{
+            'hls': (
+                (0, 30),
+                (149, 255),
+                (46, 195)
+            )
+        },
+        'battle_rate_jp.png':{
             'hls': (
                 (14, 30),
                 (98, 255),

@@ -48,11 +48,11 @@ if __name__ == '__main__':
     print(f"快捷键1: {shortcut1}, 快捷键2: {shortcut2}")
 
     # 设置新的语言并保存到文件
-    SettingsReader.set_option('Language', 'current', 'Japanese')
+    SettingsReader.set_option('Language', 'current', 'jp')
     new_language = SettingsReader.read_option('Language', 'current')
     print(f"已将当前语言设置为: {new_language}")
 
     # 更改快捷键设置
-    SettingsReader.set_option('Shortcut', 'shortcut1', 'A')
+    SettingsReader.set_option('Shortcut', 'shortcut1', 'P')
     new_shortcut1 = SettingsReader.read_option('Shortcut', 'shortcut1')
     print(f"已将快捷键1设置为: {new_shortcut1}")

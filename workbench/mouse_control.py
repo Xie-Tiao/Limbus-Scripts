@@ -1,4 +1,5 @@
 import time
+from workbench.read_settings import SettingsReader
 from ctypes import windll, Structure, c_ulong, byref
 
 windll.shcore.SetProcessDpiAwareness(1)
@@ -15,6 +16,9 @@ def get_mouse_position():
 
 
 def move_mouse(x, y):
+    current_DPI = SettingsReader.read_option('DPI', 'current')
+    x = round(x / (current_DPI * 0.01))
+    y = round(y / (current_DPI * 0.01))
     windll.user32.SetCursorPos(x, y)
 
 
@@ -30,10 +34,12 @@ def click_mouse_after_moveto(x, y):
 
 
 def click_rect_center(rect):
+    time.sleep(0.2)
     x, y = get_center(rect)
     click_mouse_after_moveto(x, y)
-    # move_mouse(0, 0)
-    # time.sleep(2)
+    time.sleep(0.2)
+    move_mouse(0, 0)
+    # 
 
 
 def click_skip_button(rect):
@@ -70,15 +76,16 @@ def click_intensity(text_rect_list, target_texts):
 
 
 if __name__ == "__main__":
-    # 获取当前鼠标位置
+    click_rect_center((1044, 399, 693, 98))
+    # # 获取当前鼠标位置
     current_x, current_y = get_mouse_position()
     print(f"当前鼠标位置：({current_x}, {current_y})")
+   
+    # # 移动鼠标到指定位置
+    # target_x, target_y = 900, 300
+    # move_mouse(target_x, target_y)
+    # print(f"移动鼠标到：({target_x}, {target_y})")
 
-    # 移动鼠标到指定位置
-    target_x, target_y = 900, 300
-    move_mouse(target_x, target_y)
-    print(f"移动鼠标到：({target_x}, {target_y})")
-
-    # 模拟点击鼠标
-    click_mouse()
-    print("模拟点击鼠标左键")
+    # # 模拟点击鼠标
+    # click_mouse()
+    # print("模拟点击鼠标左键")
