@@ -139,7 +139,7 @@ def main(page: ft.Page):
 
     # 关于
     about = ft.Column(
-        alignment=ft.MainAxisAlignment.END,
+        # expand=1,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
             ft.Text(
@@ -199,6 +199,7 @@ def main(page: ft.Page):
                 animation_duration=200,
                 scrollable=True,
                 tab_alignment=ft.TabAlignment.CENTER,
+                height=230,
                 tabs=[
                     ft.Tab(
                         # text="工作偏好",
@@ -235,15 +236,17 @@ def main(page: ft.Page):
                         # text="敏感信息",
                         tab_content=ft.Text('敏感信息', width=68, text_align=ft.TextAlign.CENTER),
                         content=ft.Column(
-                            scroll=ft.ScrollMode.ADAPTIVE,
+                            # scroll=ft.ScrollMode.ADAPTIVE,
                             controls=[
                                 ft.Container(
                                     # 顶部占位
                                     padding=1
                                 ),
                                 log_button,
+                                ft.Container(expand=1),
                                 ft.Divider(),
                                 about,
+                                # ft.Container(expand=1, bgcolor=ft.colors.RED),
                             ],
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
