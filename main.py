@@ -95,12 +95,13 @@ def main(page: ft.Page):
         on_change=lambda e: workbench.SettingsReader.set_option('Language', 'Current', e.control.data[e.control.value]),
         content_padding=ft.padding.symmetric(horizontal=15),
     )
+
     # Log文件开关
     def log_button_changed(e):
         workbench.LoggingManager.toggle_logging(e.control.value)
 
     log_button = ft.Switch(label='Debug Logging', value=False, on_change=log_button_changed)
-    
+
     # 置顶窗口开关
     def toggle_always_on_top():
         workbench.ui_config.ALWAYSE_ON_TOP = not workbench.ui_config.ALWAYSE_ON_TOP
@@ -147,35 +148,35 @@ def main(page: ft.Page):
                 spans=[
                     ft.TextSpan(
                         "作者: ",
-                        ),
-                    ft.TextSpan(    
+                    ),
+                    ft.TextSpan(
                         "协调人",
                         url="https://github.com/Xie-Tiao",
-                        ),
-                    ft.TextSpan(    
+                    ),
+                    ft.TextSpan(
                         " & ",
-                        ),
-                    ft.TextSpan(    
+                    ),
+                    ft.TextSpan(
                         "Camreishi",
                         url="https://github.com/Camreishi",
-                        ),
+                    ),
                 ]
             ),
             ft.Text(
                 spans=[
                     ft.TextSpan(
                         "开源仓库",
-                        ft.TextStyle(size=10,color=workbench.ui_config.RECORD_TEXT_COLOR,weight=ft.FontWeight.W_900),
+                        ft.TextStyle(size=10, color=workbench.ui_config.RECORD_TEXT_COLOR, weight=ft.FontWeight.W_900),
                         url="https://github.com/Xie-Tiao/Limbus-Scripts",
-                        ),
-                    ft.TextSpan(    
+                    ),
+                    ft.TextSpan(
                         " | ",
                         ft.TextStyle(weight=ft.FontWeight.BOLD)
-                        ),
+                    ),
                     ft.TextSpan(
                         "版本：4.0.0",
-                        ft.TextStyle(size=10,weight=ft.FontWeight.W_900),
-                        ),
+                        ft.TextStyle(size=10, weight=ft.FontWeight.W_900),
+                    ),
                 ]
             ),
         ]
@@ -187,18 +188,21 @@ def main(page: ft.Page):
         bgcolor=ft.colors.GREY_200,
         appbar=ft.AppBar(
             title=ft.WindowDragArea(ft.Text("O-01-67")),
-            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, icon_size=20,on_click=switch_page, data="/home"),
+            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, icon_size=20, on_click=switch_page, data="/home"),
             leading_width=45,
             toolbar_height=45,
-            ),
+        ),
+        padding=0,
         controls=[
             ft.Tabs(
                 selected_index=0,
                 animation_duration=200,
                 scrollable=True,
+                tab_alignment=ft.TabAlignment.CENTER,
                 tabs=[
                     ft.Tab(
-                        text="工作偏好",
+                        # text="工作偏好",
+                        tab_content=ft.Text('工作偏好', width=68, text_align=ft.TextAlign.CENTER),
                         content=ft.Column(
                             scroll=ft.ScrollMode.ADAPTIVE,
                             controls=[
@@ -228,7 +232,8 @@ def main(page: ft.Page):
                         )
                     ),
                     ft.Tab(
-                        text="敏感信息",
+                        # text="敏感信息",
+                        tab_content=ft.Text('敏感信息', width=68, text_align=ft.TextAlign.CENTER),
                         content=ft.Column(
                             scroll=ft.ScrollMode.ADAPTIVE,
                             controls=[
@@ -240,11 +245,12 @@ def main(page: ft.Page):
                                 ft.Divider(),
                                 about,
                             ],
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
                     )
                 ]
             )
-            
+
         ],
     )
     views["/settings"] = view_settings
@@ -313,7 +319,7 @@ def main(page: ft.Page):
             width=230,
             height=230,
             on_click=pause_main_work,
-            tooltip = '程序正在运行...',
+            tooltip='程序正在运行...',
             ink=True,
             content=img_Laetitia
         ))
