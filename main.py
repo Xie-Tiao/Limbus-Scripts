@@ -136,6 +136,51 @@ def main(page: ft.Page):
     )
     button_list = [shortcut_button1, shortcut_button2]
 
+    # 关于
+    about = ft.Column(
+        alignment=ft.MainAxisAlignment.END,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        controls=[
+            ft.Text(
+                size=13,
+                weight=ft.FontWeight.W_400,
+                spans=[
+                    ft.TextSpan(
+                        "作者: ",
+                        ),
+                    ft.TextSpan(    
+                        "协调人",
+                        url="https://github.com/Xie-Tiao",
+                        ),
+                    ft.TextSpan(    
+                        " & ",
+                        ),
+                    ft.TextSpan(    
+                        "Camreishi",
+                        url="https://github.com/Camreishi",
+                        ),
+                ]
+            ),
+            ft.Text(
+                spans=[
+                    ft.TextSpan(
+                        "开源仓库",
+                        ft.TextStyle(size=10,color=workbench.ui_config.RECORD_TEXT_COLOR,weight=ft.FontWeight.W_900),
+                        url="https://github.com/Xie-Tiao/Limbus-Scripts",
+                        ),
+                    ft.TextSpan(    
+                        " | ",
+                        ft.TextStyle(weight=ft.FontWeight.BOLD)
+                        ),
+                    ft.TextSpan(
+                        "版本：4.0.0",
+                        ft.TextStyle(size=10,weight=ft.FontWeight.W_900),
+                        ),
+                ]
+            ),
+        ]
+    )
+
     # 设置GUI
     view_settings = ft.View(
         route="/settings",
@@ -155,6 +200,7 @@ def main(page: ft.Page):
                     ft.Tab(
                         text="工作偏好",
                         content=ft.Column(
+                            scroll=ft.ScrollMode.ADAPTIVE,
                             controls=[
                                 ft.Container(
                                     # 顶部占位
@@ -179,45 +225,21 @@ def main(page: ft.Page):
                                     padding=1
                                 )
                             ],
-                            scroll=ft.ScrollMode.ADAPTIVE,
                         )
                     ),
                     ft.Tab(
                         text="敏感信息",
                         content=ft.Column(
+                            scroll=ft.ScrollMode.ADAPTIVE,
                             controls=[
                                 ft.Container(
                                     # 顶部占位
                                     padding=1
                                 ),
                                 log_button,
-                                ft.Column(
-                                    controls=[
-                                        ft.Text(
-                                            spans=[
-                                                ft.TextSpan(
-                                                    "作者：协调人&Camreishi",
-                                                    ft.TextStyle(weight=ft.FontWeight.BOLD)
-                                                    ),
-                                                
-                                            ]
-                                        ),
-                                        ft.Text(
-                                            spans=[
-                                                ft.TextSpan("版本：4.0"),
-                                            ]
-                                        ),
-                                        ft.Text(
-                                            spans=[
-                                                ft.TextSpan(
-                                                    "github.com/Xie-Tiao/Limbus-Scripts",
-                                                    ft.TextStyle(size=15)),
-                                            ]
-                                        ),
-                                        ]
-                                )
+                                ft.Divider(),
+                                about,
                             ],
-                            scroll=ft.ScrollMode.ADAPTIVE,
                         ),
                     )
                 ]
