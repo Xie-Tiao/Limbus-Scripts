@@ -36,13 +36,11 @@ def main(page: ft.Page):
     page.on_route_change = handle_route_change
 
     def switch_page(e):
-        # pause_main_work()
         route = e.control.data
-        if route == '/settings':
-            pause_event.set()
-        elif route == '/home':
+        if route == '/home':
             pause_event.clear()
-
+        else:
+            pause_event.set()
         workbench.keyboard_control.keyboard.press_keys('shift')
         page.go(route)
 
@@ -143,59 +141,104 @@ def main(page: ft.Page):
         route="/settings",
         bgcolor=ft.colors.GREY_200,
         appbar=ft.AppBar(
-            title=ft.Text("Settings"),
-            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, on_click=switch_page, data="/home", style=ft.ButtonStyle(
-                shape={ft.MaterialState.HOVERED: ft.RoundedRectangleBorder(radius=50)}))),
-        controls=[
-            ft.Container(
-                # 顶部占位
-                padding=1
+            title=ft.WindowDragArea(ft.Text("O-01-67")),
+            leading=ft.IconButton(icon=ft.icons.ARROW_BACK, icon_size=20,on_click=switch_page, data="/home"),
+            leading_width=45,
+            toolbar_height=45,
             ),
-            language_dropdown,
-            window_always_on_top_button,
-            # ft.Row(
-            #     alignment=ft.MainAxisAlignment.START,
-            #     controls=[
-            #     ft.Container(ft.Text("P键: ", weight=ft.FontWeight.W_600)),
-            #     shortcut_button1
-            # ]),
-            # ft.Row(
-            #     alignment=ft.MainAxisAlignment.START,
-            #     controls=[
-            #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
-            #     shortcut_button2
-            # ]),
-            log_button,
-            ft.Container(
-                # 底部占位
-                padding=1
+        controls=[
+            ft.Tabs(
+                selected_index=0,
+                animation_duration=200,
+                scrollable=True,
+                tabs=[
+                    ft.Tab(
+                        text="工作偏好",
+                        content=ft.Column(
+                            controls=[
+                                ft.Container(
+                                    # 顶部占位
+                                    padding=1
+                                ),
+                                language_dropdown,
+                                window_always_on_top_button,
+                                # ft.Row(
+                                #     alignment=ft.MainAxisAlignment.START,
+                                #     controls=[
+                                #     ft.Container(ft.Text("P键: ", weight=ft.FontWeight.W_600)),
+                                #     shortcut_button1
+                                # ]),
+                                # ft.Row(
+                                #     alignment=ft.MainAxisAlignment.START,
+                                #     controls=[
+                                #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
+                                #     shortcut_button2
+                                # ]),
+                                ft.Container(
+                                    # 底部占位
+                                    padding=1
+                                )
+                            ],
+                            scroll=ft.ScrollMode.ADAPTIVE,
+                        )
+                    ),
+                    ft.Tab(
+                        text="敏感信息",
+                        content=ft.Column(
+                            controls=[
+                                ft.Container(
+                                    # 顶部占位
+                                    padding=1
+                                ),
+                                log_button,
+                                ft.Column(
+                                    controls=[
+                                        ft.Text(
+                                            spans=[
+                                                ft.TextSpan(
+                                                    "作者：协调人&Camreishi",
+                                                    ft.TextStyle(weight=ft.FontWeight.BOLD)
+                                                    ),
+                                                
+                                            ]
+                                        ),
+                                        ft.Text(
+                                            spans=[
+                                                ft.TextSpan("版本：4.0"),
+                                            ]
+                                        ),
+                                        ft.Text(
+                                            spans=[
+                                                ft.TextSpan(
+                                                    "github.com/Xie-Tiao/Limbus-Scripts",
+                                                    ft.TextStyle(size=15)),
+                                            ]
+                                        ),
+                                        ]
+                                )
+                            ],
+                            scroll=ft.ScrollMode.ADAPTIVE,
+                        ),
+                    )
+                ]
             )
+            
         ],
-        scroll=ft.ScrollMode.ADAPTIVE,
     )
     views["/settings"] = view_settings
 
     pause_event = threading.Event()
 
-    def pause_main_work():
+    def pause_main_work(e):
         if pause_event.is_set():
-            # Already paused, resume the process
             pause_event.clear()
+            e.control.tooltip = '程序正在运行...'
             print("[Continue]")
         else:
-            # Pause the process
             pause_event.set()
-            print("[Pausing]")
-
-    def toggle_icon(e):
-        if pause_event.is_set():
-            # e.control.icon = ft.icons.REPLAY
             e.control.tooltip = '⚠已暂停'
-        else:
-            # e.control.icon = ft.icons.ADS_CLICK
-            e.control.tooltip = '程序正在运行...'
+            print("[Pausing]")
         e.control.update()
-        pause_main_work()
 
     # 首页GUI
     # noinspection SpellCheckingInspection
@@ -217,7 +260,6 @@ def main(page: ft.Page):
                             "Limbug Clicker",
                             color="#ffffff",
                             size=20,
-                            # weight=ft.FontWeight.W_500,
                             no_wrap=False,
                             overflow="ellipsis",
                         ),
@@ -248,7 +290,8 @@ def main(page: ft.Page):
             alignment=ft.alignment.center,
             width=230,
             height=230,
-            on_click=toggle_icon,
+            on_click=pause_main_work,
+            tooltip = '程序正在运行...',
             ink=True,
             content=img_Laetitia
         ))
