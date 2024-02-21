@@ -199,7 +199,7 @@ def main(page: ft.Page):
                 animation_duration=200,
                 scrollable=True,
                 tab_alignment=ft.TabAlignment.CENTER,
-                height=230,
+                expand=True,
                 tabs=[
                     ft.Tab(
                         # text="工作偏好",
