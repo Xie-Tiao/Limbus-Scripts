@@ -111,21 +111,6 @@ def main(page: ft.Page):
 
     window_always_on_top_button = ft.Switch(label='置顶窗口', value=True, on_change=lambda _: toggle_always_on_top())
 
-    # 选择屏幕DPI缩放比
-    DPI_dropdown = ft.Dropdown(
-        options=[
-            ft.dropdown.Option("100"),
-            ft.dropdown.Option("125"),
-            ft.dropdown.Option("150"),
-            ft.dropdown.Option("175"),
-        ],
-        suffix_text="%",
-        value=workbench.SettingsReader.read_option('DPI', 'current'),
-        label="屏幕缩放比-DPI",
-        on_change=lambda e: workbench.SettingsReader.set_option('DPI', 'Current', e.control.value),
-        content_padding=ft.padding.symmetric(horizontal=15),
-    )
-
     def shortcut_record(e):
         button = e.control
         button.data = True
@@ -180,7 +165,6 @@ def main(page: ft.Page):
             #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
             #     shortcut_button2
             # ]),
-            DPI_dropdown,
             log_button,
             ft.Container(
                 # 底部占位
