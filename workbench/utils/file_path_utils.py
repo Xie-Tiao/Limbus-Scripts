@@ -20,10 +20,10 @@ class PathManager:
 
     CURRENT_PATH = os.path.abspath(__file__)
     CURRENT_DIR = os.path.dirname(CURRENT_PATH)
-    ROOT_RELPATH = os.path.join(CURRENT_DIR, '../')
-    ASSETS_RELPATH = os.path.join(CURRENT_DIR, '../assets')
-    LOG_RELPATH = os.path.join(CURRENT_DIR, '../log', )
-    MODEL_RELPATH = os.path.join(CURRENT_DIR, '../models', )
+    ROOT_RELPATH = os.path.join(CURRENT_DIR, '../../')
+    ASSETS_RELPATH = os.path.join(CURRENT_DIR, '../../assets')
+    LOG_RELPATH = os.path.join(CURRENT_DIR, '../../log', )
+    MODEL_RELPATH = os.path.join(CURRENT_DIR, '../../models', )
     LANGUAGE_LIST = ["en", "jp", "kr"]
 
     @classmethod
