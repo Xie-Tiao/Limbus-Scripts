@@ -27,7 +27,7 @@ class PathManager:
     LANGUAGE_LIST = ["en", "jp", "kr"]
 
     @classmethod
-    def get_local_image(cls, image_name: str) -> str or None:
+    def get_local_image(cls, image_name: str) -> str | None:
         """Find and return the local path of the specified image file. Check the root directory first,
         then traverse through the language directories in the `LANGUAGE_LIST`.
 
