@@ -30,14 +30,14 @@ class ImageDetector:
     OFFSET_PARAM = 'offset_param'
     KERNEL_SIZE = 'kernel_size'
     TEMPLATE_DICT = {
-        'battle.png':{
+        'battle.png': {
             'hls': (
                 (0, 30),
                 (149, 255),
                 (46, 195)
             )
         },
-        'battle_rate_jp.png':{
+        'battle_rate_jp.png': {
             'hls': (
                 (14, 30),
                 (98, 255),
@@ -304,6 +304,62 @@ class ImageDetector:
 
         # 根据好的匹配数返回相似度
         return len(good_matches)
+
+    def get_mask(self, image):
+        h_range, l_range, s_range = self.current_dict[self.HLS]
+        h_channel, l_channel, s_channel = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HLS))
+        h_mask = cv2.inRange(h_channel, h_range[0], h_range[1])
+        l_mask = cv2.inRange(l_channel, l_range[0], l_range[1])
+        s_mask = cv2.inRange(s_channel, s_range[0], s_range[1])
+
+        mask = cv2.bitwise_and(h_mask, cv2.bitwise_and(s_mask, l_mask))
+
+        return mask
+
+    def get_confidence_rect_mask(self):
+
+        # Detect rectangles and draw them on the image
+        self.find_bounding_boxes()
+
+        # Load the skip button template
+        template = cv2.imread(PathManager.get_local_image(self.template_name))
+        template_mask = self.get_mask(template)
+
+        max_similarity = 0
+        max_similarity_rect = None
+
+        for rect in self.rectangles_list:
+            x, y, w, h = rect
+            # print(rect)
+            roi = self.image[y:y + h, x:x + w]
+            roi_mask = self.get_mask(roi)
+
+            similarity = self.calculate_similarity_mask(roi_mask, template_mask)
+
+            # Update max similarity and max similarity rectangle if necessary
+            if similarity > max_similarity:
+                max_similarity = similarity
+                max_similarity_rect = rect
+
+            # cv2.imshow("12", roi)
+            # cv2.waitKey(0)
+            # print(f"Similarity for rectangle at ({x}, {y}) is {similarity:.4f}")
+
+        # Return max similarity and it's corresponding rectangle
+        return max_similarity, max_similarity_rect
+
+    @staticmethod
+    def calculate_similarity_mask(image, template: cv2.typing.MatLike):
+        # 调整图片大小
+        try:
+            target_size = (template.shape[1], template.shape[0])
+        except AttributeError:
+            return 0
+        image = cv2.resize(image, target_size)
+        res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+        # print(1 - abs(res[0][0]))
+        # 根据好的匹配数返回相似度
+        return abs(res[0][0])
 
 # if __name__ == "__main__":
 #     def main():
