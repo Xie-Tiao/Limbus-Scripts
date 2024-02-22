@@ -3,7 +3,7 @@ import os
 
 from colorlog import ColoredFormatter
 
-from workbench.file_path_utils import PathManager
+from workbench.utils.file_path_utils import PathManager
 
 
 class LoggingManager:
