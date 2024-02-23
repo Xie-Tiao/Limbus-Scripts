@@ -1,7 +1,7 @@
 import configparser
 import os
 
-from workbench.utils.file_path_utils import PathManager
+from workbench.file_path_utils import PathManager
 
 
 class SettingsReader:

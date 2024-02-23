@@ -4,8 +4,8 @@ import os
 from rapidocr_onnxruntime import RapidOCR
 from thefuzz import process, fuzz
 
-from workbench.utils.file_path_utils import PathManager
-from workbench.utils.read_settings import SettingsReader
+from workbench.file_path_utils import PathManager
+from workbench.read_settings import SettingsReader
 
 
 class Ocr:

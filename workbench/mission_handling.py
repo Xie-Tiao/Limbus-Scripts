@@ -4,11 +4,11 @@ import cv2
 import numpy as np
 from PIL import ImageGrab
 
-from workbench.utils import keyboard_control
-from workbench.utils import mouse_control
-from workbench.utils.image_processing import ImageDetector
-from workbench.utils.ocr_utils import Ocr
-from workbench.utils.read_settings import SettingsReader
+from workbench import keyboard_control
+from workbench import mouse_control
+from workbench.image_processing import ImageDetector
+from workbench.ocr_utils import Ocr
+from workbench.read_settings import SettingsReader
 
 en_ocr_engine = Ocr('en')
 
