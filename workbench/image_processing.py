@@ -33,15 +33,15 @@ class ImageDetector:
         'battle.png': {
             'hls': (
                 (0, 30),
-                (149, 255),
-                (46, 195)
+                (170, 255),
+                (125, 255)
             )
         },
         'battle_rate_jp.png': {
             'hls': (
-                (14, 30),
-                (98, 255),
-                (200, 255),
+                (0, 30),
+                (149, 255),
+                (46, 195)
             ),
             'kernel_size': 1,
         },
@@ -90,6 +90,13 @@ class ImageDetector:
                 (20, 200)
             )
         },
+        'skip_button_2.png': {
+            'hls': (
+                (12, 25),
+                (150, 210),
+                (20, 200)
+            )
+        },
         'back_button.png': {
             'hls': (
                 (9, 21),
@@ -105,8 +112,8 @@ class ImageDetector:
         'yes_button.png': {
             'hls': (
                 (12, 18),
-                (100, 185),
-                (30, 125)
+                (100, 180),
+                (0, 100)
             )
         },
         'intensity': {

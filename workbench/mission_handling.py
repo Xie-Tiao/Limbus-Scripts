@@ -127,12 +127,21 @@ def main():
     battle_detectors = [
         ImageDetector(image, 'battle_rate_jp.png', 36),
         ImageDetector(image, 'battle.png', 36),
+        ImageDetector(image, 'gear.png', 36),
+        ImageDetector(image, 'gear_active.png', 36),
     ]
     battle_confidence = max(detector.get_confidence_rect()[0] for detector in battle_detectors)
     # _, _, battle_confidence = en_ocr_engine.check_text_in_rectangles(image, setting_button_rectangles_list, 'MA')
     
-    skip_button_detector = ImageDetector(image, 'skip_button.png')
-    encounters_confidence, skip_rect = skip_button_detector.get_confidence_rect()
+    skip_button_detector = [
+        ImageDetector(image, 'skip_button.png', 36),
+        ImageDetector(image, 'skip_button_2.png', 36),
+    ]
+    encounters_confidence = max(detector.get_confidence_rect()[0] for detector in skip_button_detector)
+    try:
+        skip_rect = max(detector.get_confidence_rect()[1] for detector in skip_button_detector)
+    except TypeError:
+        pass
 
     # logging_utils.logger.info(f'battle_confidence: {battle_confidence}')
     print(f'battle_confidence: {battle_confidence}')
