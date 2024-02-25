@@ -171,7 +171,7 @@ def main(page: ft.Page):
                         ft.TextStyle(weight=ft.FontWeight.BOLD)
                     ),
                     ft.TextSpan(
-                        "版本：4.0.0",
+                        "版本：5.0.0",
                         ft.TextStyle(size=10, weight=ft.FontWeight.W_900),
                     ),
                 ]
