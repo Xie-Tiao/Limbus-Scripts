@@ -3,18 +3,20 @@ import json
 import os
 import time
 
-from file_path_utils import PathManager
+from . import file_path_utils
 
 pg.FAILSAFE = False
 
-_worklist_path = os.path.join(PathManager.CURRENT_DIR, 'worklist.json')
+_worklist_path = os.path.join(file_path_utils.PathManager.CURRENT_DIR, 'worklist.json')
 with open(_worklist_path, 'r', encoding='utf-8') as f:
     _worklist = json.load(f)
+
+low_confidence = 0.75
 
 # 界面检查模块
 def check_img(img):
     try:
-        if pg.locateOnScreen(PathManager.get_local_image(img), confidence=0.9) is not None:
+        if pg.locateOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9) is not None:
             print('看到了...',img)
             return True
     except pg.ImageNotFoundException:
@@ -28,7 +30,7 @@ def check_img_list(img_list):
 
 def check_low_img(img):
     try:
-        if pg.locateOnScreen(PathManager.get_local_image(img), confidence=0.75) is not None:
+        if pg.locateOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=low_confidence) is not None:
             print('看到了模糊的...',img)
             return True
     except pg.ImageNotFoundException:
@@ -43,7 +45,7 @@ def check_low_img_list(img_list):
 # 控制模块
 def mouse_click(img):
     try:
-        location = pg.locateCenterOnScreen(PathManager.get_local_image(img), confidence=0.9)
+        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9)
         if location is not None:
             pg.click(
                 location.x,
@@ -64,7 +66,7 @@ def mouse_click_img_list(img_list):
 
 def mouse_quclick(img):
     try:
-        location = pg.locateCenterOnScreen(PathManager.get_local_image(img), confidence=0.9)
+        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9)
         if location is not None:
             pg.click(
                 location.x,
@@ -85,7 +87,7 @@ def mouse_quclick_img_list(img_list):
 
 def mouse_hold(img):
     try:
-        location = pg.locateCenterOnScreen(PathManager.get_local_image(img), confidence=0.75)
+        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=low_confidence)
         if location is not None:
             pg.click(
                 x=location.x + (-27),
@@ -170,6 +172,10 @@ def stage_field():
         pg.press('enter') 
     else:
         pass
+
+def main():
+    battle_field()
+    encounters_field()
 
 if __name__ == '__main__':
     while True:

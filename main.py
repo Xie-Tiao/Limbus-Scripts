@@ -317,7 +317,8 @@ def main(page: ft.Page):
     def main_thread(pause_event):
         while True:
             if not pause_event.is_set():
-                workbench.mission_handling.main()
+                # workbench.mission_handling.main()
+                workbench.main_work.main()
             else:
                 pass
             time.sleep(0.1)
