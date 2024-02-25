@@ -1,0 +1,95 @@
+{
+    "battle_checked":[
+        "battle_1690.png",
+        "gear_1690.png",
+        "gear2_1690.png",
+        
+        "battle_fullscreen.png",
+        "gear_fullscreen.png",
+        "gear2_fullscreen.png"
+    ],
+    "bad_checked":[
+        "bad_1690.png",
+        "badbad_1690.png",
+
+        "bad_fullscreen.png",
+        "badbad_fullscreen.png"
+    ],
+    "ego_click":[
+        "ego4_1690.png",
+        "ego4_fullscreen.png",
+        "ego3_1690.png",
+        "ego3_fullscreen.png",
+        "ego2_1690.png",
+        "ego2_fullscreen.png",
+        "ego1_1690.png",
+        "ego1_fullscreen.png"
+    ],
+    "death_checked":[
+        "death_1690.png",
+
+        "death_fullscreen.png"
+    ],
+    "death_click": [
+        "button_setting_1690.png",
+        "button_close_1690.png",
+        
+        "button_setting_fullscreen.png",
+        "button_close_fullscreen.png"
+    ],
+    "encounters_checked":[
+        "encounter_1690.png",
+        
+        "encounter_fullscreen.png"
+    ],
+    "encounters_click": [
+        "button_sk_1690.png",
+        "button_ip_1690.png",
+        "back_button_1690.png",
+        
+        "button_sk_fullscreen.png",
+        "button_ip_fullscreen.png",
+        "back_button_fullscreen.png"
+    ],
+    "store_checked":[
+        "store_1690.png"
+    ],
+    "store_click": [
+        "button_yes_1690.png"
+    ],
+    "abnormality_click":[
+        "test.png",
+        "test_fullscreen.png"
+    ],
+    "vote_checked": [
+        "button_vote5_1690.png",
+        "button_vote1_1690.png",
+        
+        "button_vote5_fullscreen.png",
+        "button_vote1_fullscreen.png"
+    ],
+    "vote_click":[
+        "button_vote5_1690.png",
+        "button_vote4_1690.png",
+        "button_vote3_1690.png",
+        "button_vote2_1690.png",
+        "button_vote1_1690.png",
+
+        "button_vote5_fullscreen.png",
+        "button_vote4_fullscreen.png",
+        "button_vote3_fullscreen.png",
+        "button_vote2_fullscreen.png",
+        "button_vote1_fullscreen.png"
+    ],
+    "stage_checked":[
+        "stage_1690.png",
+
+        "stage_fullscreen.png"
+    ],
+    "stage_click":[
+        "bus_1690.png",
+
+        "bus_fullscreen.png"
+    ]
+
+}

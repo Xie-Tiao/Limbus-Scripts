@@ -10,7 +10,7 @@ class PathManager:
         CURRENT_DIR (str): The directory containing the current script file.
         ROOT_RELPATH (str): The relative path to the root.
         ASSETS_RELPATH (str): The relative path to the assets.
-        LANGUAGE_LIST (List[str]): A list of supported languages, including "English", "Japanese", and "kr".
+        LANGUAGE_LIST (List[str]): A list of supported languages, including "English", "Japanese", and "Korean".
 
     Methods:
         get_local_image(image_name: str) -> str or None:
