@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 import threading
@@ -41,29 +40,6 @@ def main(page: ft.Page):
         workbench.keyboard_control.keyboard.press_keys('shift')
         page.go(route)
 
-    def on_keyboard(e: ft.KeyboardEvent):
-        # print(e.key)
-        for i in range(len(button_list)):
-            button = button_list[i]
-            if button.data:
-                data = json.loads(e.data)  # 转换 string 到 dictionary
-                keys_pressed = [k for k, v in data.items() if v and k != 'key']
-
-                button.content.value = ' + '.join(keys_pressed + [data['key']])
-                workbench.SettingsReader.set_option('Shortcut', f'shortcut{i + 1}', button.content.value)
-                button.data = False
-
-                button.update()
-
-                time.sleep(0.3)
-                button.content.color = workbench.ui_config.RECORD_TEXT_COLOR
-                button.bgcolor = workbench.ui_config.RECORD_BUTTON_COLOR
-                page.update()
-
-                break
-
-    page.on_keyboard_event = on_keyboard
-
     views = workbench.ui_config.views
     # /home
     view_home = ft.View(
@@ -93,12 +69,6 @@ def main(page: ft.Page):
         content_padding=ft.padding.symmetric(horizontal=15),
     )
 
-    # Log文件开关
-    def log_button_changed(e):
-        workbench.LoggingManager.toggle_logging(e.control.value)
-
-    log_button = ft.Switch(label='Debug Logging', value=False, on_change=log_button_changed)
-
     # 置顶窗口开关
     def toggle_always_on_top():
         workbench.ui_config.ALWAYS_ON_TOP = not workbench.ui_config.ALWAYS_ON_TOP
@@ -107,36 +77,8 @@ def main(page: ft.Page):
 
     window_always_on_top_button = ft.Switch(label='置顶窗口', value=True, on_change=lambda _: toggle_always_on_top())
 
-    def shortcut_record(e):
-        button = e.control
-        button.data = True
-        button.content.color = ft.colors.WHITE
-        button.content.value = "Recording..."
-        button.bgcolor = workbench.ui_config.MAIN_COLOR
-        button.update()
-
-    # 创建两个按钮，用于设置快捷键
-    shortcut_button1 = ft.ElevatedButton(
-        content=ft.Text(
-            workbench.SettingsReader.read_option('Shortcut', 'shortcut1'),
-            color=workbench.ui_config.RECORD_TEXT_COLOR
-        ),
-        data=False, on_click=shortcut_record,
-        bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
-    )
-    shortcut_button2 = ft.ElevatedButton(
-        content=ft.Text(
-            workbench.SettingsReader.read_option('Shortcut', 'shortcut2'),
-            color=workbench.ui_config.RECORD_TEXT_COLOR
-        ),
-        data=False, on_click=shortcut_record,
-        bgcolor=workbench.ui_config.RECORD_BUTTON_COLOR
-    )
-    button_list = [shortcut_button1, shortcut_button2]
-
     # 关于
     about = ft.Column(
-        # expand=1,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
             ft.Text(
@@ -171,7 +113,7 @@ def main(page: ft.Page):
                         ft.TextStyle(weight=ft.FontWeight.BOLD)
                     ),
                     ft.TextSpan(
-                        "版本：5.0.0",
+                        "版本：4.0.0",
                         ft.TextStyle(size=10, weight=ft.FontWeight.W_900),
                     ),
                 ]
@@ -239,7 +181,6 @@ def main(page: ft.Page):
                                     # 顶部占位
                                     padding=1
                                 ),
-                                log_button,
                                 ft.Container(expand=1),
                                 ft.Divider(),
                                 about,
