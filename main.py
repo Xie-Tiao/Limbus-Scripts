@@ -77,6 +77,9 @@ def main(page: ft.Page):
 
     window_always_on_top_button = ft.Switch(label='置顶窗口', value=True, on_change=lambda _: toggle_always_on_top())
 
+    # ego开关
+    ego_button = ft.Switch(label='是否使用ego', value=True)
+
     # 关于
     about = ft.Column(
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -152,6 +155,7 @@ def main(page: ft.Page):
                                 ),
                                 language_dropdown,
                                 window_always_on_top_button,
+                                ego_button,
                                 # ft.Row(
                                 #     alignment=ft.MainAxisAlignment.START,
                                 #     controls=[

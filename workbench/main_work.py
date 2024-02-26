@@ -4,6 +4,7 @@ import os
 import time
 
 from . import file_path_utils
+# import file_path_utils
 
 pg.FAILSAFE = False
 
@@ -43,28 +44,7 @@ def check_low_img_list(img_list):
     return False
 
 # 控制模块
-def mouse_click(img):
-    try:
-        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9)
-        if location is not None:
-            pg.click(
-                location.x,
-                location.y,
-                interval=0,
-                duration=0,
-                button='left',
-            )
-            pg.moveTo(0, 0) 
-    except pg.ImageNotFoundException:
-        print("没点到 ...", img)
-
-def mouse_click_img_list(img_list):
-    for i in range(len(img_list)):
-        if mouse_click(img_list[i]):
-            return True
-    return False
-
-def mouse_quclick(img):
+def mouse_click(img,times=1):
     try:
         location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9)
         if location is not None:
@@ -73,15 +53,16 @@ def mouse_quclick(img):
                 location.y,
                 interval=0.1,
                 duration=0,
-                clicks=4,
+                clicks=times,
                 button='left',
             )
+            pg.moveTo(0, 0) 
     except pg.ImageNotFoundException:
-        print("没四连击到 ...", img)
+        print("没点到 ...", img)
 
-def mouse_quclick_img_list(img_list):
+def mouse_click_img_list(img_list,times=1):
     for i in range(len(img_list)):
-        if mouse_quclick(img_list[i]):
+        if mouse_click(img_list[i],times):
             return True
     return False
 
@@ -132,7 +113,7 @@ def battle_field():
         if bad_checked:
             mouse_hold_img_list(_worklist['bad_checked'])
             time.sleep(2) # 让游戏\\ego反应一下
-            mouse_quclick_img_list(_worklist['ego_click'])
+            mouse_click_img_list(_worklist['ego_click'],4)
             pg.press('p')
             pg.press('p')
         else:
@@ -146,7 +127,8 @@ def encounters_field():
     encounters_checked = check_img_list(_worklist['encounters_checked'])
     store_checked = check_img_list(_worklist['store_checked'])
     if encounters_checked:
-        mouse_click_img_list(_worklist['encounters_click'])
+        mouse_click_img_list(_worklist['encounters_click'][0],3)
+        mouse_click_img_list(_worklist['encounters_click'][1])
         if store_checked:
             time.sleep(0.5)
             mouse_click_img_list(_worklist['store_click'])
