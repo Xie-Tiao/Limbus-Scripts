@@ -31,7 +31,7 @@ class Ocr:
     """
     _model_path_jp = os.path.join(PathManager.MODEL_RELPATH, 'japan_PP-OCRv3_rec_infer.onnx')
     _model_path_kr = os.path.join(PathManager.MODEL_RELPATH, 'korean_PP-OCRv3_rec_infer.onnx')
-    _choices_path = os.path.join(PathManager.ASSETS_RELPATH, 'choices_dict.json')
+    _choices_path = os.path.join(PathManager.CURRENT_DIR, 'choices_dict.json')
     _current_language = None
     # 调用init_orc_engine
     _ocr_engine = None

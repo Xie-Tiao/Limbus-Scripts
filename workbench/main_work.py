@@ -3,6 +3,14 @@ import json
 import os
 import time
 
+import cv2
+import numpy as np
+import pytesseract
+from PIL import ImageGrab, Image
+from workbench.ocr_utils import Ocr
+from workbench import mouse_control
+from workbench.image_processing import ImageDetector
+
 from . import file_path_utils
 # import file_path_utils
 
@@ -13,6 +21,23 @@ with open(_worklist_path, 'r', encoding='utf-8') as f:
     _worklist = json.load(f)
 
 low_confidence = 0.75
+
+def get_screenshot():
+    # 获取屏幕截图
+    image = ImageGrab.grab()
+
+    # 转换为opencv的数据格式
+    # noinspection PyTypeChecker
+    opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+    return opencv_image
+
+# 截图缓存_ocr模块
+def screenshot_ocr():
+    screenshot = pg.screenshot()
+    screenshot.save('screenshot.png')
+    img = Image.open('screenshot.png')
+    text = pytesseract.image_to_string(img)
+    return text
 
 # 界面检查模块
 def check_img(img):
@@ -134,7 +159,7 @@ def encounters_field():
             mouse_click_img_list(_worklist['store_click'])
             print('store空着的...')
         else:
-            mouse_click_img_list(_worklist['abnormality_click'])
+            abnormality_ocr()
             vote_checked = check_img_list(_worklist['vote_checked'])
             if vote_checked:
                 mouse_click_img_list(_worklist['vote_click'])
@@ -143,6 +168,21 @@ def encounters_field():
     else:
         print('654')
         pass
+
+def abnormality_ocr():
+    # text_rect_list = screenshot_ocr()
+    image = get_screenshot()
+    dict_key = 'choices'
+    image_detector = ImageDetector(image, dict_key, 12)
+    rectangles_list = image_detector.find_bounding_boxes()
+
+    text_rect_list = Ocr.recognize_rectangles(image, rectangles_list)
+    match, rect, score = Ocr.get_best_choice(text_rect_list)
+    print(f'match,{match} rect,{rect} score{score}')
+    if score > 74:
+        mouse_control.click_rect_center(rect)
+    else:
+        mouse_click_img_list(_worklist['abnormality_click'])
 
 def stage_field():
     stage_checked = check_img_list(_worklist['stage_checked'])

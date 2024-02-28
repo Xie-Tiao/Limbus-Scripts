@@ -63,15 +63,17 @@
         "button_yes_1690.png"
     ],
     "abnormality_click":[
-        "test.png",
-        "test_fullscreen.png"
+        "option_1690.png",
+        "option_fullscreen.png"
     ],
     "vote_checked": [
         "button_vote5_1690.png",
         "button_vote3_1690.png",
+        "button_vote1_1690.png",
         
         "button_vote5_fullscreen.png",
-        "button_vote3_fullscreen.png"
+        "button_vote3_fullscreen.png",
+        "button_vote1_fullscreen.png"
     ],
     "vote_click":[
         "button_vote5_1690.png",
