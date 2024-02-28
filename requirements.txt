@@ -5,3 +5,4 @@ colorlog~=6.8.2
 Pillow~=10.0.1
 rapidocr-onnxruntime~=1.3.11
 thefuzz~=0.22.1
+pyautogui~=0.9.54

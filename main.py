@@ -146,33 +146,36 @@ def main(page: ft.Page):
                     ft.Tab(
                         # text="工作偏好",
                         tab_content=ft.Text('工作偏好', width=68, text_align=ft.TextAlign.CENTER),
-                        content=ft.Column(
-                            scroll=ft.ScrollMode.ADAPTIVE,
-                            controls=[
-                                ft.Container(
-                                    # 顶部占位
-                                    padding=1
-                                ),
-                                language_dropdown,
-                                window_always_on_top_button,
-                                ego_button,
-                                # ft.Row(
-                                #     alignment=ft.MainAxisAlignment.START,
-                                #     controls=[
-                                #     ft.Container(ft.Text("P键: ", weight=ft.FontWeight.W_600)),
-                                #     shortcut_button1
-                                # ]),
-                                # ft.Row(
-                                #     alignment=ft.MainAxisAlignment.START,
-                                #     controls=[
-                                #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
-                                #     shortcut_button2
-                                # ]),
-                                ft.Container(
-                                    # 底部占位
-                                    padding=1
-                                )
-                            ],
+                        content=ft.Container(
+                            padding=10,
+                            content=ft.Column(
+                                scroll=ft.ScrollMode.ADAPTIVE,
+                                controls=[
+                                    ft.Container(
+                                        # 顶部占位
+                                        padding=1
+                                    ),
+                                    language_dropdown,
+                                    window_always_on_top_button,
+                                    ego_button,
+                                    # ft.Row(
+                                    #     alignment=ft.MainAxisAlignment.START,
+                                    #     controls=[
+                                    #     ft.Container(ft.Text("P键: ", weight=ft.FontWeight.W_600)),
+                                    #     shortcut_button1
+                                    # ]),
+                                    # ft.Row(
+                                    #     alignment=ft.MainAxisAlignment.START,
+                                    #     controls=[
+                                    #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
+                                    #     shortcut_button2
+                                    # ]),
+                                    ft.Container(
+                                        # 底部占位
+                                        padding=1
+                                    )
+                                ],
+                            )
                         )
                     ),
                     ft.Tab(
@@ -212,6 +215,7 @@ def main(page: ft.Page):
             e.control.tooltip = '⚠已暂停'
             print("[Pausing]")
         e.control.update()
+
     app_bar = ft.Container(
         padding=0,
         content=ft.Row(
