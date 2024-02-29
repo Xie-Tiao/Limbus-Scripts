@@ -191,7 +191,10 @@ def main(page: ft.Page):
                                 ft.Container(expand=1),
                                 ft.Divider(),
                                 about,
-                                # ft.Container(expand=1, bgcolor=ft.colors.RED),
+                                ft.Container(
+                                    # 底部占位
+                                    padding=1
+                                ),
                             ],
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
@@ -320,7 +323,7 @@ def main(page: ft.Page):
                 idx += 1
                 idx = idx % 24
             else:
-                pass
+                pause_event.wait()
 
     def main_thread(pause_event):
         while True:
@@ -328,7 +331,7 @@ def main(page: ft.Page):
                 # workbench.mission_handling.main()
                 workbench.main_work.main()
             else:
-                pass
+                pause_event.wait()
             time.sleep(0.1)
 
     # 创建两个线程

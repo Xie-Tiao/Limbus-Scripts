@@ -2,6 +2,7 @@ import pyautogui as pg
 import json
 import os
 import time
+import threading
 
 import cv2
 import numpy as np
@@ -31,6 +32,12 @@ def get_screenshot():
     # noinspection PyTypeChecker
     opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     return opencv_image
+
+#暂停模块
+pause_event = threading.Event()
+def raise_pause_command():
+    pause_event.set()
+
 
 
 # 界面检查模块
@@ -100,7 +107,7 @@ def mouse_hold(img):
                 y=location.y + 117,
                 interval=0,
                 duration=0,
-                clicks=2,
+                clicks=1,
                 button='left',
             )
             print('双击了模糊的...', img)
@@ -140,7 +147,7 @@ def battle_field():
         if bad_checked:
             mouse_hold_img_list(_worklist['bad_checked'])
             time.sleep(2)  # 让游戏\\ego反应一下
-            mouse_click_img_list(_worklist['ego_click'], 4)
+            mouse_click_img_list(_worklist['ego_click'],4)
             pg.press('p')
             pg.press('p')
         else:
