@@ -11,18 +11,16 @@ from workbench.ocr_utils import Ocr
 from workbench import mouse_control
 from workbench.image_processing import ImageDetector
 
-from . import file_path_utils
+from workbench import ui_config
+from workbench import SettingsReader
 
-# import file_path_utils
+from . import file_path_utils
 
 pg.FAILSAFE = False
 
 _worklist_path = os.path.join(file_path_utils.PathManager.CURRENT_DIR, 'worklist.json')
 with open(_worklist_path, 'r', encoding='utf-8') as f:
     _worklist = json.load(f)
-
-low_confidence = 0.75
-
 
 def get_screenshot():
     # 获取屏幕截图
@@ -41,42 +39,26 @@ def raise_pause_command():
 
 
 # 界面检查模块
-def check_img(img):
+def check_img(img,confid=0.9):
     try:
-        if pg.locateOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9) is not None:
+        if pg.locateOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=confid) is not None:
             print('看到了...', img)
             return True
     except pg.ImageNotFoundException:
+        print('没看到..', img)
         return False
 
 
-def check_img_list(img_list):
+def check_img_list(img_list,confid=0.9):
     for i in range(len(img_list)):
-        if check_img(img_list[i]):
+        if check_img(img_list[i],confid):
             return True
     return False
-
-
-def check_low_img(img):
-    try:
-        if pg.locateOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=low_confidence) is not None:
-            print('看到了模糊的...', img)
-            return True
-    except pg.ImageNotFoundException:
-        return False
-
-
-def check_low_img_list(img_list):
-    for i in range(len(img_list)):
-        if check_low_img(img_list[i]):
-            return True
-    return False
-
 
 # 控制模块
-def mouse_click(img, times=1):
+def mouse_click(img, times=1, confid=0.9):
     try:
-        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=0.9)
+        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=confid)
         if location is not None:
             pg.click(
                 location.x,
@@ -87,20 +69,21 @@ def mouse_click(img, times=1):
                 button='left',
             )
             pg.moveTo(0, 0)
+            print("点到了 ...", img)
     except pg.ImageNotFoundException:
         print("没点到 ...", img)
 
 
-def mouse_click_img_list(img_list, times=1):
+def mouse_click_img_list(img_list, times=1, confid=0.9):
     for i in range(len(img_list)):
-        if mouse_click(img_list[i], times):
+        if mouse_click(img_list[i], times, confid):
             return True
     return False
 
 
-def mouse_hold(img):
+def mouse_hold(img,confid=0.75):
     try:
-        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=low_confidence)
+        location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=confid)
         if location is not None:
             pg.click(
                 x=location.x + (-27),
@@ -110,7 +93,7 @@ def mouse_hold(img):
                 clicks=1,
                 button='left',
             )
-            print('双击了模糊的...', img)
+            print('点到了模糊的...', img)
             pg.mouseDown(
                 x=location.x + (-27),
                 y=location.y + 117,
@@ -122,13 +105,28 @@ def mouse_hold(img):
         print("没按住 ...", img)
 
 
-def mouse_hold_img_list(img_list):
+def mouse_hold_img_list(img_list,confid=0.75):
     for i in range(len(img_list)):
-        if mouse_hold(img_list[i]):
+        if mouse_hold(img_list[i],confid):
             return True
     return False
 
+def abnormality_ocr():
+    # text_rect_list = screenshot_ocr()
+    image = get_screenshot()
+    dict_key = 'choices'
+    image_detector = ImageDetector(image, dict_key, 12)
+    rectangles_list = image_detector.find_bounding_boxes()
 
+    text_rect_list = Ocr.recognize_rectangles(image, rectangles_list)
+    match, rect, score = Ocr.get_best_choice(text_rect_list)
+    print(f'match,{match} rect,{rect} score{score}')
+    if score > 60:
+        mouse_control.click_rect_center(rect)
+    else:
+        mouse_click_img_list(_worklist['abnormality_click'])
+        
+# ————————————————————————————————————————————————————
 # ————————————————————————————————————————————————————
 # 按界面归类组件
 def battle_field():
@@ -138,22 +136,23 @@ def battle_field():
         mouse_click("gear_fullscreen.png")
         pg.press('p')
         time.sleep(0.5)  # 让游戏\\gear反应一下
-        bad_checked = check_low_img_list(_worklist['bad_checked'])
-        death_checked = check_img_list(_worklist['death_checked'])
+        lang = SettingsReader.read_option('Language', 'current')
+        bad_checked = check_img_list(_worklist[f'bad_checked_{lang}'],confid=0.75)
+        print('123')
+        death_checked = check_img_list(_worklist[f'death_checked_{lang}'])
         if death_checked:
             mouse_click_img_list(_worklist['death_click'])
-        else:
-            pass
-        if bad_checked:
-            mouse_hold_img_list(_worklist['bad_checked'])
-            time.sleep(2)  # 让游戏\\ego反应一下
-            mouse_click_img_list(_worklist['ego_click'],4)
-            pg.press('p')
-            pg.press('p')
-        else:
-            pass
+        elif ui_config.EGO:
+            if bad_checked:
+                mouse_hold_img_list(_worklist[f'bad_checked_{lang}'],confid=0.75)
+                time.sleep(2)  # 让游戏\\ego反应一下
+                if check_img_list(_worklist['ego_click']):
+                    mouse_click_img_list(_worklist['ego_click'],4)
+                    pg.press('p')
+                    pg.press('p')
+                else:
+                    mouse_click_img_list(_worklist['property'],2)
         pg.press('enter')
-
     else:
         pass
 
@@ -170,35 +169,18 @@ def encounters_field():
             print('store空着的...')
         else:
             abnormality_ocr()
-            vote_checked = check_img_list(_worklist['vote_checked'])
+            lang = SettingsReader.read_option('Language', 'current')
+            vote_checked = check_img_list(_worklist[f'vote_checked_{lang}'])
             if vote_checked:
-                mouse_click_img_list(_worklist['vote_click'])
+                mouse_click_img_list(_worklist[f'vote_click_{lang}'],confid=0.95)
             else:
                 pass
     else:
         print('654')
         pass
 
-
-def abnormality_ocr():
-    # text_rect_list = screenshot_ocr()
-    image = get_screenshot()
-    dict_key = 'choices'
-    image_detector = ImageDetector(image, dict_key, 12)
-    rectangles_list = image_detector.find_bounding_boxes()
-
-    text_rect_list = Ocr.recognize_rectangles(image, rectangles_list)
-    match, rect, score = Ocr.get_best_choice(text_rect_list)
-    print(f'match,{match} rect,{rect} score{score}')
-    if score > 74:
-        mouse_control.click_rect_center(rect)
-    else:
-        mouse_click_img_list(_worklist['abnormality_click'])
-
-
 def stage_field():
     stage_checked = check_img_list(_worklist['stage_checked'])
-    print('123')
     if stage_checked:
         mouse_click_img_list(_worklist['stage_click'])
         pg.press('enter')

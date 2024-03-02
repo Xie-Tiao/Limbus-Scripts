@@ -60,9 +60,9 @@ def click_intensity(text_rect_list, target_texts):
     # if current_language == 'jp':
     #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
     # elif current_language == 'kr':
-    #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
+    #     target_texts = ['매우 높음', '높음', '보통', '낮음', '매우 낮음']
     # else:
-    #     target_texts = ['常に高', '高い', '普通', '低い', '常に低']
+    #     target_texts = ['VeryHigh', 'High', 'Normal', 'Low', 'VeryLow']
 
     for target_text in target_texts:
         for text, rect in text_rect_list:

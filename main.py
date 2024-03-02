@@ -75,10 +75,14 @@ def main(page: ft.Page):
         page.window_always_on_top = workbench.ui_config.ALWAYS_ON_TOP
         return workbench.ui_config.ALWAYS_ON_TOP
 
-    window_always_on_top_button = ft.Switch(label='置顶窗口', value=True, on_change=lambda _: toggle_always_on_top())
+    window_always_on_top_button = ft.Switch(label='置顶开关', value=True, on_change=lambda _: toggle_always_on_top())
 
     # ego开关
-    ego_button = ft.Switch(label='是否使用ego', value=True)
+    def toggle_ego():
+        workbench.ui_config.EGO = not workbench.ui_config.EGO
+        return workbench.ui_config.EGO
+    
+    ego_button = ft.Switch(label='ego开关', value=True,on_change=lambda _:toggle_ego())
 
     # 关于
     about = ft.Column(
@@ -158,18 +162,6 @@ def main(page: ft.Page):
                                     language_dropdown,
                                     window_always_on_top_button,
                                     ego_button,
-                                    # ft.Row(
-                                    #     alignment=ft.MainAxisAlignment.START,
-                                    #     controls=[
-                                    #     ft.Container(ft.Text("P键: ", weight=ft.FontWeight.W_600)),
-                                    #     shortcut_button1
-                                    # ]),
-                                    # ft.Row(
-                                    #     alignment=ft.MainAxisAlignment.START,
-                                    #     controls=[
-                                    #     ft.Container(ft.Text("Enter键: ", weight=ft.FontWeight.W_600)),
-                                    #     shortcut_button2
-                                    # ]),
                                     ft.Container(
                                         # 底部占位
                                         padding=1
@@ -323,7 +315,7 @@ def main(page: ft.Page):
                 idx += 1
                 idx = idx % 24
             else:
-                pause_event.wait()
+                pass
 
     def main_thread(pause_event):
         while True:
@@ -331,7 +323,7 @@ def main(page: ft.Page):
                 # workbench.mission_handling.main()
                 workbench.main_work.main()
             else:
-                pause_event.wait()
+                pass
             time.sleep(0.1)
 
     # 创建两个线程

@@ -8,12 +8,26 @@
         "gear_fullscreen.png",
         "gear2_fullscreen.png"
     ],
-    "bad_checked":[
-        "bad_1690.png",
-        "badbad_1690.png",
+    "bad_checked_jp":[
+        "bad_jp_1690.png",
+        "badbad_jp_1690.png",
 
-        "bad_fullscreen.png",
-        "badbad_fullscreen.png"
+        "bad_jp_fullscreen.png",
+        "badbad_jp_fullscreen.png"
+    ],
+    "bad_checked_en": [
+        "bad_en_1690.png",
+        "badbad_en_1690.png",
+
+        "bad_en_fullscreen.png",
+        "badbad_en_fullscreen.png"
+    ],
+    "bad_checked_kr": [
+        "bad_kr_1690.png",
+        "badbad_kr_1690.png",
+        
+        "bad_kr_fullscreen.png",
+        "badbad_kr_fullscreen.png"
     ],
     "ego_click":[
         "ego4_1690.png",
@@ -25,10 +39,23 @@
         "ego1_1690.png",
         "ego1_fullscreen.png"
     ],
-    "death_checked":[
-        "death_1690.png",
+    "property":[
+        "melancholy_1690.png",
 
-        "death_fullscreen.png"
+        "melancholy_fullscreen.png"
+    ],
+    "death_checked_jp":[
+        "death_jp_1690.png",
+
+        "death_jp_fullscreen.png"
+    ],
+    "death_checked_en": [
+        "death_en_1690.png",
+        "death_en_fullscreen.png"
+    ],
+    "death_checked_kr": [
+        "death_kr_1690.png",
+        "death_kr_fullscreen.png"
     ],
     "death_click": [
         "button_setting_1690.png",
@@ -66,27 +93,66 @@
         "option_1690.png",
         "option_fullscreen.png"
     ],
-    "vote_checked": [
-        "button_vote5_1690.png",
-        "button_vote3_1690.png",
-        "button_vote1_1690.png",
+    "vote_checked_jp": [
+        "button_vote5_jp_1690.png",
+        "button_vote3_jp_1690.png",
+        "button_vote1_jp_1690.png",
         
-        "button_vote5_fullscreen.png",
-        "button_vote3_fullscreen.png",
-        "button_vote1_fullscreen.png"
+        "button_vote5_jp_fullscreen.png",
+        "button_vote3_jp_fullscreen.png",
+        "button_vote1_jp_fullscreen.png"
     ],
-    "vote_click":[
-        "button_vote5_1690.png",
-        "button_vote4_1690.png",
-        "button_vote3_1690.png",
-        "button_vote2_1690.png",
-        "button_vote1_1690.png",
+    "vote_click_jp":[
+        "button_vote5_jp_1690.png",
+        "button_vote4_jp_1690.png",
+        "button_vote3_jp_1690.png",
+        "button_vote2_jp_1690.png",
+        "button_vote1_jp_1690.png",
 
-        "button_vote5_fullscreen.png",
-        "button_vote4_fullscreen.png",
-        "button_vote3_fullscreen.png",
-        "button_vote2_fullscreen.png",
-        "button_vote1_fullscreen.png"
+        "button_vote5_jp_fullscreen.png",
+        "button_vote4_jp_fullscreen.png",
+        "button_vote3_jp_fullscreen.png",
+        "button_vote2_jp_fullscreen.png",
+        "button_vote1_jp_fullscreen.png"
+    ],
+    "vote_checked_en": [
+        "button_vote5_en_1690.png",
+        "button_vote3_en_1690.png",
+        "button_vote1_en_1690.png",
+        "button_vote5_en_fullscreen.png",
+        "button_vote3_en_fullscreen.png",
+        "button_vote1_en_fullscreen.png"
+    ],
+    "vote_click_en": [
+        "button_vote5_en_1690.png",
+        "button_vote4_en_1690.png",
+        "button_vote3_en_1690.png",
+        "button_vote2_en_1690.png",
+        "button_vote1_en_1690.png",
+        "button_vote5_en_fullscreen.png",
+        "button_vote4_en_fullscreen.png",
+        "button_vote3_en_fullscreen.png",
+        "button_vote2_en_fullscreen.png",
+        "button_vote1_en_fullscreen.png"
+    ],
+    "vote_checked_kr": [
+        "button_vote5_kr_1690.png",
+        "button_vote3_kr_1690.png",
+        "button_vote1_kr_1690.png",
+        "button_vote5_kr_fullscreen.png",
+        "button_vote3_kr_fullscreen.png",
+        "button_vote1_kr_fullscreen.png"
+    ],
+    "vote_click_kr": [
+        "button_vote4_kr_1690.png",
+        "button_vote3_kr_1690.png",
+        "button_vote2_kr_1690.png",
+        "button_vote1_kr_1690.png",
+        "button_vote5_kr_fullscreen.png",
+        "button_vote4_kr_fullscreen.png",
+        "button_vote3_kr_fullscreen.png",
+        "button_vote2_kr_fullscreen.png",
+        "button_vote1_kr_fullscreen.png"
     ],
     "stage_checked":[
         "stage_1690.png",
