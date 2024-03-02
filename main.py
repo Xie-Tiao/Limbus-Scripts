@@ -15,6 +15,7 @@ def main(page: ft.Page):
     page.window_width, page.window_height = workbench.ui_config.HOME_PAGE_SIZE
     page.spacing = 0
     page.theme = ft.theme.Theme(color_scheme_seed='red')
+    page.window_bgcolor = ft.colors.TRANSPARENT
 
     def handle_route_change(_):
         if page.route == "/settings":
@@ -33,21 +34,26 @@ def main(page: ft.Page):
 
     def switch_page(e):
         route = e.control.data
-        if route == '/home':
-            pause_event.clear()
-        else:
-            pause_event.set()
-        workbench.keyboard_control.keyboard.press_keys('shift')
+        # if route == '/home':
+        #     pause_event.clear()
+        #     print("[Continue]")
+        # else:
+        #     pause_event.set()
+        #     print("[Pausing]")
         page.go(route)
 
-    views = workbench.ui_config.views
-    # /home
-    view_home = ft.View(
-        route="/home",
-        bgcolor=workbench.ui_config.MAIN_COLOR,
-        horizontal_alignment=ft.CrossAxisAlignment.CENTER
-    )
-    views["/home"] = view_home
+    pause_event = threading.Event()
+
+    def pause_main_work(e):
+        if pause_event.is_set():
+            pause_event.clear()
+            e.control.tooltip = '程序正在运行...'
+            print("[Continue]")
+        else:
+            pause_event.set()
+            e.control.tooltip = '⚠已暂停'
+            print("[Pausing]")
+        e.control.update()
 
     # /settings
 
@@ -79,10 +85,32 @@ def main(page: ft.Page):
 
     # ego开关
     def toggle_ego():
-        workbench.ui_config.EGO = not workbench.ui_config.EGO
-        return workbench.ui_config.EGO
+        if workbench.SettingsReader.read_option('EGO','value') == 'True':
+            workbench.SettingsReader.set_option('EGO','value','False')
+        else:
+            workbench.SettingsReader.set_option('EGO','value','True')
     
-    ego_button = ft.Switch(label='ego开关', value=True,on_change=lambda _:toggle_ego())
+    ego_button = ft.Switch(label='ego开关', value=workbench.SettingsReader.read_option('EGO','value'),on_change=lambda _:toggle_ego())
+
+    # 桌宠模式开关
+    def toggle_pet():
+        if workbench.SettingsReader.read_option('OPACITY','opacity') == '1':
+            workbench.SettingsReader.set_option('OPACITY','opacity','0')
+            workbench.SettingsReader.set_option('OPACITY','value','True')
+        else:
+            workbench.SettingsReader.set_option('OPACITY','opacity','1')
+            workbench.SettingsReader.set_option('OPACITY','value','False')
+    
+    pet_button = ft.Column(
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        controls=[
+            ft.Switch(label='桌宠模式', value=workbench.SettingsReader.read_option('OPACITY','value'),on_change=lambda _:toggle_pet()),
+            ft.Text(
+                "—— 设置桌宠请重启 ——",
+                size=12,
+            )
+        ]
+    )
 
     # 关于
     about = ft.Column(
@@ -180,6 +208,14 @@ def main(page: ft.Page):
                                     # 顶部占位
                                     padding=1
                                 ),
+                                ft.Container(
+                                    padding=10,
+                                    content=ft.Column(
+                                        controls=[
+                                            pet_button,
+                                        ]
+                                    )
+                                ),
                                 ft.Container(expand=1),
                                 ft.Divider(),
                                 about,
@@ -196,22 +232,9 @@ def main(page: ft.Page):
 
         ],
     )
-    views["/settings"] = view_settings
-
-    pause_event = threading.Event()
-
-    def pause_main_work(e):
-        if pause_event.is_set():
-            pause_event.clear()
-            e.control.tooltip = '程序正在运行...'
-            print("[Continue]")
-        else:
-            pause_event.set()
-            e.control.tooltip = '⚠已暂停'
-            print("[Pausing]")
-        e.control.update()
 
     app_bar = ft.Container(
+        opacity=workbench.SettingsReader.read_option('OPACITY','opacity'),
         padding=0,
         content=ft.Row(
             [
@@ -290,10 +313,21 @@ def main(page: ft.Page):
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
 
-    view_home.controls.append(app_bar)
-    view_home.controls.append(Laetitia)
-    view_home.controls.append(Monster)
+    # /home
+    view_home = ft.View(
+        route="/home",
+        bgcolor=ft.colors.with_opacity(workbench.SettingsReader.read_option('OPACITY','opacity'), workbench.ui_config.MAIN_COLOR),
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        controls=[
+            app_bar,
+            Laetitia,
+            Monster
+        ]
+    )
 
+    views = workbench.ui_config.views
+    views["/settings"] = view_settings
+    views["/home"] = view_home
     page.views.append(views["/home"])
     page.update()
 
@@ -320,11 +354,9 @@ def main(page: ft.Page):
     def main_thread(pause_event):
         while True:
             if not pause_event.is_set():
-                # workbench.mission_handling.main()
                 workbench.main_work.main()
             else:
                 pass
-            time.sleep(0.1)
 
     # 创建两个线程
     animation_t = threading.Thread(target=animation_thread, args=(pause_event,))

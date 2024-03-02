@@ -31,13 +31,6 @@ def get_screenshot():
     opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     return opencv_image
 
-#暂停模块
-pause_event = threading.Event()
-def raise_pause_command():
-    pause_event.set()
-
-
-
 # 界面检查模块
 def check_img(img,confid=0.9):
     try:
@@ -142,7 +135,10 @@ def battle_field():
         death_checked = check_img_list(_worklist[f'death_checked_{lang}'])
         if death_checked:
             mouse_click_img_list(_worklist['death_click'])
-        elif ui_config.EGO:
+            # 暂时将就用这个，以后改
+            time.sleep(5)
+            stage_field()
+        elif SettingsReader.read_option('EGO','value') == 'True':
             if bad_checked:
                 mouse_hold_img_list(_worklist[f'bad_checked_{lang}'],confid=0.75)
                 time.sleep(2)  # 让游戏\\ego反应一下
