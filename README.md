@@ -1,6 +1,9 @@
 <h1 align="center">Limbug☢Clicker</h1></br>
 
 > Limbus Company挂机脚本
+
+<div align="center"><img src="./assets/Wich.webp" width="100" /></div>
+
 ### 脚本发布🍺4.0.0
 - 百度网盘→[点击跳转](https://pan.baidu.com/s/1KAqVmZUJ5EDZKuLTZ8V6gg )，提取码`2qu9`
 ### 使用说明⭐
@@ -12,42 +15,25 @@
 ![视频封面图](https://github.com/Xie-Tiao/My-Imgurl/blob/main/script_video_cover.png "视频封面")
 ---
 ### 2024.3.3更新
-<div style="display: flex; align-items: center;">
-    <div>
-        <ul>
-            <li>目前版本为4.0.0</li>
-            <li>先感谢<a href="https://github.com/Camreishi">Camreishi佬</a>帮了很多忙</li>
-            <li>新增内容
-                <ul>
-                    <li>日韩英三语支持</li>
-                    <li>辅助使用ego</li>
-                    <li>队友死亡自动重开</li>
-                    <li>设置界面
-                        <ul>
-                            <li>语言选择</li>
-                            <li>自定义窗口置顶与否</li>
-                            <li>是否使用ego</li>
-                            <li><strong>桌宠模式</strong></li>
-                        </ul>
-                    </li>
-                    <li>点击 <span style="color: #bb1614; font-weight: bold;">蕾蒂希娅</span> 即可<strong>暂停</strong>，且暂停时动画也跟着暂停</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <img src="./assets/Wich.webp" width="120" />
-</div>
+- 目前版本为4.0.0
+- 先感谢[Camreishi佬](https://github.com/Camreishi)帮了很多忙
+- 新增内容
+    - 英日韩三语支持
+    - 辅助使用ego
+    - 队友死亡自动重开
+    - 设置界面
+        - 语言选择
+        - 自定义窗口置顶与否
+        - 是否使用ego
+        - **桌宠模式**
+    - 点击 **蕾蒂希娅** 即可***暂停***，且暂停时动画也跟着暂停
 
 #### 预计新加功能
 - [ ] 全自动挂机
 - [ ] 利用**特征识别**适应任意分辨率
 - [ ] pyautogui库完全替换成Camreishi写的组件
 
-<div style="display: flex; align-items: center;">
-    <div style="flex: 1; border-top: 4px solid #d6d6d6;"></div>
-    <img src="./assets/censored.jpg" width="220" />
-    <div style="flex: 1; border-top: 4px solid #d6d6d6;"></div>
-</div>
+<div align="center"><img src="./assets/censored.png" /></div>
 
 ### ~~2023.9.23更新~~
 - ~~目前版本为3.1.3~~
