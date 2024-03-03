@@ -5,7 +5,7 @@
 <div align="center"><img src="./assets/Wich.webp" width="150" /><img src="./assets/LaetitiaMinionCrop.webp" width="500" /></div>
 
 ### 脚本发布🍺4.0.2
-- 百度网盘→[点击跳转](https://pan.baidu.com/s/1KAqVmZUJ5EDZKuLTZ8V6gg )，提取码`2qu9`
+- 百度网盘→[点击跳转](https://pan.baidu.com/s/1XoUBqNN0wa81663HuXHxXA)，提取码`0e14`
 - Github Releases → [点击跳转](https://github.com/Xie-Tiao/Limbus-Scripts/releases)
 ### 使用说明⭐
 - 分辨率只支持``全屏``或``1600 x 900``
