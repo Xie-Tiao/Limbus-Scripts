@@ -16,7 +16,7 @@
 ![视频封面图](https://github.com/Xie-Tiao/My-Imgurl/blob/main/script_video_cover.png "视频封面")
 ---
 ### 2024.3.3更新
-- 目前版本为4.0.0
+- 目前版本为4.0.2
 - 先感谢[Camreishi佬](https://github.com/Camreishi)帮了很多忙
 - 新增内容
     - 英日韩三语支持
