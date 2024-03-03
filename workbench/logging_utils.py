@@ -8,6 +8,8 @@ from workbench.file_path_utils import PathManager
 
 class LoggingManager:
     # noinspection SpellCheckingInspection
+    if not os.path.exists(PathManager.LOG_RELPATH):
+        os.makedirs(PathManager.LOG_RELPATH)
     log_file_path = os.path.join(PathManager.LOG_RELPATH, 'Limbug_Clicker.log')
     logger = logging.getLogger('my_logger')
     logger.propagate = False

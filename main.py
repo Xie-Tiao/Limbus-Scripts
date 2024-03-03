@@ -234,7 +234,7 @@ def main(page: ft.Page):
     )
 
     app_bar = ft.Container(
-        opacity=workbench.SettingsReader.read_option('OPACITY','opacity'),
+        opacity=int(workbench.SettingsReader.read_option('OPACITY','opacity')),
         padding=0,
         content=ft.Row(
             [
