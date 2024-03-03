@@ -169,8 +169,7 @@ def encounters_field():
             mouse_click_img_list(_worklist['chair_click'])
             print('chair空着的...')
         else:
-            # abnormality_ocr()
-            mouse_click_img_list(_worklist['abnormality_click'])
+            abnormality_ocr()
             lang = SettingsReader.read_option('Language', 'current')
             vote_checked = check_img_list(_worklist[f'vote_checked_{lang}'])
             if vote_checked:
