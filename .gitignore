@@ -1,3 +1,6 @@
 __pycache__
 /log/
 /venv/
+main.spec
+dist
+build
