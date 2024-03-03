@@ -1,26 +1,59 @@
-<h1 align="center">Limbug Clicker</h1></br>
+<h1 align="center">Limbug☢Clicker</h1></br>
 
 > Limbus Company挂机脚本
-### 脚本发布🍺3.1.3
-- 百度网盘→[点击跳转](https://pan.baidu.com/s/12wIgSEvZEg6k-OFsOG-_Ig)，提取码`t6a8`
-- 夸克网盘→[点击跳转](https://pan.quark.cn/s/e8f443087c49)，提取码`Ypte`
+### 脚本发布🍺4.0.0
+- 百度网盘→[点击跳转](https://pan.baidu.com/s/1KAqVmZUJ5EDZKuLTZ8V6gg )，提取码`2qu9`
 ### 使用说明⭐
-- 默认分辨率为``1920*1080``，其他分辨率应该也能用
-- 语言必须是**日语**，否则不生效
+- 分辨率只支持``全屏``或``1600 x 900``
+- 语言支持**日韩英**，但是英韩没怎么测，可能存在bug
+- 有问题请提[issue](https://github.com/Xie-Tiao/Limbus-Scripts/issues)，或者加q群[660753997](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=A7d_y-nT8veLireU5jjEjirEeL-PYHEO&authKey=CKGZp1EMeELWo9TVNviGCBfM7GVWElcye8qMxsNpHh168kMoDf449GQr5OFvak9P&noverify=0&group_code=660753997)
 - 📺[bilibili视频教程](https://www.bilibili.com/video/BV19P411h7Wx)
 
 ![视频封面图](https://github.com/Xie-Tiao/My-Imgurl/blob/main/script_video_cover.png "视频封面")
 ---
-### 2023.9.23更新
-- 目前版本为3.1.3
-- 兼容了win7
-- 去掉了等待时间，现在脚本的运行速度取决于你的电脑性能
-- 异想体事件“低い”补充
+### 2024.3.3更新
+<div style="display: flex; align-items: center;">
+    <div>
+        <ul>
+            <li>目前版本为4.0.0</li>
+            <li>先感谢<a href="https://github.com/Camreishi">Camreishi佬</a>帮了很多忙</li>
+            <li>新增内容
+                <ul>
+                    <li>日韩英三语支持</li>
+                    <li>辅助使用ego</li>
+                    <li>队友死亡自动重开</li>
+                    <li>设置界面
+                        <ul>
+                            <li>语言选择</li>
+                            <li>自定义窗口置顶与否</li>
+                            <li>是否使用ego</li>
+                            <li><strong>桌宠模式</strong></li>
+                        </ul>
+                    </li>
+                    <li>点击 <span style="color: #bb1614; font-weight: bold;">蕾蒂希娅</span> 即可<strong>暂停</strong>，且暂停时动画也跟着暂停</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <img src="./assets/Wich.webp" width="120" />
+</div>
+
 #### 预计新加功能
-- [ ] 检测到队友挂了就**重开**
+- [ ] 全自动挂机
+- [ ] 利用**特征识别**适应任意分辨率
+- [ ] pyautogui库完全替换成Camreishi写的组件
 
-![放个封面图](https://github.com/Xie-Tiao/My-Imgurl/blob/main/Limbug_Clicker_example_1.jpg "示例")
+<div style="display: flex; align-items: center;">
+    <div style="flex: 1; border-top: 4px solid #d6d6d6;"></div>
+    <img src="./assets/censored.jpg" width="220" />
+    <div style="flex: 1; border-top: 4px solid #d6d6d6;"></div>
+</div>
 
+### ~~2023.9.23更新~~
+- ~~目前版本为3.1.3~~
+- ~~兼容了win7~~
+- ~~去掉了等待时间，现在脚本的运行速度取决于你的电脑性能~~
+- ~~异想体事件“低い”补充~~
 ---
 
 ### ~~2023.9.3更新~~
@@ -67,5 +100,3 @@
 1. ~~直接在`.py`脚本文件所在位置打开cmd~~
 2. ~~输入`python LBhelper2.0.py`~~
 3. ~~**注意：** 保证`cmd.xls`文件与`.py`文件以及`.png`文件在同一位置~~
-
-
