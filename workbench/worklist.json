@@ -84,10 +84,20 @@
         ]
     ],
     "store_checked":[
-        "store_1690.png"
+        "store_1690.png",
+        "store_fullscreen.png"
     ],
     "store_click": [
-        "button_yes_1690.png"
+        "button_yes_1690.png",
+        "button_yes_fullscreen.png"
+    ],
+    "chair_checked": [
+        "chair_1690.png",
+        "chair_fullscreen.png"
+    ],
+    "chair_click": [
+        "button_yes2_1690.png",
+        "button_yes2_fullscreen.png"
     ],
     "abnormality_click":[
         "option_1690.png",

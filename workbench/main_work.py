@@ -156,6 +156,7 @@ def battle_field():
 def encounters_field():
     encounters_checked = check_img_list(_worklist['encounters_checked'])
     store_checked = check_img_list(_worklist['store_checked'])
+    chair_checked = check_img_list(_worklist['chair_checked']) 
     if encounters_checked:
         mouse_click_img_list(_worklist['encounters_click'][0], 3)
         mouse_click_img_list(_worklist['encounters_click'][1])
@@ -163,8 +164,13 @@ def encounters_field():
             time.sleep(0.5)
             mouse_click_img_list(_worklist['store_click'])
             print('store空着的...')
+        elif chair_checked:
+            time.sleep(0.5)
+            mouse_click_img_list(_worklist['chair_click'])
+            print('chair空着的...')
         else:
-            abnormality_ocr()
+            # abnormality_ocr()
+            mouse_click_img_list(_worklist['abnormality_click'])
             lang = SettingsReader.read_option('Language', 'current')
             vote_checked = check_img_list(_worklist[f'vote_checked_{lang}'])
             if vote_checked:
