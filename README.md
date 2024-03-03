@@ -1,8 +1,8 @@
-<h1 align="center">Limbug☢Clicker</h1></br>
+<h1 align="center">Limbug⚠Clicker</h1></br>
 
 > Limbus Company挂机脚本
 
-<div align="center"><img src="./assets/Wich.webp" width="100" /></div>
+<div align="center"><img src="./assets/Wich.webp" width="150" /><img src="./assets/LaetitiaMinionCrop.webp" width="500" /></div>
 
 ### 脚本发布🍺4.0.0
 - 百度网盘→[点击跳转](https://pan.baidu.com/s/1KAqVmZUJ5EDZKuLTZ8V6gg )，提取码`2qu9`
