@@ -290,6 +290,12 @@ def main(page: ft.Page):
             ink=True,
             content=img_Laetitia
         ))
+    
+    img_Monster = ft.Image(
+        src=os.path.join(assets_path, 'LaetitiaMinionCrop.webp'), 
+        width=800, 
+        fit=ft.ImageFit.FIT_WIDTH
+    )
 
     Monster = ft.Row(
         [
@@ -302,7 +308,7 @@ def main(page: ft.Page):
             ft.Container(ft.Text("想出了这个绝妙的主意！！", color="#482d66", size=30), padding=0, height=300,
                          width=100,
                          alignment=ft.alignment.Alignment(-0.5, -0.5)),
-            workbench.ui_config.img_Monster,
+            img_Monster,
             ft.Container(ft.Text("惊喜！！", color="#2f8c02", size=40), padding=10, height=300, width=100,
                          alignment=ft.alignment.Alignment(-10, -10)),
             ft.Container(ft.Text("礼物！！", color="#e13317", size=50), padding=10, height=300, width=100,
