@@ -1,19 +1,16 @@
-import pyautogui as pg
 import json
 import os
 import time
-import threading
 
 import cv2
 import numpy as np
+import pyautogui as pg
 from PIL import ImageGrab
-from workbench.ocr_utils import Ocr
+
+from workbench import SettingsReader
 from workbench import mouse_control
 from workbench.image_processing import ImageDetector
-
-from workbench import ui_config
-from workbench import SettingsReader
-
+from workbench.ocr_utils import Ocr
 from . import file_path_utils
 
 pg.FAILSAFE = False
@@ -21,6 +18,7 @@ pg.FAILSAFE = False
 _worklist_path = os.path.join(file_path_utils.PathManager.CURRENT_DIR, 'worklist.json')
 with open(_worklist_path, 'r', encoding='utf-8') as f:
     _worklist = json.load(f)
+
 
 def get_screenshot():
     # 获取屏幕截图
@@ -31,8 +29,9 @@ def get_screenshot():
     opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     return opencv_image
 
+
 # 界面检查模块
-def check_img(img,confid=0.9):
+def check_img(img, confid=0.9):
     try:
         if pg.locateOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=confid) is not None:
             print('看到了...', img)
@@ -42,11 +41,12 @@ def check_img(img,confid=0.9):
         return False
 
 
-def check_img_list(img_list,confid=0.9):
+def check_img_list(img_list, confid=0.9):
     for i in range(len(img_list)):
-        if check_img(img_list[i],confid):
+        if check_img(img_list[i], confid):
             return True
     return False
+
 
 # 控制模块
 def mouse_click(img, times=1, confid=0.9):
@@ -74,7 +74,7 @@ def mouse_click_img_list(img_list, times=1, confid=0.9):
     return False
 
 
-def mouse_hold(img,confid=0.75):
+def mouse_hold(img, confid=0.75):
     try:
         location = pg.locateCenterOnScreen(file_path_utils.PathManager.get_local_image(img), confidence=confid)
         if location is not None:
@@ -98,11 +98,12 @@ def mouse_hold(img,confid=0.75):
         print("没按住 ...", img)
 
 
-def mouse_hold_img_list(img_list,confid=0.75):
+def mouse_hold_img_list(img_list, confid=0.75):
     for i in range(len(img_list)):
-        if mouse_hold(img_list[i],confid):
+        if mouse_hold(img_list[i], confid):
             return True
     return False
+
 
 def abnormality_ocr():
     # text_rect_list = screenshot_ocr()
@@ -118,7 +119,8 @@ def abnormality_ocr():
         mouse_control.click_rect_center(rect)
     else:
         mouse_click_img_list(_worklist['abnormality_click'])
-        
+
+
 # ————————————————————————————————————————————————————
 # ————————————————————————————————————————————————————
 # 按界面归类组件
@@ -130,7 +132,7 @@ def battle_field():
         pg.press('p')
         time.sleep(0.5)  # 让游戏\\gear反应一下
         lang = SettingsReader.read_option('Language', 'current')
-        bad_checked = check_img_list(_worklist[f'bad_checked_{lang}'],confid=0.75)
+        bad_checked = check_img_list(_worklist[f'bad_checked_{lang}'], confid=0.75)
         print('123')
         death_checked = check_img_list(_worklist[f'death_checked_{lang}'])
         if death_checked:
@@ -138,16 +140,16 @@ def battle_field():
             # 暂时将就用这个，以后改
             time.sleep(5)
             stage_field()
-        elif SettingsReader.read_option('EGO','value') == 'True':
+        elif SettingsReader.read_option('EGO', 'value') == 'True':
             if bad_checked:
-                mouse_hold_img_list(_worklist[f'bad_checked_{lang}'],confid=0.75)
+                mouse_hold_img_list(_worklist[f'bad_checked_{lang}'], confid=0.75)
                 time.sleep(2)  # 让游戏\\ego反应一下
                 if check_img_list(_worklist['ego_click']):
-                    mouse_click_img_list(_worklist['ego_click'],4)
+                    mouse_click_img_list(_worklist['ego_click'], 4)
                     pg.press('p')
                     pg.press('p')
                 else:
-                    mouse_click_img_list(_worklist['property'],2)
+                    mouse_click_img_list(_worklist['property'], 2)
         pg.press('enter')
     else:
         pass
@@ -156,7 +158,7 @@ def battle_field():
 def encounters_field():
     encounters_checked = check_img_list(_worklist['encounters_checked'])
     store_checked = check_img_list(_worklist['store_checked'])
-    chair_checked = check_img_list(_worklist['chair_checked']) 
+    chair_checked = check_img_list(_worklist['chair_checked'])
     if encounters_checked:
         mouse_click_img_list(_worklist['encounters_click'][0], 3)
         mouse_click_img_list(_worklist['encounters_click'][1])
@@ -173,12 +175,13 @@ def encounters_field():
             lang = SettingsReader.read_option('Language', 'current')
             vote_checked = check_img_list(_worklist[f'vote_checked_{lang}'])
             if vote_checked:
-                mouse_click_img_list(_worklist[f'vote_click_{lang}'],confid=0.95)
+                mouse_click_img_list(_worklist[f'vote_click_{lang}'], confid=0.95)
             else:
                 pass
     else:
         print('654')
         pass
+
 
 def stage_field():
     stage_checked = check_img_list(_worklist['stage_checked'])

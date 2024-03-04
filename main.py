@@ -85,26 +85,28 @@ def main(page: ft.Page):
 
     # ego开关
     def toggle_ego():
-        if workbench.SettingsReader.read_option('EGO','value') == 'True':
-            workbench.SettingsReader.set_option('EGO','value','False')
+        if workbench.SettingsReader.read_option('EGO', 'value') == 'True':
+            workbench.SettingsReader.set_option('EGO', 'value', 'False')
         else:
-            workbench.SettingsReader.set_option('EGO','value','True')
-    
-    ego_button = ft.Switch(label='ego开关', value=workbench.SettingsReader.read_option('EGO','value'),on_change=lambda _:toggle_ego())
+            workbench.SettingsReader.set_option('EGO', 'value', 'True')
+
+    ego_button = ft.Switch(label='ego开关', value=workbench.SettingsReader.read_option('EGO', 'value'),
+                           on_change=lambda _: toggle_ego())
 
     # 桌宠模式开关
     def toggle_pet():
-        if workbench.SettingsReader.read_option('OPACITY','opacity') == '1':
-            workbench.SettingsReader.set_option('OPACITY','opacity','0')
-            workbench.SettingsReader.set_option('OPACITY','value','True')
+        if workbench.SettingsReader.read_option('OPACITY', 'opacity') == '1':
+            workbench.SettingsReader.set_option('OPACITY', 'opacity', '0')
+            workbench.SettingsReader.set_option('OPACITY', 'value', 'True')
         else:
-            workbench.SettingsReader.set_option('OPACITY','opacity','1')
-            workbench.SettingsReader.set_option('OPACITY','value','False')
-    
+            workbench.SettingsReader.set_option('OPACITY', 'opacity', '1')
+            workbench.SettingsReader.set_option('OPACITY', 'value', 'False')
+
     pet_button = ft.Column(
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
-            ft.Switch(label='桌宠模式', value=workbench.SettingsReader.read_option('OPACITY','value'),on_change=lambda _:toggle_pet()),
+            ft.Switch(label='桌宠模式', value=workbench.SettingsReader.read_option('OPACITY', 'value'),
+                      on_change=lambda _: toggle_pet()),
             ft.Text(
                 "—— 设置桌宠请重启 ——",
                 size=12,
@@ -234,7 +236,7 @@ def main(page: ft.Page):
     )
 
     app_bar = ft.Container(
-        opacity=workbench.SettingsReader.read_option('OPACITY','opacity'),
+        opacity=workbench.SettingsReader.read_option('OPACITY', 'opacity'),
         padding=0,
         content=ft.Row(
             [
@@ -290,10 +292,10 @@ def main(page: ft.Page):
             ink=True,
             content=img_Laetitia
         ))
-    
+
     img_Monster = ft.Image(
-        src=os.path.join(assets_path, 'LaetitiaMinionCrop.webp'), 
-        width=800, 
+        src=os.path.join(assets_path, 'LaetitiaMinionCrop.webp'),
+        width=800,
         fit=ft.ImageFit.FIT_WIDTH
     )
 
@@ -322,7 +324,8 @@ def main(page: ft.Page):
     # /home
     view_home = ft.View(
         route="/home",
-        bgcolor=ft.colors.with_opacity(workbench.SettingsReader.read_option('OPACITY','opacity'), workbench.ui_config.MAIN_COLOR),
+        bgcolor=ft.colors.with_opacity(workbench.SettingsReader.read_option('OPACITY', 'opacity'),
+                                       workbench.ui_config.MAIN_COLOR),
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
             app_bar,

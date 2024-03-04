@@ -1,5 +1,3 @@
-import flet as ft
-
 views = {}
 HOME_PAGE_SIZE = [200, 300]
 SETTING_PAGE_SIZE = HOME_PAGE_SIZE
