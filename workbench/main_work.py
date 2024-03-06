@@ -138,7 +138,7 @@ def battle_field():
         if death_checked:
             mouse_click_img_list(_worklist['death_click'])
             # 暂时将就用这个，以后改
-            time.sleep(5)
+            # time.sleep(10)
             stage_field()
         elif SettingsReader.read_option('EGO', 'value') == 'True':
             if bad_checked:
@@ -184,6 +184,7 @@ def encounters_field():
 
 
 def stage_field():
+    time.sleep(15)
     stage_checked = check_img_list(_worklist['stage_checked'])
     if stage_checked:
         mouse_click_img_list(_worklist['stage_click'])
@@ -196,6 +197,7 @@ def stage_field():
 
 def main():
     battle_field()
+    # stage_field()
     encounters_field()
 
 
