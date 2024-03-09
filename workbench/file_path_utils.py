@@ -24,7 +24,7 @@ class PathManager:
     ASSETS_RELPATH = os.path.join(CURRENT_DIR, '../assets')
     LOG_RELPATH = os.path.join(CURRENT_DIR, '../log', )
     MODEL_RELPATH = os.path.join(CURRENT_DIR, '../models', )
-    LANGUAGE_LIST = ["en", "jp", "kr"]
+    LANGUAGE_LIST = ["en", "jp", "kr", "zh"]
 
     @classmethod
     def get_local_image(cls, image_name: str) -> str | None:

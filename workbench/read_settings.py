@@ -21,6 +21,7 @@ class SettingsReader:
             'en': "English",
             'jp': "日本語",
             'kr': "한국어",
+            'zh':"零协汉化",
         }
         return lang_data[lang]
 

@@ -60,6 +60,7 @@ def main(page: ft.Page):
     # 创建一个下拉框，用于选择游戏语言
     language_dropdown = ft.Dropdown(
         options=[
+            ft.dropdown.Option("零协汉化"),
             ft.dropdown.Option("English"),
             ft.dropdown.Option("日本語"),
             ft.dropdown.Option("한국어"),
@@ -67,6 +68,7 @@ def main(page: ft.Page):
         value=workbench.SettingsReader.read_option_language('Language', 'current'),
         label="Game Language",
         data={
+            "零协汉化":'zh',
             "English": 'en',
             "日本語": 'jp',
             "한국어": 'kr',

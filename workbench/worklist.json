@@ -29,6 +29,13 @@
         "bad_kr_fullscreen.png",
         "badbad_kr_fullscreen.png"
     ],
+    "bad_checked_zh": [
+        "bad_zh_1690.png",
+        "badbad_zh_1690.png",
+        
+        "bad_zh_fullscreen.png",
+        "badbad_zh_fullscreen.png"
+    ],
     "ego_click":[
         "ego4_1690.png",
         "ego4_fullscreen.png",
@@ -56,6 +63,10 @@
     "death_checked_kr": [
         "death_kr_1690.png",
         "death_kr_fullscreen.png"
+    ],
+    "death_checked_zh": [
+        "death_zh_1690.png",
+        "death_zh_fullscreen.png"
     ],
     "death_click": [
         "button_setting_1690.png",
@@ -163,6 +174,25 @@
         "button_vote3_kr_fullscreen.png",
         "button_vote2_kr_fullscreen.png",
         "button_vote1_kr_fullscreen.png"
+    ],
+    "vote_checked_zh": [
+        "button_vote5_zh_1690.png",
+        "button_vote3_zh_1690.png",
+        "button_vote1_zh_1690.png",
+        "button_vote5_zh_fullscreen.png",
+        "button_vote3_zh_fullscreen.png",
+        "button_vote1_zh_fullscreen.png"
+    ],
+    "vote_click_zh": [
+        "button_vote4_zh_1690.png",
+        "button_vote3_zh_1690.png",
+        "button_vote2_zh_1690.png",
+        "button_vote1_zh_1690.png",
+        "button_vote5_zh_fullscreen.png",
+        "button_vote4_zh_fullscreen.png",
+        "button_vote3_zh_fullscreen.png",
+        "button_vote2_zh_fullscreen.png",
+        "button_vote1_zh_fullscreen.png"
     ],
     "stage_checked":[
         "stage_1690.png",

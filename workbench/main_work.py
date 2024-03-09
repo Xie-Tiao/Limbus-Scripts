@@ -149,6 +149,8 @@ def battle_field():
                     mouse_click_img_list(_worklist['property'], 2)
                     pg.press('p')
                     pg.press('p')
+                else:
+                    mouse_click_img_list(_worklist['property'], 2)
         pg.press('enter')
     else:
         pass
@@ -174,7 +176,7 @@ def encounters_field():
             lang = SettingsReader.read_option('Language', 'current')
             vote_checked = check_img_list(_worklist[f'vote_checked_{lang}'])
             if vote_checked:
-                mouse_click_img_list(_worklist[f'vote_click_{lang}'], confid=0.95)
+                mouse_click_img_list(_worklist[f'vote_click_{lang}'], confid=0.9)
             else:
                 pass
     else:
