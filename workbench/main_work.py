@@ -115,7 +115,7 @@ def abnormality_ocr():
     text_rect_list = Ocr.recognize_rectangles(image, rectangles_list)
     match, rect, score = Ocr.get_best_choice(text_rect_list)
     print(f'match,{match} rect,{rect} score{score}')
-    if score > 60:
+    if score > 59:
         mouse_control.click_rect_center(rect)
     else:
         mouse_click_img_list(_worklist['abnormality_click'])
@@ -132,15 +132,16 @@ def battle_field():
         pg.press('p')
         time.sleep(0.5)  # 让游戏\\gear反应一下
         lang = SettingsReader.read_option('Language', 'current')
-        bad_checked = check_img_list(_worklist[f'bad_checked_{lang}'], confid=0.75)
         print('123')
-        death_checked = check_img_list(_worklist[f'death_checked_{lang}'])
-        if death_checked:
-            mouse_click_img_list(_worklist['death_click'])
-            # 暂时将就用这个，以后改
-            # time.sleep(10)
-            stage_field()
-        elif SettingsReader.read_option('EGO', 'value') == 'True':
+        if SettingsReader.read_option('DEATH', 'value') == 'True':
+            death_checked = check_img_list(_worklist[f'death_checked_{lang}'])
+            if death_checked:
+                mouse_click_img_list(_worklist['death_click'])
+                # 暂时将就用这个，以后改
+                time.sleep(15)
+                stage_field()
+        if SettingsReader.read_option('EGO', 'value') == 'True':
+            bad_checked = check_img_list(_worklist[f'bad_checked_{lang}'], confid=0.75)
             if bad_checked:
                 mouse_hold_img_list(_worklist[f'bad_checked_{lang}'], confid=0.75)
                 time.sleep(2)  # 让游戏\\ego反应一下
@@ -185,7 +186,6 @@ def encounters_field():
 
 
 def stage_field():
-    time.sleep(15)
     stage_checked = check_img_list(_worklist['stage_checked'])
     if stage_checked:
         mouse_click_img_list(_worklist['stage_click'])

@@ -94,6 +94,16 @@ def main(page: ft.Page):
 
     ego_button = ft.Switch(label='ego开关', value=workbench.SettingsReader.read_option('EGO', 'value'),
                            on_change=lambda _: toggle_ego())
+    
+    # 阵亡重开开关
+    def toggle_death():
+        if workbench.SettingsReader.read_option('DEATH', 'value') == 'True':
+            workbench.SettingsReader.set_option('DEATH', 'value', 'False')
+        else:
+            workbench.SettingsReader.set_option('DEATH', 'value', 'True')
+
+    death_button = ft.Switch(label='阵亡重开', value=workbench.SettingsReader.read_option('DEATH', 'value'),
+                           on_change=lambda _: toggle_death())
 
     # 桌宠模式开关
     def toggle_pet():
@@ -194,6 +204,7 @@ def main(page: ft.Page):
                                     language_dropdown,
                                     window_always_on_top_button,
                                     ego_button,
+                                    death_button,
                                     ft.Container(
                                         # 底部占位
                                         padding=1

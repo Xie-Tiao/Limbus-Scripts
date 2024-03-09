@@ -1,10 +1,8 @@
 {
     "battle_checked":[
-        "battle_1690.png",
         "gear_1690.png",
         "gear2_1690.png",
         
-        "battle_fullscreen.png",
         "gear_fullscreen.png",
         "gear2_fullscreen.png"
     ],
@@ -90,7 +88,7 @@
         ],
         [
             "back_button_1690.png",
-
+            
             "back_button_fullscreen.png"
         ]
     ],
