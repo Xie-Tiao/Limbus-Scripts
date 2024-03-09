@@ -146,10 +146,9 @@ def battle_field():
                 time.sleep(2)  # 让游戏\\ego反应一下
                 if check_img_list(_worklist['ego_click']):
                     mouse_click_img_list(_worklist['ego_click'], 4)
-                    pg.press('p')
-                    pg.press('p')
-                else:
                     mouse_click_img_list(_worklist['property'], 2)
+                    pg.press('p')
+                    pg.press('p')
         pg.press('enter')
     else:
         pass
