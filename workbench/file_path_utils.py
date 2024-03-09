@@ -25,6 +25,7 @@ class PathManager:
     LOG_RELPATH = os.path.join(CURRENT_DIR, '../log', )
     MODEL_RELPATH = os.path.join(CURRENT_DIR, '../models', )
     LANGUAGE_LIST = ["en", "jp", "kr", "zh"]
+    OTHER_LIST = ["gifts"]
 
     @classmethod
     def get_local_image(cls, image_name: str) -> str | None:
@@ -46,6 +47,11 @@ class PathManager:
             lang_path = os.path.join(cls.ASSETS_RELPATH, lang, image_name)
             if os.path.isfile(lang_path):
                 return lang_path
+            
+        for other in cls.OTHER_LIST:
+            other_path = os.path.join(cls.ASSETS_RELPATH, other, image_name)
+            if os.path.isfile(other_path):
+                return other_path
 
         return None
 

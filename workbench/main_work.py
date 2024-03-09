@@ -159,9 +159,9 @@ def battle_field():
 
 def encounters_field():
     encounters_checked = check_img_list(_worklist['encounters_checked'])
-    store_checked = check_img_list(_worklist['store_checked'])
-    chair_checked = check_img_list(_worklist['chair_checked'])
     if encounters_checked:
+        store_checked = check_img_list(_worklist['store_checked'])
+        chair_checked = check_img_list(_worklist['chair_checked'])
         mouse_click_img_list(_worklist['encounters_click'][0], 3)
         mouse_click_img_list(_worklist['encounters_click'][1])
         if store_checked:

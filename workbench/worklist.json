@@ -201,6 +201,62 @@
         "bus_1690.png",
 
         "bus_fullscreen.png"
+    ],
+
+    "start_mirror":[
+        "backplz_1690.png",
+        "normal_1690.png",
+        "button_yes4_1690.png",
+        "button_yes3_1690.png"
+    ],
+    "bleed_checked": [
+        [
+            "muzzle_1690.png"
+        ],
+        [
+            "wire_1690.png"
+        ]
+    ],
+    "bleed_click": [
+        "muzzle_1690.png",
+        "wire_1690.png",
+        "muzzle2_1690.png",
+        "wire2_1690.png"
+    ],
+    "breath_checked": [
+        [
+            "horseshoe_1690.png"
+        ],
+        [
+            "leaf_1690.png"
+        ]
+    ],
+    "breath_click": [
+        "horseshoe_1690.png",
+        "leaf_1690.png",
+        "horseshoe2_1690.png",
+        "leaf2_1690.png"
+    ],
+    "burn_checked": [
+        [
+            "ashes_1690.png"
+        ],
+        [
+            "dust_1690.png"
+        ]
+    ],
+    "burn_click": [
+        "ashes_1690.png",
+        "dust_1690.png",
+        "ashes2_1690.png",
+        "dust2_1690.png"
+    ],
+    "end_mirror": [
+        "back_1690.png",
+        "normal_1690.png",
+        "over_1690.png",
+        "button_yes4_1690.png",
+        "button_close_1690.png"
     ]
 
 }
