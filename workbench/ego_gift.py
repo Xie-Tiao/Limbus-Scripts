@@ -72,8 +72,16 @@ def gift(camp):
 def mirror_opening_field():
     while True:
         start_mirror()
-        gift('breath')
+        gift('bleed')
         end_mirror()
+
+"""
+    流血: bleed
+    呼吸: breath
+    烧伤: burn
+    破裂: fracture
+
+"""
 
 if __name__ == '__main__':
     mirror_opening_field()

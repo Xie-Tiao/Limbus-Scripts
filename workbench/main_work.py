@@ -115,7 +115,7 @@ def abnormality_ocr():
     text_rect_list = Ocr.recognize_rectangles(image, rectangles_list)
     match, rect, score = Ocr.get_best_choice(text_rect_list)
     print(f'match,{match} rect,{rect} score{score}')
-    if score > 59:
+    if score > 60:
         mouse_control.click_rect_center(rect)
     else:
         mouse_click_img_list(_worklist['abnormality_click'])

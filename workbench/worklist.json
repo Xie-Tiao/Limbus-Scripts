@@ -251,6 +251,20 @@
         "ashes2_1690.png",
         "dust2_1690.png"
     ],
+    "fracture_checked": [
+        [
+            "branch_1690.png"
+        ],
+        [
+            "battery_1690.png"
+        ]
+    ],
+    "fracture_click": [
+        "branch_1690.png",
+        "battery_1690.png",
+        "branch2_1690.png",
+        "battery2_1690.png"
+    ],
     "end_mirror": [
         "back_1690.png",
         "normal_1690.png",
