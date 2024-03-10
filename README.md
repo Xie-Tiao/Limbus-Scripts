@@ -4,7 +4,7 @@
 
 <div align="center"><img src="./assets/Wich.webp" width="150" /><img src="./assets/LaetitiaMinionCrop.webp" width="500" /></div>
 
-### 脚本发布🍺4.0.2
+### 脚本发布🍺4.1.0
 - 百度网盘→[点击跳转](https://pan.baidu.com/s/1XoUBqNN0wa81663HuXHxXA)，提取码`0e14`
 - Github Releases → [点击跳转](https://github.com/Xie-Tiao/Limbus-Scripts/releases)
 ### 使用说明⭐
@@ -15,19 +15,11 @@
 
 ![视频封面图](https://github.com/Xie-Tiao/My-Imgurl/blob/main/script_video_cover.png "视频封面")
 ---
-### 2024.3.3更新
-- 目前版本为4.0.2
-- 先感谢[Camreishi佬](https://github.com/Camreishi)帮了很多忙
-- 新增内容
-    - 英日韩三语支持
-    - 辅助使用ego
-    - 队友死亡自动重开
-    - 设置界面
-        - 语言选择
-        - 自定义窗口置顶与否
-        - 是否使用ego
-        - **桌宠模式**
-    - 点击 **蕾蒂希娅** 即可***暂停***，且暂停时动画也跟着暂停
+### 2024.3.10更新
+- 目前版本为4.1.0
+- 新增阵亡重开开关
+- 支持了零协汉化
+- 全屏识别图片换高清
 
 #### 预计新加功能
 - [ ] 全自动挂机
@@ -35,6 +27,22 @@
 - [ ] pyautogui库完全替换成Camreishi写的组件
 
 <div align="center"><img src="./assets/censored.png" /></div>
+
+### ~~2024.3.3更新~~
+- ~~目前版本为4.0.2~~
+- ~~先感谢[Camreishi佬](https://github.com/Camreishi)帮了很多忙~~
+- ~~新增内容~~
+    - ~~英日韩三语支持~~
+    - ~~辅助使用ego~~
+    - ~~队友死亡自动重开~~
+    - ~~设置界面~~
+        - ~~语言选择~~
+        - ~~自定义窗口置顶与否~~
+        - ~~是否使用ego~~
+        - ~~**桌宠模式**~~
+    - ~~点击 **蕾蒂希娅** 即可***暂停***，且暂停时动画也跟着暂停~~
+
+---
 
 ### ~~2023.9.23更新~~
 - ~~目前版本为3.1.3~~
@@ -87,3 +95,4 @@
 1. ~~直接在`.py`脚本文件所在位置打开cmd~~
 2. ~~输入`python LBhelper2.0.py`~~
 3. ~~**注意：** 保证`cmd.xls`文件与`.py`文件以及`.png`文件在同一位置~~
+4. pyinstaller -D -w -i HeartBroken.ico main.py

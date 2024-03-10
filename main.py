@@ -162,7 +162,7 @@ def main(page: ft.Page):
                         ft.TextStyle(weight=ft.FontWeight.BOLD)
                     ),
                     ft.TextSpan(
-                        "版本：4.0.0",
+                        "版本：4.1.0",
                         ft.TextStyle(size=10, weight=ft.FontWeight.W_900),
                     ),
                 ]
@@ -193,9 +193,9 @@ def main(page: ft.Page):
                         # text="工作偏好",
                         tab_content=ft.Text('工作偏好', width=68, text_align=ft.TextAlign.CENTER),
                         content=ft.Container(
-                            padding=10,
+                            padding=12,
                             content=ft.Column(
-                                scroll=ft.ScrollMode.ADAPTIVE,
+                                scroll=ft.ScrollMode.AUTO,
                                 controls=[
                                     ft.Container(
                                         # 顶部占位
