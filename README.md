@@ -8,7 +8,7 @@
 - 百度网盘→[点击跳转](https://pan.baidu.com/s/1XoUBqNN0wa81663HuXHxXA)，提取码`0e14`
 - Github Releases → [点击跳转](https://github.com/Xie-Tiao/Limbus-Scripts/releases)
 ### 使用说明⭐
-- 分辨率只支持``全屏``或``1600 x 900``
+- 分辨率只支持``1920*1080``或``1600 x 900``
 - 语言支持**日韩英**，但是英韩没怎么测，可能存在bug
 - 有问题请提[issue](https://github.com/Xie-Tiao/Limbus-Scripts/issues)，或者加q群[660753997](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=A7d_y-nT8veLireU5jjEjirEeL-PYHEO&authKey=CKGZp1EMeELWo9TVNviGCBfM7GVWElcye8qMxsNpHh168kMoDf449GQr5OFvak9P&noverify=0&group_code=660753997)
 - 📺[bilibili视频教程](https://www.bilibili.com/video/BV19P411h7Wx)
